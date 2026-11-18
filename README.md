@@ -1,6 +1,6 @@
 # Japanese Adventure (にほんの ぼうけん)
 
-Game học tiếng Nhật cho trẻ em Việt Nam: một cuốn truyện tranh tương tác dạy tiếng Nhật qua cuộc phiêu lưu tới ngôi nhà của bà Hana,
+Game học tiếng Nhật cho trẻ em Việt Nam: một cuốn truyện tranh tương tác dạy tiếng Nhật qua cuộc phiêu lưu tới ngôi nhà của bà Osano,
 cùng chú mèo Momo. Giao diện desktop 1920×1080 (tự co theo cửa sổ), tranh nền màu nước vẽ bằng SVG gốc.
 
 ## Chạy local
@@ -18,7 +18,7 @@ Kiểm tra kiểu: `npx tsc --noEmit`.
 
 - **12 màn hình**: Chào mừng, Tạo nhân vật, Bản đồ thế giới (8 vùng), Bản đồ vùng (10 chặng), Cảnh truyện, Từ vựng,
   Ngữ pháp, Nghe, Nhiệm vụ ngoài đời, Nhật ký tuần, Kết quả, Bảng phụ huynh (có cổng phép nhân).
-- **Chương 1 · Ngôi nhà của bà Hana** (vùng Saga, 10 chặng): Lá thư của bà Hana, Buổi sáng đầu tiên, Tìm đồ vật thất lạc,
+- **Chương 1 · Ngôi nhà của bà Osano** (vùng Saga, 10 chặng): Lá thư của bà Osano, Buổi sáng đầu tiên, Tìm đồ vật thất lạc,
   Làm chú mèo giấy, Bí mật khu vườn cũ, Con đường ven ruộng, Bữa cơm tối, Mưa mùa hè, Ngôi sao giấy, Lời hẹn ngày mai.
   Các vùng 2–8 đang khoá ("sắp ra mắt"). Chặng 6–10 lấy cảm hứng từ tinh thần "bà ngoại ở Saga nghèo mà vui" (xem
   [docs/STORY.md](docs/STORY.md)); toàn bộ tình tiết và nhân vật là sáng tác gốc.

@@ -22,7 +22,7 @@ function slides(name: string): Slide[] {
       jp: 'ようこそ！',
       body: (
         <>
-          <p>Bà Hana sống ở làng Saga, Nhật Bản. Bà nhờ bạn và chú mèo Momo đi tìm những chiếc đèn kỷ niệm bị lạc, để học tiếng Nhật và khám phá văn hoá Nhật Bản theo một câu chuyện dài.</p>
+          <p>Bà Osano sống ở làng Saga, Nhật Bản. Bà nhờ bạn và chú mèo Momo đi tìm những chiếc đèn kỷ niệm bị lạc, để học tiếng Nhật và khám phá văn hoá Nhật Bản theo một câu chuyện dài.</p>
           <p>Mỗi ngày chỉ cần học một chút, câu chuyện sẽ tiếp tục.</p>
         </>
       ),

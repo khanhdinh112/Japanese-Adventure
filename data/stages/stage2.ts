@@ -205,7 +205,7 @@ export const stage2: StageContent = {
       audio: 'おはよう。 あさごはん できたよ。',
       romaji: 'ohayou. asagohan dekita yo.',
       vi: 'Chào buổi sáng. Bữa sáng xong rồi đó.',
-      question: 'Bà Hana báo tin gì?',
+      question: 'Bà Osano báo tin gì?',
       options: [
         { id: 'a', label: 'Bữa sáng đã xong', icon: '🍳' },
         { id: 'b', label: 'Đến giờ đi ngủ', icon: '🌙' },
@@ -267,7 +267,7 @@ export const stage2: StageContent = {
     title: 'Bữa ăn kiểu Nhật tại nhà bạn',
     titleJp: 'いただきます クエスト',
     icon: '🍙',
-    hook: 'Bà Hana kể rằng bữa ăn ngon nhất là bữa ăn có lời cảm ơn. Hãy mang いただきます về bàn ăn nhà bạn nhé!',
+    hook: 'Bà Osano kể rằng bữa ăn ngon nhất là bữa ăn có lời cảm ơn. Hãy mang いただきます về bàn ăn nhà bạn nhé!',
     materials: ['Một bữa ăn thật của gia đình bạn', 'Giấy và bút màu để vẽ món ăn'],
     steps: [
       'Trước bữa ăn tiếp theo, chắp hai tay lại và nói いただきます.',
@@ -324,4 +324,10 @@ export const stage2: StageContent = {
       wordIds: ['itadakimasu', 'oishii'],
     },
   ],
+  /** Lời bà Osano dặn ở cuối chặng (tinh thần: thiếu thốn vẫn vui, biết ơn, tự làm ra niềm vui). */
+  osanoSaying: {
+    jp: 'あさは いちばん いい じかん。 わらって はじめようね。',
+    romaji: 'asa wa ichiban ii jikan. waratte hajimeyou ne.',
+    vi: 'Buổi sáng là lúc đẹp nhất. Mình cười rồi bắt đầu nhé.',
+  },
 };

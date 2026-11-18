@@ -170,12 +170,12 @@ function RoadScene() {
 }
 
 /* ================================================================== */
-/* 2. Cổng nhà bà Hana                                                 */
+/* 2. Cổng nhà bà Osano                                                 */
 /* ================================================================== */
 
 function GateScene() {
   return (
-    <SceneSvg label="Trước cổng ngôi nhà mái ngói của bà Hana">
+    <SceneSvg label="Trước cổng ngôi nhà mái ngói của bà Osano">
       <Sky id="sky-gate" stops={['#8dcbd9', '#fbe6bb', '#d3ead9']} height={820} />
       <Sun cx={1580} cy={220} r={50} />
       <Cloud x={420} y={150} s={1.2} drift={150} delay={20} />

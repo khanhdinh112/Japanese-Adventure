@@ -299,7 +299,7 @@ export const stage8: StageContent = {
     title: 'Làm てるてるぼうず từ vải cũ',
     titleJp: 'てるてるぼうずを つくろう',
     icon: '🧸',
-    hook: 'Bà Hana làm てるてるぼうず từ một mảnh vải cũ. Bạn cũng thử làm một em từ đồ còn dùng được nhé, đúng tinh thần もったいない!',
+    hook: 'Bà Osano làm てるてるぼうず từ một mảnh vải cũ. Bạn cũng thử làm một em từ đồ còn dùng được nhé, đúng tinh thần もったいない!',
     materials: ['Một mảnh vải hoặc khăn giấy cũ', 'Ít bông hoặc giấy vo tròn', 'Dây buộc và bút màu'],
     steps: [
       'Vo tròn bông hoặc giấy thành một cục làm đầu.',
@@ -356,5 +356,11 @@ export const stage8: StageContent = {
     },
   ],
 
+  /** Lời bà Osano dặn ở cuối chặng (tinh thần: thiếu thốn vẫn vui, biết ơn, tự làm ra niềm vui). */
+  osanoSaying: {
+    jp: 'あめの ひには、 あめの あそびが あるのよ。',
+    romaji: 'ame no hi ni wa, ame no asobi ga aru no yo.',
+    vi: 'Ngày mưa thì có trò chơi của ngày mưa.',
+  },
   badgeId: 'rain-friend',
 };

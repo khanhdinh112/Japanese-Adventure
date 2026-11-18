@@ -29,7 +29,7 @@ Tất cả tranh nền: **1920×1080**, WebP hoặc PNG, nền đặc (không tr
 
 | Khoá | File gợi ý | Ghi chú |
 |---|---|---|
-| `scene:welcome` | `scene-welcome.webp` | Nhà bà Hana từ xa, ruộng, núi. Chừa nửa trái cho tiêu đề. |
+| `scene:welcome` | `scene-welcome.webp` | Nhà bà Osano từ xa, ruộng, núi. Chừa nửa trái cho tiêu đề. |
 | `scene:road` | `scene-road.webp` | Đường làng buổi sáng. Chừa 1/3 dưới yên tĩnh cho hộp thoại. |
 | `scene:gate` | `scene-gate.webp` | Cổng gỗ, cẩm tú cầu, đèn đá. |
 | `scene:genkan` | `scene-genkan.webp` | Genkan, giày xếp gọn, cửa shoji. |

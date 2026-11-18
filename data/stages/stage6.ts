@@ -9,7 +9,7 @@ export const stage6: StageContent = {
   title: 'Con đường ven ruộng',
   titleJp: 'たんぼの みち',
   icon: '🌾',
-  summary: 'Bà Hana dẫn bé đi bộ ra ruộng, nhặt một chiếc nón cũ đội cho chú bù nhìn và dạy bé từ もったいない.',
+  summary: 'Bà Osano dẫn bé đi bộ ra ruộng, nhặt một chiếc nón cũ đội cho chú bù nhìn và dạy bé từ もったいない.',
   objectives: [
     'Nói đi đâu: ～へ いきます',
     'Nói đi cùng ai: ～と いっしょに あるきます',
@@ -24,7 +24,7 @@ export const stage6: StageContent = {
       cast('hana', 'center', 'happy', { glasses: true }),
       cast('momo', 'right', 'happy'),
     ]),
-    narr('Sáng sớm, bà Hana đội nón lá, xách chiếc giỏ tre đã sờn. Bà bảo đi bộ là chiếc xe tiết kiệm nhất trên đời: không tốn xăng, không tốn tiền, lại còn khỏe người.'),
+    narr('Sáng sớm, bà Osano đội nón lá, xách chiếc giỏ tre đã sờn. Bà bảo đi bộ là chiếc xe tiết kiệm nhất trên đời: không tốn xăng, không tốn tiền, lại còn khỏe người.'),
     say('hana', 'おはよう。 きょうは たんぼへ いきます。', 'ohayou. kyou wa tanbo e ikimasu.', 'Chào buổi sáng. Hôm nay mình ra ruộng nhé.', 'happy'),
     say('momo', 'たんぼが ひろい にゃ!', 'tanbo ga hiroi nya!', 'Ruộng rộng quá nha!', 'surprised'),
     say('hana', 'おばあちゃんと いっしょに あるきましょう。', 'obaachan to issho ni arukimashou.', 'Bà cháu mình cùng đi bộ nhé.', 'happy'),
@@ -266,7 +266,7 @@ export const stage6: StageContent = {
     title: 'Đi bộ cùng người thân & tìm món đồ cũ',
     titleJp: 'いっしょに さんぽ',
     icon: '🚶',
-    hook: 'Bà Hana bảo đi bộ là chiếc xe tiết kiệm nhất. Hãy cùng người thân đi bộ một đoạn và tìm xem món đồ cũ nào còn dùng lại được nhé!',
+    hook: 'Bà Osano bảo đi bộ là chiếc xe tiết kiệm nhất. Hãy cùng người thân đi bộ một đoạn và tìm xem món đồ cũ nào còn dùng lại được nhé!',
     materials: ['Đôi giày đi bộ thoải mái', 'Một người thân đi cùng', 'Máy ảnh hoặc giấy bút để vẽ lại'],
     steps: [
       'Chọn một nơi gần nhà để đi bộ tới (công viên, tiệm tạp hóa, góc phố…).',
@@ -323,5 +323,11 @@ export const stage6: StageContent = {
     },
   ],
 
+  /** Lời bà Osano dặn ở cuối chặng (tinh thần: thiếu thốn vẫn vui, biết ơn, tự làm ra niềm vui). */
+  osanoSaying: {
+    jp: 'ものを だいじに すると、 こころも ゆたかに なるのよ。',
+    romaji: 'mono o daiji ni suru to, kokoro mo yutaka ni naru no yo.',
+    vi: 'Biết giữ gìn đồ vật thì lòng mình cũng đầy đủ hơn.',
+  },
   badgeId: 'rice-walker',
 };

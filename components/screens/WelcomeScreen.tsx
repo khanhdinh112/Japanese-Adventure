@@ -10,7 +10,7 @@ import { useGame } from '../GameProvider';
 import { AmbientLayer } from '../ui/AmbientLayer';
 import { SettingsMenu } from '../ui/SettingsMenu';
 
-/** Màn hình chào: ngôi nhà bà Hana lúc bình minh, tên game, Tiếp tục / Bắt đầu. */
+/** Màn hình chào: ngôi nhà bà Osano lúc bình minh, tên game, Tiếp tục / Bắt đầu. */
 export function WelcomeScreen() {
   const { state, go, startStage, mode, activeChildId, leaveChild, playAsGuest, guestHasProgress } = useGame();
   const [settings, setSettings] = useState(false);
@@ -41,7 +41,7 @@ export function WelcomeScreen() {
           <br />
           Adventure
         </h1>
-        <p className="wt-sub">Hành trình đến ngôi nhà của bà Hana</p>
+        <p className="wt-sub">Hành trình đến ngôi nhà của bà Osano</p>
         <p className="wt-tag">Học tiếng Nhật bằng một câu chuyện, từng ngôi sao một.</p>
 
         <div className="welcome-actions">

@@ -23,7 +23,7 @@ export function getStage(id: string): StageContent {
 
 export const CHAPTER_ONE = {
   id: 'chapter-1',
-  title: 'Ngôi nhà của bà Hana',
+  title: 'Ngôi nhà của bà Osano',
   titleJp: 'おばあちゃんの いえ',
   stageIds: STAGES.map((s) => s.id),
 };

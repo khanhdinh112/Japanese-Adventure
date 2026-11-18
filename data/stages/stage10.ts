@@ -151,7 +151,7 @@ export const stage10: StageContent = {
         parts: [tile('また', 'word', 'lại'), tile('あした', 'word', 'ngày mai')],
       },
     ],
-    tip: 'Mẹo: ましょう là lời rủ nhẹ nhàng, giống như "mình ... nhé!". Bà Hana rất hay dùng nó.',
+    tip: 'Mẹo: ましょう là lời rủ nhẹ nhàng, giống như "mình ... nhé!". Bà Osano rất hay dùng nó.',
     watchOut: 'Đừng nhầm ます (kể việc: たべます = tôi ăn) với ましょう (rủ nhau: たべましょう = mình cùng ăn nhé).',
     quick: [
       {
@@ -290,7 +290,7 @@ export const stage10: StageContent = {
     title: 'Lời hẹn ngoéo tay với người thân',
     titleJp: 'ゆびきりの やくそく',
     icon: '🤙',
-    hook: 'Bà Hana và bé đã ngoéo tay hẹn nhau ngày mai. Hôm nay bạn cũng hãy ngoéo tay hẹn với một người thân một việc nhỏ nhé!',
+    hook: 'Bà Osano và bé đã ngoéo tay hẹn nhau ngày mai. Hôm nay bạn cũng hãy ngoéo tay hẹn với một người thân một việc nhỏ nhé!',
     materials: ['Một người thân', 'Giấy và bút màu'],
     steps: [
       'Nghĩ một việc nhỏ bạn muốn làm cùng người thân vào ngày mai (đi bộ, nấu ăn, gấp giấy…).',
@@ -347,5 +347,11 @@ export const stage10: StageContent = {
     },
   ],
 
+  /** Lời bà Osano dặn ở cuối chặng (tinh thần: thiếu thốn vẫn vui, biết ơn, tự làm ra niềm vui). */
+  osanoSaying: {
+    jp: 'やくそくが あれば、 あしたが たのしみに なるね。',
+    romaji: 'yakusoku ga areba, ashita ga tanoshimi ni naru ne.',
+    vi: 'Có một lời hẹn thì ngày mai thành điều để mong chờ.',
+  },
   badgeId: 'grandma-grandchild',
 };

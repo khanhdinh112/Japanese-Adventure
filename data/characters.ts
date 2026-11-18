@@ -10,7 +10,7 @@ export interface CharacterMeta {
 
 export const CHARACTERS: Record<CharacterId, CharacterMeta> = {
   player: { id: 'player', name: '{name}', nameJp: '{nameJp}', color: '#3f7a73' },
-  hana: { id: 'hana', name: 'Bà Hana', nameJp: 'はなおばあちゃん', color: '#b4543a' },
+  hana: { id: 'hana', name: 'Bà Osano', nameJp: 'おさのばあちゃん', color: '#b4543a' },
   momo: { id: 'momo', name: 'Momo', nameJp: 'モモ', color: '#c9822f' },
 };
 

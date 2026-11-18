@@ -17,7 +17,7 @@ interface Props {
   onDone: () => void;
 }
 
-/** Gấp mèo giấy theo lời hướng dẫn tiếng Nhật của bà Hana: nghe/đọc rồi chọn hình giấy đúng. */
+/** Gấp mèo giấy theo lời hướng dẫn tiếng Nhật của bà Osano: nghe/đọc rồi chọn hình giấy đúng. */
 export function FoldGame({ stageId, beat, words, onLine, onTalking, onDone }: Props) {
   const { answer, t } = useGame();
   const [step, setStep] = useState(0);
@@ -90,7 +90,7 @@ export function FoldGame({ stageId, beat, words, onLine, onTalking, onDone }: Pr
                 </button>
               ))}
             </div>
-            {wrong.length > 0 && !ok && <p className="fold-miss">Chưa đúng rồi. Nghe lại lời bà Hana và thử hình khác nhé!</p>}
+            {wrong.length > 0 && !ok && <p className="fold-miss">Chưa đúng rồi. Nghe lại lời bà Osano và thử hình khác nhé!</p>}
             {ok && <p className="fold-good">できた! Giấy đã gấp đúng 🌸</p>}
           </div>
         )}

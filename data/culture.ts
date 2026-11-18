@@ -67,7 +67,7 @@ export const CULTURE: Record<string, CultureNote> = {
     icon: '🍚',
     body:
       'Người Nhật hay nói để làm ra hạt gạo cần tới tám mươi tám bước công việc, từ gieo mạ, cấy lúa, tát nước, gặt đến xay xát. Chữ 米 (gạo) còn được tách thành ba phần 八 十 八, nghĩa là "tám mươi tám". Vì vậy ăn cơm phải ăn sạch, không bỏ thừa hạt nào.',
-    fact: 'Đồng bằng Saga là một vùng trồng lúa nổi tiếng của đảo Kyushu, nơi bà Hana sống.',
+    fact: 'Đồng bằng Saga là một vùng trồng lúa nổi tiếng của đảo Kyushu, nơi bà Osano sống.',
     phrase: { jp: 'ごはんは おいしいです。', romaji: 'gohan wa oishii desu.', vi: 'Cơm ngon quá.' },
   },
   teruterubouzu: {

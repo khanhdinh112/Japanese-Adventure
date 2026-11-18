@@ -1,12 +1,12 @@
 import type { StageContent } from '../types';
 import { cast, narr, reply, say, scene, tile } from './helpers';
 
-/** Stage 1 · おばあちゃんの てがみ — Lá thư của bà Hana */
+/** Stage 1 · おばあちゃんの てがみ — Lá thư của bà Osano */
 export const stage1: StageContent = {
   id: 'saga-1',
   regionId: 'saga',
   index: 1,
-  title: 'Lá thư của bà Hana',
+  title: 'Lá thư của bà Osano',
   titleJp: 'おばあちゃんの てがみ',
   icon: '✉️',
   summary: 'Một lá thư từ Nhật Bản dẫn bạn đến ngôi nhà bên đồng lúa, nơi Momo đang đợi ở cổng.',
@@ -21,16 +21,16 @@ export const stage1: StageContent = {
   beats: [
     scene('road', 'leaves', { vi: 'Con đường làng', jp: 'いなかの みち' }, [cast('player', 'center', 'neutral')]),
     narr('Mùa hè đến rồi! {name} đi chuyến xe buýt cuối cùng và dừng lại giữa con đường làng yên tĩnh, hai bên là đồng lúa xanh.'),
-    narr('Trong tay {name} là lá thư của bà Hana, người bà ở Nhật Bản mà bạn chưa từng gặp.'),
+    narr('Trong tay {name} là lá thư của bà Osano, người bà ở Nhật Bản mà bạn chưa từng gặp.'),
     {
       type: 'letter',
       lines: [
         { jp: '{nameJp}へ', romaji: '{nameRo} e', vi: 'Gửi {name},' },
         { jp: 'はじめまして。', romaji: 'hajimemashite.', vi: 'Rất vui được gặp con.' },
         {
-          jp: 'わたしは はなです。 あなたの おばあちゃんです。',
-          romaji: 'watashi wa hana desu. anata no obaachan desu.',
-          vi: 'Bà là Hana. Bà là bà của con.',
+          jp: 'わたしは おさのです。 あなたの おばあちゃんです。',
+          romaji: 'watashi wa osano desu. anata no obaachan desu.',
+          vi: 'Bà là Osano. Bà là bà của con.',
         },
         {
           jp: 'なつやすみに わたしの いえへ いらっしゃい。',
@@ -42,12 +42,12 @@ export const stage1: StageContent = {
           romaji: 'ie no mae de Momo to matte imasu.',
           vi: 'Bà và Momo đang đợi con trước nhà.',
         },
-        { jp: 'はなより', romaji: 'hana yori', vi: 'Từ bà Hana.' },
+        { jp: 'おさのより', romaji: 'osano yori', vi: 'Từ bà Osano.' },
       ],
     },
     say('player', 'これは おばあちゃんの てがみ。', 'kore wa obaachan no tegami.', 'Đây là lá thư của bà.', 'thinking'),
 
-    scene('gate', 'leaves', { vi: 'Cổng nhà bà Hana', jp: 'おばあちゃんの いえ' }, [
+    scene('gate', 'leaves', { vi: 'Cổng nhà bà Osano', jp: 'おばあちゃんの いえ' }, [
       cast('player', 'left', 'neutral'),
       cast('momo', 'right', 'happy'),
     ]),
@@ -79,7 +79,7 @@ export const stage1: StageContent = {
       cast('momo', 'right', 'happy'),
     ]),
     say('hana', 'いらっしゃい! よく きたね。', 'irasshai! yoku kita ne.', 'Chào mừng con! Con đến rồi nhỉ.', 'happy'),
-    say('hana', 'わたしは はなです。 あなたの おばあちゃんです。', 'watashi wa hana desu. anata no obaachan desu.', 'Bà là Hana. Bà là bà của con.', 'happy'),
+    say('hana', 'わたしは おさのです。 あなたの おばあちゃんです。', 'watashi wa osano desu. anata no obaachan desu.', 'Bà là Osano. Bà là bà của con.', 'happy'),
     say('player', 'はじめまして、おばあちゃん。', 'hajimemashite, obaachan.', 'Rất vui được gặp bà ạ.', 'happy'),
     say('hana', 'ここは げんかん です。', 'koko wa genkan desu.', 'Đây là genkan, chỗ để cởi giày.', 'neutral'),
     { type: 'culture', cultureId: 'genkan' },
@@ -129,10 +129,10 @@ export const stage1: StageContent = {
         parts: [tile('わたし', 'topic', 'mình'), tile('は', 'particle', 'wa'), tile('モモ', 'noun', 'tên'), tile('です', 'verb', 'là')],
       },
       {
-        jp: 'わたしは はなです。',
-        romaji: 'watashi wa hana desu.',
-        vi: 'Bà là Hana.',
-        parts: [tile('わたし', 'topic', 'bà'), tile('は', 'particle', 'wa'), tile('はな', 'noun', 'tên'), tile('です', 'verb', 'là')],
+        jp: 'わたしは おさのです。',
+        romaji: 'watashi wa osano desu.',
+        vi: 'Bà là Osano.',
+        parts: [tile('わたし', 'topic', 'bà'), tile('は', 'particle', 'wa'), tile('おさの', 'noun', 'tên'), tile('です', 'verb', 'là')],
       },
       {
         jp: 'これは てがみです。',
@@ -159,15 +159,15 @@ export const stage1: StageContent = {
       },
       {
         question: 'Trong câu này, trợ từ は đọc là gì?',
-        jp: 'わたしは はなです。',
-        romaji: 'watashi (?) hana desu.',
-        full: 'わたしは はなです。',
-        fullRomaji: 'watashi wa hana desu.',
-        fullVi: 'Mình là Hana.',
+        jp: 'わたしは おさのです。',
+        romaji: 'watashi (?) osano desu.',
+        full: 'わたしは おさのです。',
+        fullRomaji: 'watashi wa osano desu.',
+        fullVi: 'Mình là Osano.',
         options: ['ha', 'wa', 'o'],
         answer: 1,
-        hint: 'Bấm 🔊 nghe cả câu và để ý âm đứng giữa わたし và はな. は ở giữa câu khác với は trong はな.',
-        explain: 'Khi là trợ từ, は được đọc là "wa". Chỉ khi nằm trong từ như はな mới đọc "ha".',
+        hint: 'Bấm 🔊 nghe cả câu và để ý âm đứng giữa わたし và おさの. は ở giữa câu khác với は trong はじめまして.',
+        explain: 'Khi là trợ từ, は được đọc là "wa". Chỉ khi nằm trong từ như はじめまして mới đọc "ha".',
       },
     ],
     practice: [
@@ -189,11 +189,11 @@ export const stage1: StageContent = {
         hint: '"Đây" trong tiếng Nhật là これ.',
       },
       {
-        prompt: 'Bà Hana tự giới thiệu: "Bà là Hana."',
-        meaning: 'Bà là Hana.',
-        answer: ['わたし', 'は', 'はな', 'です'],
+        prompt: 'Bà Osano tự giới thiệu: "Bà là Osano."',
+        meaning: 'Bà là Osano.',
+        answer: ['わたし', 'は', 'おさの', 'です'],
         distractors: ['てがみ', 'の'],
-        romaji: 'watashi wa hana desu.',
+        romaji: 'watashi wa osano desu.',
         hint: 'Cùng khuôn với câu giới thiệu tên bạn.',
       },
     ],
@@ -208,7 +208,7 @@ export const stage1: StageContent = {
       question: 'Người nói tên là gì?',
       options: [
         { id: 'a', label: 'Momo', icon: '🐈' },
-        { id: 'b', label: 'Hana', icon: '👵' },
+        { id: 'b', label: 'Osano', icon: '👵' },
         { id: 'c', label: '{name}', icon: '🧒' },
       ],
       answerId: 'a',
@@ -250,7 +250,7 @@ export const stage1: StageContent = {
       audio: 'いらっしゃい!',
       romaji: 'irasshai!',
       vi: 'Chào mừng con đến!',
-      question: 'Bà Hana đang nói gì với bạn?',
+      question: 'Bà Osano đang nói gì với bạn?',
       options: [
         { id: 'a', label: 'Chào mừng bạn đến nhà', icon: '🌸' },
         { id: 'b', label: 'Chúc ngủ ngon', icon: '🌙' },
@@ -264,11 +264,11 @@ export const stage1: StageContent = {
 
   quest: {
     id: 'quest-1',
-    title: 'Lá thư hồi âm cho bà Hana',
+    title: 'Lá thư hồi âm cho bà Osano',
     titleJp: 'おばあちゃんへ てがみ',
     icon: '💌',
-    hook: 'Bà Hana rất mong thư trả lời! Hãy tự viết một lá thư nhỏ bằng tiếng Nhật rồi đọc to cho người thân nghe nhé.',
-    materials: ['1 tờ giấy (hoặc thiệp nhỏ)', 'Bút chì hoặc bút màu', 'Một người thân để làm "bà Hana" lắng nghe'],
+    hook: 'Bà Osano rất mong thư trả lời! Hãy tự viết một lá thư nhỏ bằng tiếng Nhật rồi đọc to cho người thân nghe nhé.',
+    materials: ['1 tờ giấy (hoặc thiệp nhỏ)', 'Bút chì hoặc bút màu', 'Một người thân để làm "bà Osano" lắng nghe'],
     steps: [
       'Chép lại lá thư mẫu bên dưới lên giấy. Nhờ người lớn giúp nếu cần.',
       'Vẽ một bức tranh nhỏ về nhà của bạn bên cạnh lá thư.',
@@ -280,7 +280,7 @@ export const stage1: StageContent = {
       romaji: 'hajimemashite. {name} desu. yoroshiku onegaishimasu.',
       vi: 'Rất vui được gặp. Mình là {name}. Mong được giúp đỡ.',
     },
-    sample: ['はなおばあちゃんへ', 'はじめまして。', 'わたしは {name}です。', 'よろしく おねがいします。', '{name}より'],
+    sample: ['おさのばあちゃんへ', 'はじめまして。', 'わたしは {name}です。', 'よろしく おねがいします。', '{name}より'],
     reflectionPrompt: 'Người thân của bạn đã nói gì khi nghe bạn đọc thư?',
     evidence: 'photo',
     evidenceLabel: 'Chụp lá thư của bạn',
@@ -316,7 +316,7 @@ export const stage1: StageContent = {
       id: 'm1-3',
       kind: 'scene-build',
       scene: '🚪',
-      prompt: 'Bà Hana mở cửa. Hãy xin phép vào nhà, rồi chào lần đầu gặp.',
+      prompt: 'Bà Osano mở cửa. Hãy xin phép vào nhà, rồi chào lần đầu gặp.',
       meaning: 'Con xin phép vào nhà ạ. Rất vui được gặp bà.',
       answer: ['おじゃまします', 'はじめまして'],
       alts: [['はじめまして', 'おじゃまします']],
@@ -327,5 +327,11 @@ export const stage1: StageContent = {
     },
   ],
 
+  /** Lời bà Osano dặn ở cuối chặng (tinh thần: thiếu thốn vẫn vui, biết ơn, tự làm ra niềm vui). */
+  osanoSaying: {
+    jp: 'ようこそ。 わたしの いえは ちいさいけど、 こころは ひろいよ。',
+    romaji: 'youkoso. watashi no ie wa chiisai kedo, kokoro wa hiroi yo.',
+    vi: 'Chào con. Nhà bà nhỏ thôi, nhưng lòng bà rộng lắm.',
+  },
   badgeId: 'first-steps',
 };

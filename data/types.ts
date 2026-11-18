@@ -55,7 +55,7 @@ export interface CastMember {
   id: CharacterId;
   slot: Slot;
   emotion: Emotion;
-  /** Bà Hana: có đeo kính hay không (Stage 3 bà mất kính) */
+  /** Bà Osano: có đeo kính hay không (Stage 3 bà mất kính) */
   glasses?: boolean;
   hidden?: boolean;
 }
@@ -139,7 +139,7 @@ export interface FindBeat {
 export type ShapeKey = 'square' | 'triangle' | 'circle' | 'ears' | 'earsUp' | 'face' | 'blank';
 
 export interface FoldStep {
-  /** Bà Hana đọc hướng dẫn bằng tiếng Nhật */
+  /** Bà Osano đọc hướng dẫn bằng tiếng Nhật */
   say: Line;
   options: { id: string; shape: ShapeKey; label: string }[];
   answerId: string;
@@ -311,6 +311,8 @@ export interface StageContent {
   quest: Quest;
   mastery: MasteryPrompt[];
   badgeId?: string;
+  /** Lời bà Osano dặn, hiện ở màn kết quả. */
+  osanoSaying?: { jp: string; romaji: string; vi: string };
 }
 
 export interface StageStub {

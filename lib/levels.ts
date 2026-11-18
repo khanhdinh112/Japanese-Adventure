@@ -13,7 +13,7 @@ const TITLES: LevelTitle[] = [
   { title: 'Bạn của Momo', jp: 'モモの ともだち' },
   { title: 'Nhà thám hiểm nhí', jp: 'ちいさな たんけんか' },
   { title: 'Người kể chuyện', jp: 'はなしじょうず' },
-  { title: 'Học trò của bà Hana', jp: 'はなさんの でし' },
+  { title: 'Học trò của bà Osano', jp: 'おさのばあちゃんの でし' },
   { title: 'Người giữ đèn', jp: 'あかりの まもりて' },
   { title: 'Sứ giả Komorebi', jp: 'こもれびの つかい' },
   { title: 'Bạn của các tinh linh', jp: 'せいれいの ともだち' },
