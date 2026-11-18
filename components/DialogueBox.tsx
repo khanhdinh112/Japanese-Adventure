@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { CHARACTERS } from '../data/characters';
 import type { CharacterId, Word } from '../data/types';
 import { splitByWords } from '../lib/text';
+import { Meaning } from './ui/Meaning';
 import { useGame } from './GameProvider';
 import { SpeakButton } from './ui/SpeakButton';
 import { useSpeech } from './ui/useSpeech';
@@ -157,7 +158,7 @@ export function DialogueBox({
           </p>
         )}
         {jpText && state.settings.romaji && romaji && <p className="d-ro">{t(romaji)}</p>}
-        {jpText && <p className="d-vi">{t(vi)}</p>}
+        {jpText && <Meaning text={t(vi)} className="d-vi" resetKey={main} />}
       </div>
       <div className="dialogue-side">
         {speakable && <SpeakButton text={speakable} size="md" />}

@@ -8,6 +8,7 @@ import { GameProvider, useGame } from '../components/GameProvider';
 import { AuthScreen } from '../components/screens/AuthScreen';
 import { ProfilesScreen } from '../components/screens/ProfilesScreen';
 import { CharacterCreation } from '../components/screens/CharacterCreation';
+import { ErrorBoundary } from '../components/ui/ErrorBoundary';
 import { AdminScreen } from '../components/screens/AdminScreen';
 import { LettersScreen } from '../components/screens/LettersScreen';
 import { JournalScreen } from '../components/screens/JournalScreen';
@@ -125,7 +126,7 @@ function useBackgroundMusic(route: Route, enabled: boolean) {
 }
 
 function Game() {
-  const { hydrated, phase, loadingChild, state } = useGame();
+  const { hydrated, phase, loadingChild, state, go, mode } = useGame();
   const route = useGuardedRoute();
   useBackgroundMusic(route, hydrated && state.settings.music);
 
@@ -147,7 +148,9 @@ function Game() {
   return (
     <div className={cls} style={style}>
       <div className="screen" key={routeKey(route)}>
-        <Screen route={route} />
+        <ErrorBoundary resetKey={routeKey(route)} onHome={() => go({ name: mode === 'account' ? 'profiles' : 'welcome' }, { kind: 'fade' })}>
+          <Screen route={route} />
+        </ErrorBoundary>
       </div>
       {route.name === 'world' && state.profile && !state.tourSeen && !phase && <QuickTour />}
       {phase && <div className={`tr-veil tr-veil-${phase.kind} tr-veil-${phase.stage}`} aria-hidden />}

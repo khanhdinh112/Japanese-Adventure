@@ -40,6 +40,7 @@ export function SettingsMenu({ onClose }: { onClose: () => void }) {
           ✕
         </button>
       </div>
+      <Toggle label="Luôn hiện nghĩa tiếng Việt" desc="Tắt: nghĩa được ẩn, bé chạm “Xem nghĩa” khi cần" on={s.meaning} onChange={(meaning) => setSettings({ meaning })} />
       <Toggle label="Hiện romaji" desc="Chữ La-tinh dưới câu tiếng Nhật" on={s.romaji} onChange={(romaji) => setSettings({ romaji })} />
       <Toggle label="Nhạc nền" desc={s.music ? (playing ? 'Đang phát nhạc không lời' : 'Chạm vào màn hình để bắt đầu phát nhạc') : 'Nhạc không lời nhẹ nhàng khi chơi'} on={s.music} onChange={(music) => setSettings({ music })} />
       <Toggle label="Hiệu ứng âm thanh" desc="Tiếng chạm, tiếng nhận sao, tiếng lật trang" on={s.sound} onChange={(sound) => setSettings({ sound })} />

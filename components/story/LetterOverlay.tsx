@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import type { LetterBeat } from '../../data/types';
 import { playSfx } from '../../lib/sfx';
 import { useGame } from '../GameProvider';
+import { Meaning } from '../ui/Meaning';
 import { SpeakButton } from '../ui/SpeakButton';
 import { useSpeech } from '../ui/useSpeech';
 
@@ -38,7 +39,7 @@ export function LetterOverlay({ beat, onDone }: { beat: LetterBeat; onDone: () =
           🌸
         </div>
         <div className="letter-from">
-          <small>Gửi từ làng Saga</small>
+          <small lang="ja">さがの さと から</small>
           <b lang="ja">はなおばあちゃん より</b>
         </div>
         <div className="letter-lines">
@@ -49,7 +50,7 @@ export function LetterOverlay({ beat, onDone }: { beat: LetterBeat; onDone: () =
                 <SpeakButton text={t(line.jp)} size="sm" />
               </div>
               {state.settings.romaji && <div className="ll-ro">{t(line.romaji)}</div>}
-              <div className="ll-vi">{t(line.vi)}</div>
+              <Meaning text={t(line.vi)} className="ll-vi" resetKey={`${i}-${line.jp}`} />
             </div>
           ))}
         </div>

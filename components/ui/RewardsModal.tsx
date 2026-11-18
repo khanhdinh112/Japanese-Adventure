@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { levelInfo, xpForLevel } from '../../lib/levels';
 import { earnedStars, starBalance, starsSpent, streak } from '../../lib/selectors';
 import { useGame } from '../GameProvider';
@@ -8,98 +8,113 @@ import { Modal } from './Modal';
 
 export type RewardsTab = 'stars' | 'xp' | 'streak';
 
-/** Giải thích sao, điểm kinh nghiệm (XP) và chuỗi ngày: kiếm thế nào, dùng để làm gì. */
+const WAYS_STARS: [string, string][] = [
+  ['+1 ⭐', 'Hoàn thành một chặng'],
+  ['+1 ⭐', 'Nhớ tốt từ mới: đúng ít nhất 2/3, dùng không quá 1 gợi ý'],
+  ['+1 ⭐', 'Đúng từ 80% trở lên và lưu Nhiệm vụ của bé vào nhật ký'],
+  ['+1 ⭐', 'Mỗi 10 chữ thuộc trong Góc luyện chữ'],
+];
+
+const WAYS_XP: [string, string][] = [
+  ['+15 XP', 'Mỗi bước học hoàn thành'],
+  ['+30 XP', 'Lưu Nhiệm vụ của bé'],
+  ['+50 XP', 'Hoàn thành một chặng'],
+  ['+15 XP', 'Mỗi sao nhận được'],
+  ['+4 XP', 'Mỗi lần nhớ thêm một chữ (Góc luyện chữ)'],
+  ['+15 XP', 'Hoàn thành một lượt chơi nhận mặt chữ'],
+];
+
+function Ways({ rows }: { rows: [string, string][] }) {
+  return (
+    <ul className="rw-ways">
+      {rows.map(([pill, text], i) => (
+        <li key={i}>
+          <span className="rw-pill">{pill}</span>
+          <span>{text}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+/** Giải thích sao, điểm kinh nghiệm (XP) và chuỗi ngày: kiếm thế nào, dùng để làm gì. Mỗi thứ một thẻ, bấm để chuyển. */
 export function RewardsModal({ onClose, focus = 'stars', onOpenWardrobe }: { onClose: () => void; focus?: RewardsTab; onOpenWardrobe?: () => void }) {
   const { state } = useGame();
+  const [tab, setTab] = useState<RewardsTab>(focus);
   const info = useMemo(() => levelInfo(state.xp), [state.xp]);
   const earned = earnedStars(state);
   const spent = starsSpent(state);
   const balance = starBalance(state);
   const days = streak(state);
+  const pct = Math.round(info.progress * 100);
+
+  const tabs: { id: RewardsTab; icon: string; value: string; label: string }[] = [
+    { id: 'stars', icon: '⭐', value: String(balance), label: 'Sao' },
+    { id: 'xp', icon: '✨', value: `Cấp ${info.level}`, label: 'Kinh nghiệm' },
+    { id: 'streak', icon: '🔥', value: `${days} ngày`, label: 'Chuỗi ngày' },
+  ];
+
   return (
-    <Modal title="Sao và điểm kinh nghiệm" onClose={onClose} width={1180}>
-      <div className="rw-grid">
-        <section className={`rw-card${focus === 'stars' ? ' focus' : ''}`}>
-          <h3>⭐ Sao</h3>
-          <p className="rw-big">
-            <b>{balance}</b> sao có thể tiêu
-          </p>
-          <p className="rw-sub">
-            Đã kiếm {earned} · đã tiêu {spent}
-          </p>
-          <h4>Kiếm sao thế nào?</h4>
-          <ul>
-            <li>
-              <b>+1 ⭐</b> khi hoàn thành một chặng.
-            </li>
-            <li>
-              <b>+1 ⭐</b> khi nhớ tốt từ mới: trả lời đúng ít nhất 2/3 mà dùng không quá 1 gợi ý.
-            </li>
-            <li>
-              <b>+1 ⭐</b> khi đúng từ 80% trở lên và lưu được Nhiệm vụ của bé vào nhật ký.
-            </li>
-            <li>
-              <b>+1 ⭐</b> cho mỗi 10 chữ bạn thuộc trong Góc luyện chữ (Hiragana, Katakana hoặc Kanji).
-            </li>
-          </ul>
-          <p className="rw-note">Chơi lại chặng để lấy thêm sao nếu lần trước chưa đủ 3 sao. Sao đã kiếm không bị mất khi chơi lại.</p>
-          <h4>Dùng sao để làm gì?</h4>
-          <p>Mở khoá trang phục, kiểu tóc, mũ và phụ kiện mới trong Tủ đồ. Sao cũng làm đầy bản đồ: mỗi vùng cần đủ sao để mở vùng kế tiếp.</p>
-          {onOpenWardrobe && (
-            <button type="button" className="btn btn-primary" onClick={onOpenWardrobe}>
-              Mở Tủ đồ 👕
+    <Modal title="Sao, kinh nghiệm và chuỗi ngày" onClose={onClose} width={960}>
+      <div className="rw">
+        <div className="rw-tabs" role="tablist">
+          {tabs.map((t) => (
+            <button key={t.id} type="button" role="tab" aria-selected={tab === t.id} className={`rw-tab${tab === t.id ? ' on' : ''}`} onClick={() => setTab(t.id)}>
+              <span className="rw-tab-ic" aria-hidden>{t.icon}</span>
+              <span className="rw-tab-tx">
+                <small>{t.label}</small>
+                <b>{t.value}</b>
+              </span>
             </button>
-          )}
-        </section>
+          ))}
+        </div>
 
-        <section className={`rw-card${focus === 'xp' ? ' focus' : ''}`}>
-          <h3>✨ Điểm kinh nghiệm (XP)</h3>
-          <p className="rw-big">
-            <b>{state.xp}</b> XP · Cấp {info.level}
-          </p>
-          <p className="rw-sub">
-            {info.title.title} <span lang="ja">({info.title.jp})</span>
-          </p>
-          <div className="rw-bar" role="progressbar" aria-valuenow={Math.round(info.progress * 100)} aria-valuemin={0} aria-valuemax={100}>
-            <i style={{ width: `${Math.round(info.progress * 100)}%` }} />
+        {tab === 'stars' && (
+          <div className="rw-panel">
+            <p className="rw-head">
+              <b>{balance}</b> sao có thể tiêu <small>(đã kiếm {earned} · đã tiêu {spent})</small>
+            </p>
+            <h4>Kiếm sao</h4>
+            <Ways rows={WAYS_STARS} />
+            <h4>Dùng sao</h4>
+            <p>Mở khoá trang phục, tóc, mũ và phụ kiện trong Tủ đồ. Sao cũng mở các vùng mới trên bản đồ. Chơi lại chặng để lấy đủ 3 sao; sao đã kiếm không mất.</p>
+            {onOpenWardrobe && (
+              <button type="button" className="btn btn-primary" onClick={onOpenWardrobe}>
+                Mở Tủ đồ 👕
+              </button>
+            )}
           </div>
-          <p className="rw-sub">
-            Còn {info.remaining} XP để lên cấp {info.level + 1}: <b>{info.nextTitle.title}</b>
-          </p>
-          <h4>Kiếm XP thế nào?</h4>
-          <ul>
-            <li>
-              <b>+15 XP</b> mỗi bước học hoàn thành (xem từ, nghe, ghép, nói…).
-            </li>
-            <li>
-              <b>+30 XP</b> khi lưu Nhiệm vụ của bé.
-            </li>
-            <li>
-              <b>+50 XP</b> khi hoàn thành một chặng.
-            </li>
-            <li>
-              <b>+15 XP</b> cho mỗi sao nhận được.
-            </li>
-            <li>
-              <b>+4 XP</b> mỗi lần nhớ thêm một chữ trong Góc luyện chữ, và <b>+15 XP</b> khi hoàn thành một lượt chơi.
-            </li>
-          </ul>
-          <h4>Dùng XP để làm gì?</h4>
-          <p>
-            XP làm bé lên cấp và nhận danh hiệu mới. Một số món đặc biệt trong Tủ đồ cần đạt cấp nhất định mới mở được: cấp 2 cho mũ rơm, cấp 3 cho kimono và búi tóc, cấp 4 cho vòng hoa và mặt nạ lễ hội. XP không bị tiêu đi như sao.
-          </p>
-          <p className="rw-note">
-            Mốc cấp: {[2, 3, 4, 5].map((l) => `cấp ${l} = ${xpForLevel(l)} XP`).join(' · ')}…
-          </p>
-        </section>
+        )}
 
-        <section className={`rw-card rw-small${focus === 'streak' ? ' focus' : ''}`}>
-          <h3>🔥 Chuỗi ngày</h3>
-          <p className="rw-big">
-            <b>{days}</b> ngày liên tiếp
-          </p>
-          <p>Mỗi ngày bé học dù chỉ một chút, chuỗi sẽ dài thêm một ngày. Nghỉ một ngày thì chuỗi bắt đầu lại. Học đều từng ít một sẽ giúp nhớ chữ lâu hơn.</p>
-        </section>
+        {tab === 'xp' && (
+          <div className="rw-panel">
+            <p className="rw-head">
+              <b>{state.xp}</b> XP <small>· {info.title.title} <span lang="ja">({info.title.jp})</span></small>
+            </p>
+            <div className="rw-bar" role="progressbar" aria-valuenow={pct} aria-valuemin={0} aria-valuemax={100}>
+              <i style={{ width: `${pct}%` }} />
+            </div>
+            <p className="rw-sub">
+              Còn {info.remaining} XP để lên cấp {info.level + 1}: <b>{info.nextTitle.title}</b>
+            </p>
+            <h4>Kiếm XP</h4>
+            <Ways rows={WAYS_XP} />
+            <h4>Dùng XP</h4>
+            <p>
+              XP giúp bé lên cấp và nhận danh hiệu. Vài món trong Tủ đồ mở theo cấp: <b>cấp 2</b> mũ rơm · <b>cấp 3</b> kimono, búi tóc · <b>cấp 4</b> vòng hoa, mặt nạ lễ hội. XP không bị tiêu đi.
+            </p>
+            <p className="rw-note">{[2, 3, 4, 5].map((l) => `Cấp ${l}: ${xpForLevel(l)} XP`).join(' · ')}</p>
+          </div>
+        )}
+
+        {tab === 'streak' && (
+          <div className="rw-panel">
+            <p className="rw-head">
+              <b>{days}</b> ngày liên tiếp
+            </p>
+            <p>Mỗi ngày bé học dù chỉ một chút, chuỗi dài thêm một ngày. Nghỉ một ngày thì chuỗi bắt đầu lại. Học đều từng ít một giúp nhớ chữ lâu hơn.</p>
+          </div>
+        )}
       </div>
     </Modal>
   );

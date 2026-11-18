@@ -30,6 +30,8 @@ export interface Profile {
 
 export interface Settings {
   romaji: boolean;
+  /** Luôn hiện nghĩa tiếng Việt dưới câu tiếng Nhật (mặc định ẩn, bé chạm "Xem nghĩa") */
+  meaning: boolean;
   /** Âm thanh hiệu ứng (chạm, sao, lật trang) */
   sound: boolean;
   /** Tự đọc lời thoại bằng giọng tiếng Nhật */
@@ -172,7 +174,7 @@ export function initialState(): GameState {
   return {
     version: 1,
     profile: null,
-    settings: { romaji: true, sound: true, voice: true, music: true },
+    settings: { romaji: true, meaning: false, sound: true, voice: true, music: true },
     stages: {},
     words: {},
     skills: emptySkills(),

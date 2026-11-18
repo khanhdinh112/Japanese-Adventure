@@ -5,6 +5,8 @@ import type { CultureNote, Word } from '../data/types';
 import type { WordLevel } from '../lib/gameState';
 import { WORD_LEVEL_LABEL } from '../lib/selectors';
 import { useGame } from './GameProvider';
+import { CultureArt } from './art/CultureArt';
+import { Meaning } from './ui/Meaning';
 import { SpeakButton } from './ui/SpeakButton';
 
 interface CardProps {
@@ -97,7 +99,10 @@ export function CultureCard({ note, children }: { note: CultureNote; children?: 
       tag={<span className="level level-culture">🏮 Khám phá văn hóa</span>}
       footer={children}
     >
-      <p className="cu-body">{note.body}</p>
+      <div className="cu-top">
+        <CultureArt id={note.id} />
+        <p className="cu-body">{note.body}</p>
+      </div>
       <p className="cu-fact">
         <span aria-hidden>✨</span> {note.fact}
       </p>
@@ -106,7 +111,7 @@ export function CultureCard({ note, children }: { note: CultureNote; children?: 
           <span lang="ja">{t(note.phrase.jp)}</span>
           <SpeakButton text={t(note.phrase.jp)} size="sm" />
           {state.settings.romaji && <small>{t(note.phrase.romaji)}</small>}
-          <em>{t(note.phrase.vi)}</em>
+          <Meaning text={t(note.phrase.vi)} className="cu-vi" resetKey={note.id} />
         </div>
       )}
     </LearningCard>

@@ -1,5 +1,4 @@
-import type { PlayerLook } from './gameState';
-import type { GameState } from './gameState';
+import { normalizeLook, type GameState, type PlayerLook } from './gameState';
 import { normalizeState } from './storage';
 import { totalStars } from './selectors';
 import { getSupabase } from './supabase';
@@ -26,7 +25,8 @@ interface SummaryRow {
 const SUMMARY_COLS = 'id,name,look,xp,stars,updated_at';
 
 function toSummary(r: SummaryRow): ChildSummary {
-  return { id: r.id, name: r.name, look: r.look, xp: r.xp, stars: r.stars, updatedAt: r.updated_at };
+  // look trên cloud có thể ở định dạng cũ (trước khi có tủ đồ): chuẩn hoá để màn hình vẽ không bị lỗi
+  return { id: r.id, name: r.name, look: r.look ? normalizeLook(r.look) : null, xp: r.xp, stars: r.stars, updatedAt: r.updated_at };
 }
 
 /** Các cột tóm tắt suy ra từ tiến trình. */
