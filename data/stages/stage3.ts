@@ -10,7 +10,7 @@ export const stage3: StageContent = {
   title: 'Tìm đồ vật thất lạc',
   titleJp: 'なくした もの',
   icon: '🔎',
-  summary: 'Bà Hana làm mất kính, chìa khóa và sách. Cùng Momo lùng sục phòng khách để tìm lại từng món đồ!',
+  summary: 'Bà Osano làm mất kính, chìa khóa và sách. Cùng Momo lùng sục phòng khách để tìm lại từng món đồ!',
   objectives: [
     'Hỏi đồ vật ở đâu: ～は どこですか',
     'Nói vị trí: うえ / した / なか',
@@ -25,7 +25,7 @@ export const stage3: StageContent = {
       cast('hana', 'center', 'worried', { glasses: false }),
       cast('momo', 'right', 'neutral'),
     ]),
-    narr('Buổi chiều, bà Hana đang lục tìm khắp phòng khách với vẻ bối rối.'),
+    narr('Buổi chiều, bà Osano đang lục tìm khắp phòng khách với vẻ bối rối.'),
     say('hana', 'あら、めがねが ない…。', 'ara, megane ga nai…', 'Ôi, kính của bà đâu mất rồi…', 'worried'),
     say('momo', 'たいへん! いっしょに さがそう にゃ!', 'taihen! issho ni sagasou nya!', 'Nguy rồi! Mình cùng tìm thôi!', 'surprised'),
     {
@@ -83,7 +83,7 @@ export const stage3: StageContent = {
       ],
       wrongReply: reply('momo', 'かさは たべない にゃ! もういちど!', 'kasa wa tabenai nya! mou ichido!', 'Ô không ăn được đâu nha! Thử lại nào!', 'laugh'),
     },
-    narr('Căn phòng lại gọn gàng. Chiếc chìa khóa nhỏ trong tay bà Hana khẽ ánh lên một tia sáng lạ.'),
+    narr('Căn phòng lại gọn gàng. Chiếc chìa khóa nhỏ trong tay bà Osano khẽ ánh lên một tia sáng lạ.'),
   ],
 
   grammar: {
@@ -272,7 +272,7 @@ export const stage3: StageContent = {
     title: 'Dán nhãn tiếng Nhật trong nhà bạn',
     titleJp: 'なにが どこに?',
     icon: '🏷️',
-    hook: 'Bà Hana có một mẹo tìm đồ rất hay: dán nhãn lên mọi thứ! Hãy biến nhà bạn thành "ngôi nhà tiếng Nhật" nhé.',
+    hook: 'Bà Osano có một mẹo tìm đồ rất hay: dán nhãn lên mọi thứ! Hãy biến nhà bạn thành "ngôi nhà tiếng Nhật" nhé.',
     materials: ['Giấy ghi chú nhỏ (hoặc giấy cắt nhỏ + băng dính)', 'Bút màu', 'Một người thân để hỏi và trả lời'],
     steps: [
       'Viết 3 nhãn: つくえ (bàn học), ほん (sách), かぎ (chìa khóa) hoặc đồ vật nhà bạn có.',
@@ -328,4 +328,10 @@ export const stage3: StageContent = {
       wordIds: ['hon', 'naka'],
     },
   ],
+  /** Lời bà Osano dặn ở cuối chặng (tinh thần: thiếu thốn vẫn vui, biết ơn, tự làm ra niềm vui). */
+  osanoSaying: {
+    jp: 'なくしても だいじょうぶ。 さがせば みつかるよ。',
+    romaji: 'nakushite mo daijoubu. sagaseba mitsukaru yo.',
+    vi: 'Lỡ mất cũng không sao. Chịu tìm thì sẽ thấy.',
+  },
 };

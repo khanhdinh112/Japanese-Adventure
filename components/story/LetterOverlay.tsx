@@ -8,7 +8,7 @@ import { Meaning } from '../ui/Meaning';
 import { SpeakButton } from '../ui/SpeakButton';
 import { useSpeech } from '../ui/useSpeech';
 
-/** Lá thư của bà Hana: từng dòng hiện ra, chạm vào chữ để nghe, đọc hết mới sang cảnh sau. */
+/** Lá thư của bà Osano: từng dòng hiện ra, chạm vào chữ để nghe, đọc hết mới sang cảnh sau. */
 export function LetterOverlay({ beat, onDone }: { beat: LetterBeat; onDone: () => void }) {
   const { state, t } = useGame();
   const { canSpeak, play, stop } = useSpeech();
@@ -40,7 +40,7 @@ export function LetterOverlay({ beat, onDone }: { beat: LetterBeat; onDone: () =
         </div>
         <div className="letter-from">
           <small lang="ja">さがの さと から</small>
-          <b lang="ja">はなおばあちゃん より</b>
+          <b lang="ja">おさのばあちゃん より</b>
         </div>
         <div className="letter-lines">
           {beat.lines.slice(0, count).map((line, i) => (

@@ -9,7 +9,7 @@ export const stage9: StageContent = {
   title: 'Ngôi sao giấy',
   titleJp: 'おりがみの ほし',
   icon: '⭐',
-  summary: 'Tối lễ Tanabata, bà Hana biến giấy gói kẹo và tờ lịch cũ thành những ngôi sao và dải giấy điều ước. Bé học cách đếm ひとつ, ふたつ, みっつ.',
+  summary: 'Tối lễ Tanabata, bà Osano biến giấy gói kẹo và tờ lịch cũ thành những ngôi sao và dải giấy điều ước. Bé học cách đếm ひとつ, ふたつ, みっつ.',
   objectives: [
     'Đếm đồ vật nhỏ: ひとつ, ふたつ, みっつ',
     'Nói có bao nhiêu: ～が ～つ あります',
@@ -24,7 +24,7 @@ export const stage9: StageContent = {
       cast('hana', 'center', 'happy', { glasses: true }),
       cast('momo', 'right', 'happy'),
     ]),
-    narr('Trên bàn chẳng có giấy màu mua sẵn nào. Bà Hana kéo ra một hộp bánh cũ, bên trong toàn giấy gói kẹo, tờ lịch cũ và những mẩu giấy màu đã cất từ lâu. "Giấy gì cũng thành điều ước được," bà nói.'),
+    narr('Trên bàn chẳng có giấy màu mua sẵn nào. Bà Osano kéo ra một hộp bánh cũ, bên trong toàn giấy gói kẹo, tờ lịch cũ và những mẩu giấy màu đã cất từ lâu. "Giấy gì cũng thành điều ước được," bà nói.'),
     say('hana', 'きょうは たなばた です。 ほしに ねがいを します。', 'kyou wa tanabata desu. hoshi ni negai o shimasu.', 'Hôm nay là lễ Tanabata. Mình gửi điều ước cho các vì sao.', 'happy'),
     { type: 'culture', cultureId: 'tanabata' },
     narr('Bà cắt giấy thành những dải dài, mỗi dải là một たんざく. Rồi bà xếp lên bàn: một dải vàng, một dải hồng, một dải xanh.'),
@@ -276,7 +276,7 @@ export const stage9: StageContent = {
     title: 'Làm dải giấy điều ước từ giấy cũ',
     titleJp: 'ねがいの たんざく',
     icon: '🎋',
-    hook: 'Bà Hana biến giấy gói kẹo và tờ lịch cũ thành điều ước. Bạn cũng hãy tìm vài mẩu giấy cũ và làm những dải giấy điều ước nhé!',
+    hook: 'Bà Osano biến giấy gói kẹo và tờ lịch cũ thành điều ước. Bạn cũng hãy tìm vài mẩu giấy cũ và làm những dải giấy điều ước nhé!',
     materials: ['Vài mẩu giấy màu hoặc giấy gói cũ', 'Kéo (nhờ người lớn giúp) và dây', 'Bút để viết điều ước'],
     steps: [
       'Cắt giấy cũ thành vài dải dài (たんざく).',
@@ -333,5 +333,11 @@ export const stage9: StageContent = {
     },
   ],
 
+  /** Lời bà Osano dặn ở cuối chặng (tinh thần: thiếu thốn vẫn vui, biết ơn, tự làm ra niềm vui). */
+  osanoSaying: {
+    jp: 'ほしは、 おかねが なくても つくれるのよ。',
+    romaji: 'hoshi wa, okane ga nakute mo tsukureru no yo.',
+    vi: 'Ngôi sao thì không cần tiền cũng làm ra được.',
+  },
   badgeId: 'star-maker',
 };

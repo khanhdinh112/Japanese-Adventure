@@ -375,7 +375,7 @@ function Player({
 }
 
 /* ------------------------------------------------------------------ */
-/* Bà Hana                                                              */
+/* Bà Osano                                                              */
 /* ------------------------------------------------------------------ */
 
 function Grandma({ emotion, glasses, speaking, uid }: { emotion: Emotion; glasses: boolean; speaking?: boolean; uid: string }) {
@@ -647,7 +647,7 @@ export function CharacterSprite({
       className={['sprite', `sprite-${id}`, `sprite-${variant}`, className].filter(Boolean).join(' ')}
       style={style}
       role="img"
-      aria-label={label ?? (id === 'hana' ? 'Bà Hana' : id === 'momo' ? 'Momo' : 'Bạn')}
+      aria-label={label ?? (id === 'hana' ? 'Bà Osano' : id === 'momo' ? 'Momo' : 'Bạn')}
     >
       {variant === 'full' && <ellipse cx="200" cy="742" rx="150" ry="14" fill="#2b2118" opacity="0.18" />}
       {id === 'player' && <Player emotion={emotion} look={look} speaking={speaking} uid={uid} />}

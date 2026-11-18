@@ -53,7 +53,7 @@ export const ART_SPECS: ArtSpec[] = [
     file: 'scene-welcome.webp',
     size: '1920×1080',
     format: 'WebP/PNG, nền đặc',
-    notes: 'Ngôi nhà bà Hana từ xa lúc hoàng hôn dịu, cánh đồng, núi. Chừa nửa trái cho tiêu đề.',
+    notes: 'Ngôi nhà bà Osano từ xa lúc hoàng hôn dịu, cánh đồng, núi. Chừa nửa trái cho tiêu đề.',
   },
   ...(Object.keys(SCENE_NOTES) as SceneId[]).map((id) => ({
     key: `scene:${id}`,

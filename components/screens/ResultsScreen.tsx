@@ -9,6 +9,7 @@ import { computeBadges, nextStage, progressOf, WORD_LEVEL_LABEL, wordLevel } fro
 import { playSfx } from '../../lib/sfx';
 import { AmbientLayer } from '../ui/AmbientLayer';
 import { useGame } from '../GameProvider';
+import { useSpeech } from '../ui/useSpeech';
 import { CharacterSprite } from '../CharacterSprite';
 import { SceneArt } from '../art/SceneArt';
 import { StarRating } from '../ui/StarRating';
@@ -27,6 +28,7 @@ export function ResultsScreen({ stageId }: { stageId: string }) {
   const badges = computeBadges(state);
   const badge = stage.badgeId && badges.has(stage.badgeId) ? BADGE_BY_ID[stage.badgeId] : null;
   const upcoming = nextStage(state);
+  const { canSpeak, speaking, play } = useSpeech();
 
   useEffect(() => {
     if (r) {
@@ -126,6 +128,21 @@ export function ResultsScreen({ stageId }: { stageId: string }) {
                 <b>{badge.name}</b>
                 <span lang="ja">{badge.nameJp}</span>
               </div>
+            </div>
+          )}
+          {stage.osanoSaying && (
+            <div className="paper rs-card rs-saying">
+              <div className="rs-saying-head">
+                <h3>Lời bà Osano dặn</h3>
+                {canSpeak && (
+                  <button type="button" className="btn btn-pill" disabled={speaking} onClick={() => play(stage.osanoSaying!.jp)} aria-label="Nghe lời bà dặn">
+                    🔊 Nghe
+                  </button>
+                )}
+              </div>
+              <p lang="ja" className="rs-saying-jp">{stage.osanoSaying.jp}</p>
+              <span className="rs-saying-ro">{stage.osanoSaying.romaji}</span>
+              <span className="rs-saying-vi">{stage.osanoSaying.vi}</span>
             </div>
           )}
         </section>

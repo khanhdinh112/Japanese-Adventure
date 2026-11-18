@@ -9,7 +9,7 @@ export const stage7: StageContent = {
   title: 'Bữa cơm tối',
   titleJp: 'ばんごはん',
   icon: '🍱',
-  summary: 'Bữa tối chỉ có cơm, súp miso và một con cá, nhưng bà Hana gọi đó là "đại tiệc". Bé học nói ăn gì, uống gì và khen món ăn.',
+  summary: 'Bữa tối chỉ có cơm, súp miso và một con cá, nhưng bà Osano gọi đó là "đại tiệc". Bé học nói ăn gì, uống gì và khen món ăn.',
   objectives: [
     'Nói ăn gì, uống gì: ～を たべます / のみます',
     'Khen món ăn: ～は おいしいです',
@@ -24,7 +24,7 @@ export const stage7: StageContent = {
       cast('hana', 'center', 'happy', { glasses: true }),
       cast('momo', 'right', 'happy'),
     ]),
-    narr('Trời chạng vạng. Trên bàn có một nồi cơm, một bát súp miso, mấy lát dưa muối và một con cá nướng cắt làm ba. Bà Hana vỗ tay cái đét: "Đại tiệc đây rồi!"'),
+    narr('Trời chạng vạng. Trên bàn có một nồi cơm, một bát súp miso, mấy lát dưa muối và một con cá nướng cắt làm ba. Bà Osano vỗ tay cái đét: "Đại tiệc đây rồi!"'),
     say('hana', 'ごちそうです! ばんごはんを たべましょう。', 'gochisou desu! bangohan o tabemashou.', 'Đại tiệc đây! Mình ăn cơm tối nào.', 'laugh'),
     say('momo', 'さかなが あります にゃ!', 'sakana ga arimasu nya!', 'Có cá nha!', 'surprised'),
     say('player', 'いただきます!', 'itadakimasu!', 'Con xin mời bà!', 'happy'),
@@ -299,7 +299,7 @@ export const stage7: StageContent = {
     title: 'Bữa cơm không bỏ thừa hạt nào',
     titleJp: 'ぜんぶ たべましょう',
     icon: '🍚',
-    hook: 'Bà Hana nói một hạt cơm là tám mươi tám công sức. Tối nay hãy ăn một bữa thật sạch, không bỏ thừa hạt cơm nào nhé!',
+    hook: 'Bà Osano nói một hạt cơm là tám mươi tám công sức. Tối nay hãy ăn một bữa thật sạch, không bỏ thừa hạt cơm nào nhé!',
     materials: ['Một bữa cơm cùng gia đình', 'Một bát cơm của bạn', 'Máy ảnh hoặc giấy bút để vẽ'],
     steps: [
       'Trước khi ăn, chắp tay nói to: いただきます!',
@@ -356,5 +356,11 @@ export const stage7: StageContent = {
     },
   ],
 
+  /** Lời bà Osano dặn ở cuối chặng (tinh thần: thiếu thốn vẫn vui, biết ơn, tự làm ra niềm vui). */
+  osanoSaying: {
+    jp: 'ごはんが あるだけで しあわせ。 ありがとうって いおうね。',
+    romaji: 'gohan ga aru dake de shiawase. arigatou tte iou ne.',
+    vi: 'Có cơm ăn đã là hạnh phúc rồi. Mình nói cảm ơn nhé.',
+  },
   badgeId: 'no-waste',
 };

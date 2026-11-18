@@ -5,7 +5,7 @@ import type { Word } from './types';
  * `{name}` trong câu ví dụ sẽ được thay bằng tên bé.
  */
 const list: Word[] = [
-  /* ---------------- Stage 1 · Lá thư của bà Hana ---------------- */
+  /* ---------------- Stage 1 · Lá thư của bà Osano ---------------- */
   {
     id: 'tegami',
     jp: 'てがみ',
@@ -283,7 +283,7 @@ const list: Word[] = [
     vi: 'bông hoa',
     icon: '🌺',
     example: { jp: 'にわに はなが あります。', romaji: 'niwa ni hana ga arimasu.', vi: 'Trong vườn có hoa.' },
-    memo: 'Tên bà là Hana (花) nghĩa là "bông hoa"!',
+    memo: 'Chữ Hán 花. Hoa anh đào là さくら.',
   },
   {
     id: 'ike',
@@ -440,7 +440,7 @@ const list: Word[] = [
     vi: 'ăn thêm (bát nữa)',
     icon: '🍚',
     example: { jp: 'おかわり ください。', romaji: 'okawari kudasai.', vi: 'Cho con thêm một bát nữa ạ.' },
-    memo: 'Nhớ từ này nhé: bà Hana rất vui khi cháu xin おかわり!',
+    memo: 'Nhớ từ này nhé: bà Osano rất vui khi cháu xin おかわり!',
   },
   {
     id: 'gochisou',

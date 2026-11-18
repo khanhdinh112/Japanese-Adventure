@@ -9,9 +9,9 @@ export interface BadgeMeta {
 /** Điều kiện nhận huy hiệu nằm ở lib/selectors.ts (computeBadges). */
 export const BADGES: BadgeMeta[] = [
   { id: 'first-steps', name: 'Bước chân nhỏ', nameJp: 'はじめの いっぽ', icon: '👣', desc: 'Hoàn thành stage đầu tiên.' },
-  { id: 'letter-writer', name: 'Người viết thư', nameJp: 'てがみの ひと', icon: '💌', desc: 'Viết thư hồi âm cho bà Hana.' },
+  { id: 'letter-writer', name: 'Người viết thư', nameJp: 'てがみの ひと', icon: '💌', desc: 'Viết thư hồi âm cho bà Osano.' },
   { id: 'breakfast', name: 'Bữa sáng ấm áp', nameJp: 'あさごはん', icon: '🍙', desc: 'Hoàn thành Stage 2.' },
-  { id: 'detective', name: 'Thám tử nhỏ', nameJp: 'さがしもの めいじん', icon: '🔎', desc: 'Tìm lại đồ vật cho bà Hana.' },
+  { id: 'detective', name: 'Thám tử nhỏ', nameJp: 'さがしもの めいじん', icon: '🔎', desc: 'Tìm lại đồ vật cho bà Osano.' },
   { id: 'paper-folder', name: 'Thợ gấp giấy', nameJp: 'おりがみ めいじん', icon: '🐈', desc: 'Gấp xong chú mèo giấy.' },
   { id: 'garden-keeper', name: 'Người giữ vườn', nameJp: 'にわの まもりびと', icon: '🌿', desc: 'Hoàn thành chặng 5: Bí mật khu vườn cũ.' },
   { id: 'rice-walker', name: 'Người đi ruộng', nameJp: 'たんぼの さんぽ', icon: '🌾', desc: 'Hoàn thành chặng 6: Con đường ven ruộng.' },

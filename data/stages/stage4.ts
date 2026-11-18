@@ -9,7 +9,7 @@ export const stage4: StageContent = {
   title: 'Làm chú mèo giấy',
   titleJp: 'おりがみの ねこ',
   icon: '🐈',
-  summary: 'Trên hiên gỗ chiều nắng, bà Hana dạy bạn gấp một chú mèo giấy bằng chính lời tiếng Nhật.',
+  summary: 'Trên hiên gỗ chiều nắng, bà Osano dạy bạn gấp một chú mèo giấy bằng chính lời tiếng Nhật.',
   objectives: [
     'Nghe và làm theo hướng dẫn: ～て ください',
     'Hình dạng: しかく và さんかく',
@@ -24,7 +24,7 @@ export const stage4: StageContent = {
       cast('hana', 'center', 'happy', { glasses: true }),
       cast('momo', 'right', 'neutral'),
     ]),
-    narr('Gió chiều thổi nhẹ qua hiên gỗ. Bà Hana mở một chiếc hộp nhỏ, bên trong là những tờ giấy đủ màu sắc.'),
+    narr('Gió chiều thổi nhẹ qua hiên gỗ. Bà Osano mở một chiếc hộp nhỏ, bên trong là những tờ giấy đủ màu sắc.'),
     say('hana', 'きょうは おりがみを しましょう。', 'kyou wa origami o shimashou.', 'Hôm nay mình cùng gấp giấy nhé.', 'happy'),
     say('hana', 'これは おりがみ。 かみは しかくです。', 'kore wa origami. kami wa shikaku desu.', 'Đây là giấy origami. Tờ giấy hình vuông.', 'neutral'),
     say('momo', 'ねこ! ねこが いい にゃ!', 'neko! neko ga ii nya!', 'Mèo! Gấp mèo đi mà!', 'laugh'),
@@ -32,7 +32,7 @@ export const stage4: StageContent = {
     say('hana', 'きいて ください。 ひとつずつ いいます。', 'kiite kudasai. hitotsu zutsu iimasu.', 'Hãy nghe nhé. Bà sẽ nói từng bước một.', 'neutral'),
     {
       type: 'fold',
-      intro: 'Bà Hana đọc từng bước bằng tiếng Nhật. Hãy chọn hình giấy đúng để gấp chú mèo nhé!',
+      intro: 'Bà Osano đọc từng bước bằng tiếng Nhật. Hãy chọn hình giấy đúng để gấp chú mèo nhé!',
       steps: [
         {
           say: { jp: 'さんかくに おって ください。', romaji: 'sankaku ni otte kudasai.', vi: 'Hãy gấp thành hình tam giác.' },
@@ -71,7 +71,7 @@ export const stage4: StageContent = {
     { type: 'culture', cultureId: 'origami' },
     {
       type: 'choice',
-      question: 'Chọn lời đúng để mời bà Hana xem chú mèo giấy của bạn:',
+      question: 'Chọn lời đúng để mời bà Osano xem chú mèo giấy của bạn:',
       wordIds: ['mite', 'kiite', 'otte'],
       options: [
         {
@@ -139,7 +139,7 @@ export const stage4: StageContent = {
     watchOut: 'ください luôn đứng cuối câu, không tách ra khỏi động từ nhé.',
     quick: [
       {
-        question: 'Bà Hana muốn bạn lắng nghe. Bà nói câu nào?',
+        question: 'Bà Osano muốn bạn lắng nghe. Bà nói câu nào?',
         full: 'きいて ください。',
         fullRomaji: 'kiite kudasai.',
         fullVi: 'Hãy nghe nhé.',
@@ -197,7 +197,7 @@ export const stage4: StageContent = {
       audio: 'さんかくに おって ください。',
       romaji: 'sankaku ni otte kudasai.',
       vi: 'Hãy gấp thành hình tam giác.',
-      question: 'Bà Hana muốn bạn làm gì?',
+      question: 'Bà Osano muốn bạn làm gì?',
       options: [
         { id: 'a', label: 'Gấp thành hình tam giác', icon: '🔺' },
         { id: 'b', label: 'Gấp thành hình vuông', icon: '🟧' },
@@ -315,4 +315,10 @@ export const stage4: StageContent = {
       wordIds: ['neko', 'dekita', 'mite'],
     },
   ],
+  /** Lời bà Osano dặn ở cuối chặng (tinh thần: thiếu thốn vẫn vui, biết ơn, tự làm ra niềm vui). */
+  osanoSaying: {
+    jp: 'かみ いちまいでも、 あそびは つくれるよ。',
+    romaji: 'kami ichimai demo, asobi wa tsukureru yo.',
+    vi: 'Chỉ một tờ giấy thôi cũng làm ra được trò chơi.',
+  },
 };

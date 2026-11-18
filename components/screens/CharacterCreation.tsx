@@ -65,7 +65,7 @@ export function CharacterCreation() {
 
         <section className="create-form paper">
           <h2>Bạn là ai nhỉ?</h2>
-          <p className="muted">Bà Hana và Momo muốn biết tên bạn để chào đón nhé. Bà sẽ gọi bạn là <b lang="ja">{shown}{hon === 'chan' ? 'ちゃん' : 'くん'}</b>.</p>
+          <p className="muted">Bà Osano và Momo muốn biết tên bạn để chào đón nhé. Bà sẽ gọi bạn là <b lang="ja">{shown}{hon === 'chan' ? 'ちゃん' : 'くん'}</b>.</p>
 
           <label className="field">
             <span>Tên của bạn</span>

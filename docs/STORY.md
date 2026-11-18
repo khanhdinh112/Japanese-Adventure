@@ -4,11 +4,11 @@ Tài liệu này là "bộ khung" cho toàn bộ hành trình 8 chương của J
 
 ## 1. Ý tưởng chính
 
-**Logline.** Mùa hè, bé về làng Saga thăm bà Hana. Bà là "Người giữ đèn" của làng, người thắp tám chiếc đèn Komorebi, những chiếc đèn giữ ánh nắng xuyên kẽ lá để làng luôn bình yên. Năm nay ba chiếc đèn tắt dần, và bé cùng chú mèo Momo biết nói phải đi qua tám vùng đất, học tiếng Nhật để trò chuyện với từng nơi, tìm lại ánh sáng cho tám chiếc đèn trước ngày lễ hội cuối hè.
+**Logline.** Mùa hè, bé về làng Saga thăm bà Osano. Bà là "Người giữ đèn" của làng, người thắp tám chiếc đèn Komorebi, những chiếc đèn giữ ánh nắng xuyên kẽ lá để làng luôn bình yên. Năm nay ba chiếc đèn tắt dần, và bé cùng chú mèo Momo biết nói phải đi qua tám vùng đất, học tiếng Nhật để trò chuyện với từng nơi, tìm lại ánh sáng cho tám chiếc đèn trước ngày lễ hội cuối hè.
 
 **Vì sao bé sẽ muốn đi tiếp?**
 
-- **Một bí ẩn lớn chạy suốt truyện:** ai đã làm ánh sáng của đèn yếu đi, và vì sao bà Hana chưa bao giờ kể về chiếc đèn thứ chín?
+- **Một bí ẩn lớn chạy suốt truyện:** ai đã làm ánh sáng của đèn yếu đi, và vì sao bà Osano chưa bao giờ kể về chiếc đèn thứ chín?
 - **Mỗi chương có một "đèn" để sưu tầm**, nên bé luôn thấy mình còn thiếu mấy chiếc nữa.
 - **Mỗi chương kết bằng một móc nối** (cliffhanger nhẹ nhàng): một lá thư, một tiếng động lạ, một cánh cửa mới.
 - **Tiếng Nhật là chìa khoá thật sự:** sinh vật trong truyện chỉ chịu giúp khi bé nói đúng câu. Học để mở cửa câu chuyện, không phải học để thi.
@@ -18,8 +18,8 @@ Tài liệu này là "bộ khung" cho toàn bộ hành trình 8 chương của J
 
 | Nhân vật | Vai trò |
 |---|---|
-| **Bé** (người chơi) | Cháu của bà Hana, tên và diện mạo do bé chọn. Nhút nhát lúc đầu, dần tự tin nói tiếng Nhật. |
-| **Bà Hana (はなおばあちゃん)** | Người giữ đèn của làng Saga. Hiền, hay đùa, nấu ăn rất ngon, gửi thư cho bé ở cuối mỗi chương. Có một bí mật về chiếc đèn thứ chín. |
+| **Bé** (người chơi) | Cháu của bà Osano, tên và diện mạo do bé chọn. Nhút nhát lúc đầu, dần tự tin nói tiếng Nhật. |
+| **Bà Osano (おさのばあちゃん)** | Người giữ đèn của làng Saga. Hiền, hay đùa, nấu ăn rất ngon, gửi thư cho bé ở cuối mỗi chương. Có một bí mật về chiếc đèn thứ chín. |
 | **Momo (モモ)** | Mèo tam thể của bà, biết nói tiếng Nhật chỉ khi ở gần ánh sáng đèn. Tò mò, hay ăn, đôi khi hơi nhát. Người bạn đồng hành xuyên suốt. |
 | **Pokkuri (ぽっくり)** | Những tinh linh tròn nhỏ như hạt dẻ sống trong cây, chỉ hiện ra khi nghe lời chào đúng. Hài hước, hay lặp lại câu bé vừa nói (nên giúp bé nhắc lại từ). |
 | **Ông Gen (げんじいさん)** | Chủ cửa hàng gốm ở Chợ, thợ làm đèn. Biết cách chữa đèn nhưng kể chuyện rất chậm. |
@@ -30,7 +30,7 @@ Tài liệu này là "bộ khung" cho toàn bộ hành trình 8 chương của J
 
 Mỗi chương: vùng, đèn cần tìm, trọng tâm học (tiếng Nhật), văn hoá, mảnh bí ẩn, móc nối sang chương sau, đồ mở khoá trong Tủ đồ.
 
-### Chương 1. Ngôi nhà của bà Hana (Làng Saga) · có sẵn
+### Chương 1. Ngôi nhà của bà Osano (Làng Saga) · có sẵn
 - **Đèn:** Đèn Cổng nhà.
 - **Học:** chào hỏi (はじめまして, こんにちは), giới thiệu tên (わたしは ~です), cách gọi ちゃん / くん, đồ vật quanh nhà, hỏi "Đây là gì?" (これは なんですか).
 - **Văn hoá:** cởi giày ở genkan, ngôi nhà truyền thống, cách cúi chào, mùa hè và tiếng ve.
@@ -41,7 +41,7 @@ Mỗi chương: vùng, đèn cần tìm, trọng tâm học (tiếng Nhật), v�
 
 ### 3a. Chặng 6 đến 10 của làng Saga và nguồn cảm hứng
 
-**Nguồn cảm hứng.** Giọng điệu của năm chặng này lấy cảm hứng từ tinh thần của cuốn tiểu thuyết «Saga no Gabai Baachan» (佐賀のがばいばあちゃん) của Shimada Yoshichi (島田洋七): một bà ngoại ở vùng Saga sống tằn tiện nhưng lạc quan, biết biến mọi thứ thành niềm vui và dạy cháu tự lập. Chúng ta chỉ mượn tinh thần đó. Mọi tình tiết (chiếc nón cho bù nhìn, bữa "đại tiệc" cơm với cá, ô vá chằng chịt, ngôi sao làm từ giấy gói kẹo, lời hẹn ngoéo tay) và nhân vật (bà Hana, bé, Momo) đều là sáng tác gốc, không lấy lại tình tiết, câu thoại hay tên nhân vật của tác phẩm đó. Game cũng không đặt tên tác giả thật làm tác giả của nội dung; trong game chỉ có một dòng ghi nguồn cảm hứng ở bảng vùng Saga (trường `inspiredBy` trong `data/regions.ts`).
+**Nguồn cảm hứng.** Giọng điệu của năm chặng này lấy cảm hứng từ tinh thần của cuốn tiểu thuyết «Saga no Gabai Baachan» (佐賀のがばいばあちゃん) của Shimada Yoshichi (島田洋七): một bà ngoại ở vùng Saga sống tằn tiện nhưng lạc quan, biết biến mọi thứ thành niềm vui và dạy cháu tự lập. Chúng ta mượn tinh thần đó và mượn tên bà: nhân vật bà trong game tên Osano (おさのばあちゃん), theo cách gọi bà Tokunaga Sano trong sách. Ngoài tên ra, mọi tình tiết (chiếc nón cho bù nhìn, bữa "đại tiệc" cơm với cá, ô vá chằng chịt, ngôi sao làm từ giấy gói kẹo, lời hẹn ngoéo tay) và các nhân vật khác (bé, Momo) đều là sáng tác gốc, không lấy lại tình tiết hay câu thoại của tác phẩm đó. Các giai thoại nổi tiếng của sách (dòng sông như siêu thị, nam châm kéo lê, hộp cơm ngày hội thể thao…) cố ý không đưa vào. Game cũng không đặt tên tác giả thật làm tác giả của nội dung; trong game chỉ có một dòng ghi nguồn cảm hứng ở bảng vùng Saga (trường `inspiredBy` trong `data/regions.ts`).
 
 **Chủ đề chạy xuyên năm chặng:** もったいない (không bỏ phí), tận dụng đồ cũ, "nhà chẳng giàu nhưng thứ gì qua tay bà cũng thành niềm vui", và những lời hẹn nhỏ cho ngày mai. Cuối chặng 10, đèn Cổng nhà chớp tắt và Momo nói: hãy đi theo ánh sáng lên phía rừng, nối sang Chương 2.
 
@@ -53,11 +53,13 @@ Mỗi chương: vùng, đèn cần tìm, trọng tâm học (tiếng Nhật), v�
 | 9. Ngôi sao giấy (おりがみの ほし) | Lễ Tanabata với giấy gói kẹo và tờ lịch cũ; bà giấu một ngôi sao nhỏ | ～が ひとつ / ふたつ / みっつ あります | たなばた | Người làm sao |
 | 10. Lời hẹn ngày mai (あしたの やくそく) | Ngoéo tay hẹn ngày mai, thư của bà, đèn cổng tắt | ～ましょう, あした, また あした | ゆびきり | Cháu cưng của bà |
 
+**Lời bà Osano dặn.** Cuối mỗi chặng của Chương 1, màn kết quả có một câu bà dặn (tiếng Nhật ngắn, có phiên âm, nghĩa tiếng Việt và nút nghe). Mười câu này là sáng tác gốc, cùng một tinh thần với bà Osano trong sách: nhà nhỏ nhưng lòng rộng, thiếu thốn vẫn tìm ra niềm vui, biết giữ gìn đồ vật, biết nói cảm ơn, và ngày mai luôn có điều để mong chờ. Dữ liệu nằm ở trường `osanoSaying` của từng chặng (`data/stages/stageN.ts`). Các chương sau nên giữ thói quen này để bà vẫn là "người dặn dò" xuyên suốt.
+
 ### Chương 2. Rừng Ánh Sáng
 - **Đèn:** Đèn Lá thì thầm.
 - **Học:** số đếm 1 đến 10, màu sắc, thiên nhiên (き, はな, かわ), hỏi "ở đâu" (どこ), từ chỉ phương hướng.
 - **Văn hoá:** komorebi (ánh nắng xuyên kẽ lá), thờ cây cổ thụ (cây long não khổng lồ ở Takeo, Saga), không xả rác trong rừng.
-- **Mảnh bí ẩn:** các Pokkuri kể có một "người đến thắp đèn" mỗi mùa đông, và đó không phải bà Hana.
+- **Mảnh bí ẩn:** các Pokkuri kể có một "người đến thắp đèn" mỗi mùa đông, và đó không phải bà Osano.
 - **Móc nối:** một chiếc chuông mèo nhỏ rơi từ trên cây, trùng khớp với vòng cổ của Momo.
 - **Mở khoá:** Mũ rơm, Áo mưa vui vẻ.
 
@@ -66,14 +68,14 @@ Mỗi chương: vùng, đèn cần tìm, trọng tâm học (tiếng Nhật), v�
 - **Học:** động vật, thức ăn mèo thích, xin phép lịch sự (~ください, ありがとう), mua bán đơn giản, hỏi giá.
 - **Văn hoá:** mèo may mắn maneki-neko, đồ gốm Arita và Karatsu của vùng Saga.
 - **Mảnh bí ẩn:** Momo từng sống ở đây, đây là quê của Momo. Một bà mèo già nhận ra Momo và nhắc về "đêm đèn thứ chín".
-- **Móc nối:** tờ giấy gấp của bà Hana rơi ra, trên đó có một ký hiệu bé đã thấy ở cổng ngôi trường.
+- **Móc nối:** tờ giấy gấp của bà Osano rơi ra, trên đó có một ký hiệu bé đã thấy ở cổng ngôi trường.
 - **Mở khoá:** Băng đô tai mèo.
 
 ### Chương 4. Trường học Nhật
 - **Đèn:** Đèn Bảng đen.
 - **Học:** hiragana, đồ dùng học tập, chào cô giáo, giờ học, hỏi tên bạn, "Xin hãy nói lại" (もういちど おねがいします).
 - **Văn hoá:** đồng phục, dọn lớp cùng nhau (o-soji), bữa trưa kyushoku, bánh mì và sữa trong trường.
-- **Mảnh bí ẩn:** cô Sora đưa bé xem một bức ảnh cũ, trong đó bà Hana trẻ đứng cạnh một người lạ đeo mặt nạ cáo.
+- **Mảnh bí ẩn:** cô Sora đưa bé xem một bức ảnh cũ, trong đó bà Osano trẻ đứng cạnh một người lạ đeo mặt nạ cáo.
 - **Móc nối:** tiếng còi tàu vang, trường học đột nhiên "trống", ai cũng chạy ra sân ga.
 - **Mở khoá:** Đồng phục học sinh, Khăn hachimaki.
 
@@ -97,21 +99,21 @@ Mỗi chương: vùng, đèn cần tìm, trọng tâm học (tiếng Nhật), v�
 - **Đèn:** Đèn Pháo hoa.
 - **Học:** mùa và ngày tháng, "Cùng đi nhé" (いっしょに いきましょう), mô tả cảm xúc, kể lại một ngày của mình, kanji đầu tiên (日, 月, 火, 水).
 - **Văn hoá:** matsuri, trống taiko, múa bon odori, thả đèn trôi, thắp đèn lồng cầu phúc, lễ Karatsu Kunchi và lễ khinh khí cầu của Saga.
-- **Mảnh bí ẩn:** Kitsune bỏ mặt nạ: đó là một Pokkuri lớn tuổi, người giữ chiếc đèn thứ chín từ thời bà Hana còn nhỏ.
+- **Mảnh bí ẩn:** Kitsune bỏ mặt nạ: đó là một Pokkuri lớn tuổi, người giữ chiếc đèn thứ chín từ thời bà Osano còn nhỏ.
 - **Móc nối:** chiếc đèn thứ chín cần được mang lên đỉnh núi trước lúc bình minh.
 - **Mở khoá:** Vòng hoa anh đào, Mặt nạ cáo lễ hội.
 
 ### Chương 8. Núi Phú Sĩ (chặng cuối)
 - **Đèn:** Đèn thứ chín (Đèn Bình Minh).
-- **Học:** ôn lại toàn bộ bằng cách kể lại chuyến đi, viết một lá thư đáp lại bà Hana bằng tiếng Nhật, kanji thêm (山, 川, 木, 人), tự giới thiệu và kể chuyện về bản thân.
+- **Học:** ôn lại toàn bộ bằng cách kể lại chuyến đi, viết một lá thư đáp lại bà Osano bằng tiếng Nhật, kanji thêm (山, 川, 木, 人), tự giới thiệu và kể chuyện về bản thân.
 - **Văn hoá:** ngắm bình minh đầu tiên (hatsuhinode), núi thiêng, lòng biết ơn, truyền thống thắp đèn cho người thân.
-- **Kết:** chiếc đèn thứ chín là lá thư gửi tương lai. Bà Hana từng thắp nó khi còn nhỏ để cầu mong "một đứa cháu sẽ về làng và nói chuyện với ánh sáng". Bé thắp đèn, cả tám chiếc đèn sáng lại, và bé trở thành Người giữ đèn mới của Saga.
+- **Kết:** chiếc đèn thứ chín là lá thư gửi tương lai. Bà Osano từng thắp nó khi còn nhỏ để cầu mong "một đứa cháu sẽ về làng và nói chuyện với ánh sáng". Bé thắp đèn, cả tám chiếc đèn sáng lại, và bé trở thành Người giữ đèn mới của Saga.
 - **Mở khoá:** danh hiệu cao nhất, bộ đồ Người giữ đèn.
 
 ## 4. Cơ chế giữ chân bé (đi đường dài)
 
 1. **Sưu tầm đèn:** mỗi chương một chiếc, hiện lên bản đồ và nhật ký, tổng cộng 8 cộng một chiếc bí mật.
-2. **Thư của bà Hana:** cuối mỗi chặng lớn bà gửi một lá thư ngắn bằng tiếng Nhật đơn giản, bé đọc hiểu được nhờ những gì vừa học.
+2. **Thư của bà Osano:** cuối mỗi chặng lớn bà gửi một lá thư ngắn bằng tiếng Nhật đơn giản, bé đọc hiểu được nhờ những gì vừa học.
 3. **Sổ tay văn hoá:** mỗi chương bé "nhặt" 3 đến 5 mảnh văn hoá vào nhật ký, giống bộ sưu tập.
 4. **Lịch mùa hè:** truyện kéo dài đúng một mùa hè, mỗi ngày học xong là một ngày trôi qua trong truyện, nên chuỗi ngày liên tiếp có ý nghĩa thật.
 5. **Nhiệm vụ ngoài lề:** luyện chữ Hiragana, Katakana, Kanji (xem góc luyện chữ) giúp bé đọc được thư bà gửi và biển hiệu trong truyện.

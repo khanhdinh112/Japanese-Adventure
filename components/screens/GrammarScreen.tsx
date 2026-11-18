@@ -308,7 +308,7 @@ export function GrammarScreen({ stage }: { stage: StageContent }) {
             🧩
           </div>
           <h2>Bạn đã nắm mẫu câu “{g.title}”!</h2>
-          <p>Bây giờ hãy lắng tai nghe, vì bà Hana sắp nói thật nhanh đấy.</p>
+          <p>Bây giờ hãy lắng tai nghe, vì bà Osano sắp nói thật nhanh đấy.</p>
           <button type="button" className="btn btn-primary btn-lg" onClick={() => go({ name: 'stage', stageId: stage.id, step: 'listening' }, { kind: 'fade' })}>
             Sang phần nghe ▶
           </button>

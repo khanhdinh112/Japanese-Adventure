@@ -86,7 +86,7 @@ export const stage5: StageContent = {
     narr('Chiếc hộp nhỏ phủ rêu có một ổ khóa cũ. Chiếc chìa khóa bà đã tìm lại được bỗng ánh lên, như đang gọi nó.'),
     {
       type: 'choice',
-      question: 'Hộp có một ổ khóa. Bạn đưa vật gì cho bà Hana để mở hộp?',
+      question: 'Hộp có một ổ khóa. Bạn đưa vật gì cho bà Osano để mở hộp?',
       wordIds: ['kagi'],
       options: [
         {
@@ -314,7 +314,7 @@ export const stage5: StageContent = {
     title: 'Trồng hạt giống & vẽ khu vườn của bạn',
     titleJp: 'わたしの にわ',
     icon: '🌱',
-    hook: 'Bà Hana trao cho bạn một gói hạt giống nhỏ. Hãy mang một mầm xanh về nhà và vẽ khu vườn mơ ước của bạn nhé!',
+    hook: 'Bà Osano trao cho bạn một gói hạt giống nhỏ. Hãy mang một mầm xanh về nhà và vẽ khu vườn mơ ước của bạn nhé!',
     materials: ['Vài hạt giống (đậu xanh, hoa hướng dương…)', 'Một chiếc cốc hoặc chậu nhỏ, ít đất và nước', 'Giấy và bút màu'],
     steps: [
       'Cho đất vào cốc, gieo hạt rồi tưới một chút nước.',
@@ -371,5 +371,11 @@ export const stage5: StageContent = {
     },
   ],
 
+  /** Lời bà Osano dặn ở cuối chặng (tinh thần: thiếu thốn vẫn vui, biết ơn, tự làm ra niềm vui). */
+  osanoSaying: {
+    jp: 'ふるい ものにも、 たいせつな おもいでが あるの。',
+    romaji: 'furui mono ni mo, taisetsu na omoide ga aru no.',
+    vi: 'Đồ cũ nào cũng giữ một kỷ niệm quý.',
+  },
   badgeId: 'garden-keeper',
 };
