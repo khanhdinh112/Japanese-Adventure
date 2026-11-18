@@ -1,16 +1,92 @@
 'use client';
-import { useState } from 'react';
-import { WorldMap } from '../components/WorldMap';
-import { RegionMap } from '../components/RegionMap';
-import { StoryScene } from '../components/StoryScene';
-import { Learning } from '../components/Learning';
-import { MasteryFeedback } from '../components/MasteryFeedback';
-import { Journal } from '../components/Journal';
-import { ParentDashboard } from '../components/ParentDashboard';
 
-type Screen = 'welcome'|'create'|'world'|'region'|'story'|'learn'|'mastery'|'journal'|'parent';
-const chapters = [['Lá thư của bà Hana','おばあちゃんの てがみ','📜'],['Buổi sáng đầu tiên','はじめての あさ','🌤️'],['Đồ vật thất lạc','なくした もの','🔎'],['Chú mèo giấy','おりがみの ねこ','🐈'],['Bí mật khu vườn','ふるい にわの ひみつ','🌿']];
-export default function Home(){const [screen,setScreen]=useState<Screen>('welcome');const [stage,setStage]=useState(0);const [player,setPlayer]=useState('Hana');const [completed,setCompleted]=useState<number[]>([]);const go=(s:Screen)=>{setScreen(s);window.scrollTo({top:0,behavior:'smooth'})};const finish=()=>{if(!completed.includes(stage))setCompleted([...completed,stage]);go('mastery')};
-if(screen==='welcome')return <div className="welcome-screen"><div className="welcome-copy"><div className="brand large"><span className="brand-mark">✦</span><span>JAPANESE<br/><b>ADVENTURE</b></span></div><p className="eyebrow">MỘT CUỘC PHIÊU LƯU BẰNG TIẾNG NHẬT</p><h1>Hãy bước vào<br/><em>Komorebi Village</em></h1><p className="welcome-text">Một ngôi làng nhỏ giữa những rặng núi, nơi mỗi câu tiếng Nhật mở ra một điều kỳ diệu.</p><button className="primary" onClick={()=>go('create')}>Bắt đầu chuyến đi <span>→</span></button><p className="tiny">Dành cho những nhà thám hiểm 7–8 tuổi · N5</p></div><div className="welcome-art"><div className="w-sun"/><div className="w-mountain one"/><div className="w-mountain two"/><div className="w-house">🏡</div><div className="w-momo">🐈</div><div className="w-tree">🌳</div></div></div>;
-if(screen==='create')return <div className="shell centered"><header className="simple-header"><button className="back" onClick={()=>go('welcome')}>← Quay lại</button><div className="brand"><span className="brand-mark">✦</span><span>JAPANESE <b>ADVENTURE</b></span></div></header><div className="create-card"><p className="eyebrow">TRANG 01 · NGƯỜI PHIÊU LƯU</p><h1>Hãy giới thiệu về mình</h1><p className="muted">Bà Hana đang chuẩn bị một căn phòng nhỏ cho bạn.</p><div className="create-layout"><div className="character-preview"><div className="portrait">🧒</div><div className="preview-name">{player||'Tên của bạn'}</div></div><div className="create-form"><label>Tên của bạn<input value={player} onChange={e=>setPlayer(e.target.value)} maxLength={16}/></label><label>Người bạn đồng hành<div className="companion-choice"><button className="selected-companion">🐈 <b>Momo</b><small>Chú mèo biết nói</small></button><button className="companion-muted">🦊</button><button className="companion-muted">🐰</button></div></label><button className="primary full" onClick={()=>go('world')}>Đến Komorebi Village <span>→</span></button></div></div></div></div>;
-return <div className="app-shell"><nav className="topbar"><button className="brand button-brand" onClick={()=>go('world')}><span className="brand-mark">✦</span><span>JAPANESE<br/><b>ADVENTURE</b></span></button><div className="nav-links"><button className={screen==='world'||screen==='region'?'active':''} onClick={()=>go('world')}>Bản đồ</button><button className={screen==='journal'?'active':''} onClick={()=>go('journal')}>Nhật ký</button><button className={screen==='parent'?'active':''} onClick={()=>go('parent')}>Tiến trình</button></div><div className="profile"><span className="streak">🔥 3 ngày</span><div className="avatar">{player[0]}</div><span>{player}⌄</span></div></nav>{screen==='world'&&<WorldMap completed={completed.length} onRegion={()=>go('region')} onJournal={()=>go('journal')}/>} {screen==='region'&&<RegionMap stage={stage} completed={completed} onBack={()=>go('world')} onStage={i=>{setStage(i);go('story')}}/>}{screen==='story'&&<StoryScene stage={stage} chapter={chapters[stage]} onBack={()=>go('region')} onLearn={()=>go('learn')}/>} {screen==='learn'&&<Learning stage={stage} chapter={chapters[stage]} onBack={()=>go('story')} onFinish={finish}/>} {screen==='mastery'&&<MasteryFeedback stage={stage} onNext={()=>stage<4?(setStage(stage+1),go('region')):go('world')}/>} {screen==='journal'&&<Journal onBack={()=>go('world')}/>} {screen==='parent'&&<ParentDashboard onBack={()=>go('world')} completed={completed.length}/>}</div>}
+import { useEffect, type ReactNode } from 'react';
+import { REGION_BY_ID } from '../data/regions';
+import { STAGE_BY_ID } from '../data/stages';
+import { GameProvider, useGame } from '../components/GameProvider';
+import { CharacterCreation } from '../components/screens/CharacterCreation';
+import { JournalScreen } from '../components/screens/JournalScreen';
+import { ParentScreen } from '../components/screens/ParentScreen';
+import { RegionScreen } from '../components/screens/RegionScreen';
+import { ResultsScreen } from '../components/screens/ResultsScreen';
+import { StageScreen } from '../components/screens/StageScreen';
+import { WelcomeScreen } from '../components/screens/WelcomeScreen';
+import { WorldMapScreen } from '../components/screens/WorldMapScreen';
+import { GameStage } from '../components/ui/GameStage';
+import type { Route } from '../lib/routes';
+import { routeKey } from '../lib/routes';
+import { regionStatus } from '../lib/selectors';
+
+/** Bảo vệ điều hướng: chưa có nhân vật → tạo nhân vật; vùng khoá / chặng không tồn tại → bản đồ. */
+function useGuardedRoute(): Route {
+  const { state, route, hydrated } = useGame();
+  if (!hydrated) return { name: 'welcome' };
+  const open = route.name === 'welcome' || route.name === 'create' || route.name === 'parent';
+  if (!state.profile && !open) return { name: 'create' };
+  if (route.name === 'region') {
+    const r = REGION_BY_ID[route.regionId];
+    if (!r || !regionStatus(state, r).unlocked) return { name: 'world' };
+  }
+  if ((route.name === 'stage' || route.name === 'results') && !STAGE_BY_ID[route.stageId]) return { name: 'world' };
+  return route;
+}
+
+function Screen({ route }: { route: Route }): ReactNode {
+  switch (route.name) {
+    case 'welcome':
+      return <WelcomeScreen />;
+    case 'create':
+      return <CharacterCreation />;
+    case 'world':
+      return <WorldMapScreen />;
+    case 'region':
+      return <RegionScreen regionId={route.regionId} />;
+    case 'stage':
+      return <StageScreen stageId={route.stageId} step={route.step} />;
+    case 'results':
+      return <ResultsScreen stageId={route.stageId} />;
+    case 'journal':
+      return <JournalScreen />;
+    case 'parent':
+      return <ParentScreen />;
+  }
+}
+
+function Game() {
+  const { hydrated, phase } = useGame();
+  const route = useGuardedRoute();
+
+  useEffect(() => {
+    document.documentElement.dataset.ready = hydrated ? 'true' : 'false';
+  }, [hydrated]);
+
+  if (!hydrated) {
+    return (
+      <div className="boot">
+        <span lang="ja">にほんの ぼうけん</span>
+        <b>Đang mở cuốn sách phiêu lưu…</b>
+      </div>
+    );
+  }
+
+  const cls = phase ? `screen-host tr-${phase.kind} tr-${phase.stage}` : 'screen-host';
+  const style = phase?.origin ? ({ '--ox': `${phase.origin.x}px`, '--oy': `${phase.origin.y}px` } as React.CSSProperties) : undefined;
+  return (
+    <div className={cls} style={style}>
+      <div className="screen" key={routeKey(route)}>
+        <Screen route={route} />
+      </div>
+      {phase && <div className={`tr-veil tr-veil-${phase.kind} tr-veil-${phase.stage}`} aria-hidden />}
+    </div>
+  );
+}
+
+export default function Page() {
+  return (
+    <GameProvider>
+      <GameStage>
+        <Game />
+      </GameStage>
+    </GameProvider>
+  );
+}

@@ -1,0 +1,67 @@
+/* ===== Canvas 1920×1080 ===== */
+.stage-viewport { position: fixed; inset: 0; background: #1d1612; overflow: hidden; }
+.stage-viewport[data-ready='false'] { visibility: hidden; }
+.stage-canvas { position: absolute; left: 50%; top: 50%; transform-origin: center center; overflow: hidden; background: var(--paper); user-select: none; }
+.boot { position: absolute; inset: 0; display: flex; flex-direction: column; gap: 14px; align-items: center; justify-content: center; font-size: 30px; color: var(--ink-2); background: var(--paper); }
+.boot span { font-size: 64px; color: var(--vermilion); }
+
+.screen-host { position: absolute; inset: 0; }
+.screen { position: absolute; inset: 0; overflow: hidden; }
+
+/* ===== Chuyển cảnh ===== */
+.screen-host.tr-out { transition: opacity 0.32s ease, transform 0.52s ease, filter 0.56s ease; }
+.screen-host.tr-fade.tr-out { opacity: 0; }
+.screen-host.tr-zoom.tr-out { opacity: 0; transform: scale(1.7); transform-origin: var(--ox, 50%) var(--oy, 50%); transition-duration: 0.52s; transition-timing-function: cubic-bezier(0.5, 0, 0.8, 0.4); }
+.screen-host.tr-wash.tr-out { opacity: 0; filter: blur(14px) saturate(1.3) brightness(1.15); transform: scale(1.03); transition-duration: 0.56s; }
+.screen-host.tr-fade.tr-in .screen { animation: tr-fade-in 0.48s ease both; }
+.screen-host.tr-zoom.tr-in .screen { animation: tr-zoom-in 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.screen-host.tr-wash.tr-in .screen { animation: tr-wash-in 0.7s ease both; }
+@keyframes tr-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes tr-zoom-in { from { opacity: 0; transform: scale(0.82); } to { opacity: 1; transform: scale(1); } }
+@keyframes tr-wash-in { from { opacity: 0; filter: blur(14px) saturate(1.3) brightness(1.15); transform: scale(0.98); } to { opacity: 1; filter: none; transform: none; } }
+.tr-veil { position: absolute; inset: 0; pointer-events: none; z-index: 900; }
+.tr-veil-wash.tr-veil-out { background: radial-gradient(circle at 50% 55%, rgba(255, 244, 214, 0.75), rgba(244, 215, 160, 0.9)); animation: veil-in 0.56s ease both; }
+.tr-veil-wash.tr-veil-in { background: radial-gradient(circle at 50% 55%, rgba(255, 244, 214, 0.75), rgba(244, 215, 160, 0.9)); animation: veil-out 0.7s ease both; }
+.tr-veil-zoom.tr-veil-out { background: rgba(255, 246, 220, 0.9); animation: veil-in 0.52s ease both; }
+.tr-veil-zoom.tr-veil-in { background: rgba(255, 246, 220, 0.9); animation: veil-out 0.7s ease both; }
+.tr-veil-fade.tr-veil-out { background: #251a14; animation: veil-in 0.32s ease both; }
+.tr-veil-fade.tr-veil-in { background: #251a14; animation: veil-out 0.48s ease both; }
+@keyframes veil-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes veil-out { from { opacity: 1; } to { opacity: 0; } }
+
+/* ===== Tranh ===== */
+.art-svg, .art-img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.art-img { object-fit: cover; }
+.art-anim { transform-box: fill-box; transform-origin: 50% 100%; }
+@keyframes cloud-drift { from { transform: translateX(-700px); } to { transform: translateX(2300px); } }
+@keyframes sway { 0%, 100% { transform: rotate(-1.4deg); } 50% { transform: rotate(1.4deg); } }
+@keyframes koi-swim { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(70px, -10px); } }
+@keyframes beam-pulse { 0%, 100% { opacity: 0.35; } 50% { opacity: 0.9; } }
+@keyframes steam-rise { 0% { transform: translateY(0) scale(0.8); opacity: 0.85; } 100% { transform: translateY(-46px) scale(1.5); opacity: 0; } }
+@keyframes firefly { 0%, 100% { opacity: 0.2; transform: translate(0, 0); } 50% { opacity: 1; transform: translate(14px, -18px); } }
+@keyframes firework { 0% { transform: scale(0.1); opacity: 1; } 70% { opacity: 1; } 100% { transform: scale(1.3); opacity: 0; } }
+@keyframes boat-bob { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(6px) rotate(2deg); } }
+
+/* ===== Hạt môi trường ===== */
+.ambient { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 3; }
+.amb { position: absolute; width: calc(18px * var(--size)); height: calc(18px * var(--size)); animation-duration: var(--dur); animation-delay: var(--delay); animation-iteration-count: infinite; animation-timing-function: linear; }
+.ambient-petals .amb { background: radial-gradient(ellipse at 30% 30%, #ffe3ea, #f4a7b8); border-radius: 80% 0 80% 0; animation-name: petal-fall; opacity: 0.9; }
+.ambient-leaves .amb { background: linear-gradient(135deg, #cfe58a, #7fae5a); border-radius: 100% 0 100% 0; animation-name: petal-fall; opacity: 0.85; }
+.ambient-motes .amb { width: calc(9px * var(--size)); height: calc(9px * var(--size)); background: radial-gradient(circle, #fff9d0 0%, rgba(255, 246, 190, 0) 70%); border-radius: 50%; animation-name: mote-float; animation-timing-function: ease-in-out; }
+.ambient-fireflies .amb { width: calc(12px * var(--size)); height: calc(12px * var(--size)); background: radial-gradient(circle, #fffbb5 0%, rgba(255, 240, 120, 0.5) 40%, rgba(255, 240, 120, 0) 70%); border-radius: 50%; animation-name: firefly-float; animation-timing-function: ease-in-out; }
+@keyframes petal-fall { 0% { transform: translate(0, 0) rotate(0deg); opacity: 0; } 8% { opacity: 0.9; } 50% { transform: translate(calc(var(--drift) * 0.5), 560px) rotate(200deg); } 92% { opacity: 0.9; } 100% { transform: translate(var(--drift), 1180px) rotate(420deg); opacity: 0; } }
+@keyframes mote-float { 0%, 100% { transform: translate(0, 0); opacity: 0.2; } 50% { transform: translate(calc(var(--drift) * 0.25), -70px); opacity: 0.95; } }
+@keyframes firefly-float { 0%, 100% { transform: translate(0, 0); opacity: 0.1; } 30% { opacity: 1; } 50% { transform: translate(calc(var(--drift) * 0.3), -50px); opacity: 0.4; } 70% { opacity: 1; } }
+
+/* ===== Nhân vật ===== */
+.sprite { display: block; height: 100%; width: auto; overflow: visible; }
+.sprite-img { object-fit: contain; }
+.sprite-head, .sprite-bust { width: 100%; height: auto; overflow: hidden; }
+.sprite-blink { animation: blink 5s infinite; transform-box: fill-box; transform-origin: center; }
+.sprite-blink-momo { animation: blink 4.2s 1s infinite; transform-box: fill-box; transform-origin: center; }
+@keyframes blink { 0%, 93%, 100% { transform: scaleY(1); } 96% { transform: scaleY(0.08); } }
+.sprite-talk { animation: talk 0.28s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: 50% 20%; }
+.sprite-talk-momo { animation: talk 0.28s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: 50% 20%; }
+@keyframes talk { from { transform: scaleY(0.75); } to { transform: scaleY(1.15); } }
+.momo-tail { animation: tail 3s ease-in-out infinite; transform-box: fill-box; transform-origin: 20% 90%; }
+@keyframes tail { 0%, 100% { transform: rotate(-5deg); } 50% { transform: rotate(7deg); } }
