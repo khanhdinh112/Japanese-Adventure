@@ -30,7 +30,7 @@ function Swatches({ colors, value, onPick, label }: { colors: readonly string[];
 
 /** Tạo nhân vật: tên, cách gọi (ちゃん/くん), da, tóc, áo. Xem trước ngay bên cạnh Momo. */
 export function CharacterCreation() {
-  const { state, go, createProfile } = useGame();
+  const { state, go, createProfile, activeChildId, leaveChild } = useGame();
   const existing = state.profile;
   const [name, setName] = useState(existing?.name ?? '');
   const [hon, setHon] = useState<Honorific>(existing?.honorific ?? 'chan');
@@ -47,7 +47,12 @@ export function CharacterCreation() {
       </div>
       <div className="create-wash" aria-hidden />
       <AmbientLayer kind="petals" seed={5} />
-      <TopBar title="Tạo nhân vật" titleJp="なまえを おしえて" onBack={() => go({ name: 'welcome' }, { kind: 'fade' })} backLabel="Quay lại" compact />
+      <TopBar title="Tạo nhân vật" titleJp="なまえを おしえて" onBack={async () => {
+          if (activeChildId === 'new') {
+            await leaveChild();
+            go({ name: 'profiles' }, { kind: 'fade' });
+          } else go({ name: 'welcome' }, { kind: 'fade' });
+        }} backLabel="Quay lại" compact />
 
       <div className="create-grid">
         <section className="create-preview">

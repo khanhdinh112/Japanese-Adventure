@@ -2,6 +2,8 @@ import type { StepKind } from '../data/types';
 
 export type Route =
   | { name: 'welcome' }
+  | { name: 'auth' }
+  | { name: 'profiles' }
   | { name: 'create' }
   | { name: 'world' }
   | { name: 'region'; regionId: string }

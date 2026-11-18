@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { BADGES } from '../../data/badges';
 import { STAGES } from '../../data/stages';
 import { getWord } from '../../data/words';
@@ -17,7 +17,9 @@ import {
   WORD_LEVEL_LABEL,
   wordsNeedingReview,
 } from '../../lib/selectors';
-import { useGame } from '../GameProvider';
+import { authEnabled } from '../../lib/supabase';
+import { useAuth } from '../AuthProvider';
+import { useGame, type SyncStatus } from '../GameProvider';
 import { LevelBadge } from '../LearningCard';
 import { Modal } from '../ui/Modal';
 import { TopBar } from '../ui/TopBar';
@@ -28,6 +30,13 @@ const SKILLS: { id: SkillKind; label: string }[] = [
   { id: 'listening', label: 'Nghe' },
   { id: 'mastery', label: 'Tự làm độc lập' },
 ];
+
+const SYNC_LABEL: Record<SyncStatus, string> = {
+  idle: 'Tiến trình được lưu vào tài khoản mỗi khi bé học.',
+  saving: '⏳ Đang lưu lên tài khoản…',
+  saved: '✅ Đã lưu lên tài khoản.',
+  error: '⚠️ Chưa lưu được lên tài khoản — game sẽ tự thử lại. Tiến trình vẫn được giữ trên máy này.',
+};
 
 function Gate({ onOpen }: { onOpen: () => void }) {
   const [q] = useState(() => ({ a: 6 + Math.floor(Math.random() * 4), b: 6 + Math.floor(Math.random() * 4) }));
@@ -141,7 +150,10 @@ function WeekChart({ minutes, labels }: { minutes: number[]; labels: string[] })
 
 /** Bảng điều khiển phụ huynh: cổng tính nhẩm, tổng quan, thời gian, kỹ năng, từ cần ôn, cài đặt, xuất/xoá dữ liệu. */
 export function ParentScreen() {
-  const { state, go, setSettings, resetProgress } = useGame();
+  const { state, go, setSettings, resetProgress, mode, childList, childError, activeChildId, syncStatus, refreshChildren, removeChild, leaveChild, logout } = useGame();
+  const auth = useAuth();
+  const [removeId, setRemoveId] = useState<string | null>(null);
+  const [removing, setRemoving] = useState(false);
   const [open, setOpen] = useState(false);
   const [confirm, setConfirm] = useState(false);
   const keys = useMemo(() => weekKeys(0), []);
@@ -152,6 +164,11 @@ export function ParentScreen() {
   const known = Object.keys(state.words).length;
   const done = totalStagesDone(state);
   const weekSeconds = secondsOnDays(state, keys);
+
+  useEffect(() => {
+    if (open && mode === 'account' && childList === null) void refreshChildren();
+  }, [open, mode, childList, refreshChildren]);
+  const toRemove = childList?.find((c) => c.id === removeId) ?? null;
 
   const exportData = () => {
     const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
@@ -259,6 +276,69 @@ export function ParentScreen() {
             </ul>
           </section>
 
+          {mode === 'account' && (
+            <section className="paper pa-acct">
+              <div className="pa-acct-head">
+                <div>
+                  <h3>Tài khoản & hồ sơ bé</h3>
+                  <p className="muted">
+                    Đăng nhập: <b>{auth.user?.email}</b>
+                  </p>
+                  <p className={`pa-sync pa-sync-${syncStatus}`} role="status">
+                    {SYNC_LABEL[syncStatus]}
+                  </p>
+                </div>
+                <div className="pa-btns">
+                  <button
+                    type="button"
+                    className="btn btn-ghost btn-sm"
+                    onClick={async () => {
+                      await leaveChild();
+                      go({ name: 'profiles' }, { kind: 'fade' });
+                    }}
+                  >
+                    👧 Đổi bé
+                  </button>
+                  <button type="button" className="btn btn-ghost btn-sm" onClick={() => void logout()}>
+                    ⎋ Đăng xuất
+                  </button>
+                </div>
+              </div>
+              {childError && <p className="error">{childError}</p>}
+              <ul className="pa-children">
+                {(childList ?? []).map((c) => (
+                  <li key={c.id}>
+                    <span className="pa-child-name">
+                      <b>{c.name || 'Bé chưa đặt tên'}</b>
+                      {c.id === activeChildId && <em>đang chơi</em>}
+                    </span>
+                    <small>
+                      ⭐ {c.stars} · ✨ {c.xp}
+                    </small>
+                    <button type="button" className="btn btn-danger btn-sm" onClick={() => setRemoveId(c.id)}>
+                      🗑 Xoá hồ sơ
+                    </button>
+                  </li>
+                ))}
+                {childList && childList.length === 0 && <li className="muted">Chưa có hồ sơ bé nào.</li>}
+              </ul>
+            </section>
+          )}
+
+          {mode === 'guest' && authEnabled && (
+            <section className="paper pa-acct">
+              <div className="pa-acct-head">
+                <div>
+                  <h3>Lưu tiến trình trên tài khoản</h3>
+                  <p className="muted">Hiện tiến trình chỉ nằm trên máy này. Đăng nhập để lưu an toàn và chơi trên nhiều thiết bị.</p>
+                </div>
+                <button type="button" className="btn btn-primary btn-sm" onClick={() => go({ name: 'auth' }, { kind: 'fade' })}>
+                  🔑 Đăng nhập
+                </button>
+              </div>
+            </section>
+          )}
+
           <section className="paper pa-set">
             <h3>Cài đặt & dữ liệu</h3>
             <div className="pa-toggles">
@@ -275,7 +355,11 @@ export function ParentScreen() {
                 </button>
               ))}
             </div>
-            <p className="muted">Mọi dữ liệu và ảnh của bé chỉ lưu trên trình duyệt của máy này, không gửi đi đâu.</p>
+            <p className="muted">
+              {mode === 'account'
+                ? 'Tiến trình, nhật ký và ảnh của bé được lưu trong tài khoản của bạn, chỉ bạn xem được, và có bản dự phòng trên máy này.'
+                : 'Mọi dữ liệu và ảnh của bé chỉ lưu trên trình duyệt của máy này, không gửi đi đâu.'}
+            </p>
             <div className="pa-btns">
               <button type="button" className="btn btn-ghost" onClick={exportData}>
                 ⬇ Xuất tiến trình (JSON)
@@ -290,7 +374,9 @@ export function ParentScreen() {
 
       {confirm && (
         <Modal title="Xoá toàn bộ tiến trình?" onClose={() => setConfirm(false)} width={620}>
-          <p>Sao, từ vựng, nhật ký và ảnh sẽ bị xoá khỏi máy này. Hành động này không thể hoàn tác.</p>
+          <p>
+            Sao, từ vựng, nhật ký và ảnh sẽ bị xoá khỏi {mode === 'account' ? 'hồ sơ này trong tài khoản' : 'máy này'}. Bé sẽ tạo lại nhân vật từ đầu. Hành động này không thể hoàn tác.
+          </p>
           <div className="modal-actions">
             <button type="button" className="btn btn-ghost" onClick={() => setConfirm(false)}>
               Giữ lại
@@ -302,10 +388,33 @@ export function ParentScreen() {
                 resetProgress();
                 setConfirm(false);
                 setOpen(false);
-                go({ name: 'welcome' }, { kind: 'fade' });
+                go({ name: mode === 'account' ? 'create' : 'welcome' }, { kind: 'fade' });
               }}
             >
               Xoá hết
+            </button>
+          </div>
+        </Modal>
+      )}
+      {toRemove && (
+        <Modal title={`Xoá hồ sơ của ${toRemove.name || 'bé'}?`} onClose={() => setRemoveId(null)} width={620}>
+          <p>Toàn bộ sao, từ vựng, nhật ký và ảnh của hồ sơ này sẽ bị xoá khỏi tài khoản. Hành động này không thể hoàn tác.</p>
+          <div className="modal-actions">
+            <button type="button" className="btn btn-ghost" onClick={() => setRemoveId(null)}>
+              Giữ lại
+            </button>
+            <button
+              type="button"
+              className="btn btn-danger"
+              disabled={removing}
+              onClick={async () => {
+                setRemoving(true);
+                await removeChild(toRemove.id);
+                setRemoving(false);
+                setRemoveId(null);
+              }}
+            >
+              {removing ? 'Đang xoá…' : 'Xoá hồ sơ'}
             </button>
           </div>
         </Modal>

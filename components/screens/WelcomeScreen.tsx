@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { getStage } from '../../data/stages';
 import { nextStage } from '../../lib/selectors';
+import { authEnabled } from '../../lib/supabase';
 import { CharacterSprite } from '../CharacterSprite';
 import { SceneArt } from '../art/SceneArt';
 import { useGame } from '../GameProvider';
@@ -11,7 +12,7 @@ import { SettingsMenu } from '../ui/SettingsMenu';
 
 /** Màn hình chào: ngôi nhà bà Hana lúc bình minh, tên game, Tiếp tục / Bắt đầu. */
 export function WelcomeScreen() {
-  const { state, go, startStage } = useGame();
+  const { state, go, startStage, mode, activeChildId, leaveChild, playAsGuest, guestHasProgress } = useGame();
   const [settings, setSettings] = useState(false);
   const profile = state.profile;
   const upcoming = nextStage(state);
@@ -44,7 +45,31 @@ export function WelcomeScreen() {
         <p className="wt-tag">Học tiếng Nhật bằng một câu chuyện, từng ngôi sao một.</p>
 
         <div className="welcome-actions">
-          {profile ? (
+          {mode === 'none' ? (
+            <>
+              <button type="button" className="btn btn-primary btn-xl" onClick={() => go({ name: 'auth' }, { kind: 'fade' })}>
+                🔑 Đăng nhập / Tạo tài khoản
+              </button>
+              <p className="wa-note">Tài khoản dành cho phụ huynh, lưu tiến trình của từng bé.</p>
+              <button
+                type="button"
+                className="btn btn-ghost"
+                onClick={() => {
+                  playAsGuest();
+                  if (!guestHasProgress) go({ name: 'create' }, { kind: 'wash' });
+                }}
+              >
+                🎒 Chơi thử không cần tài khoản
+              </button>
+            </>
+          ) : mode === 'account' && !activeChildId ? (
+            <>
+              <button type="button" className="btn btn-primary btn-xl" onClick={() => go({ name: 'profiles' }, { kind: 'fade' })}>
+                👧 Chọn bé để chơi
+              </button>
+              <p className="wa-note">Đã đăng nhập · chọn hồ sơ của bé hoặc thêm bé mới.</p>
+            </>
+          ) : profile ? (
             <>
               <button
                 type="button"
@@ -69,6 +94,23 @@ export function WelcomeScreen() {
                 <button type="button" className="btn btn-ghost" onClick={() => go({ name: 'create' }, { kind: 'fade' })}>
                   ✏️ Đổi nhân vật
                 </button>
+                {mode === 'account' && (
+                  <button
+                    type="button"
+                    className="btn btn-ghost"
+                    onClick={async () => {
+                      await leaveChild();
+                      go({ name: 'profiles' }, { kind: 'fade' });
+                    }}
+                  >
+                    👧 Đổi bé
+                  </button>
+                )}
+                {mode === 'guest' && authEnabled && (
+                  <button type="button" className="btn btn-ghost" onClick={() => go({ name: 'auth' }, { kind: 'fade' })}>
+                    🔑 Đăng nhập
+                  </button>
+                )}
               </div>
             </>
           ) : (
@@ -79,11 +121,13 @@ export function WelcomeScreen() {
         </div>
       </header>
 
-      <footer className="welcome-foot">
-        <button type="button" className="btn btn-pill" onClick={() => go({ name: 'parent' }, { kind: 'fade' })}>
-          👪 Dành cho phụ huynh
-        </button>
-      </footer>
+      {mode !== 'none' && (
+        <footer className="welcome-foot">
+          <button type="button" className="btn btn-pill" onClick={() => go({ name: 'parent' }, { kind: 'fade' })}>
+            👪 Dành cho phụ huynh
+          </button>
+        </footer>
+      )}
       <div className="wf-set">
         <button type="button" className="icon-btn" aria-label="Cài đặt" onClick={() => setSettings((v) => !v)}>
           ⚙️

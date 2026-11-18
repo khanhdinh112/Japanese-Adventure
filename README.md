@@ -22,7 +22,7 @@ Kiểm tra kiểu: `npx tsc --noEmit`.
   Làm chú mèo giấy, Bí mật khu vườn cũ. Chặng 6–10 và các vùng 2–8 đang khoá ("sắp ra mắt").
 - Mỗi chặng: truyện + hội thoại, từ vựng, ngữ pháp, nghe, nhiệm vụ ngoài đời, bài tự làm, khám phá văn hoá.
 - Sao: 1 = hoàn thành; 2 = tự làm đúng ≥ 2/3 và dùng ≤ 1 gợi ý; 3 = đúng ≥ 80% và đã lưu nhiệm vụ.
-- Tiến trình lưu trong `localStorage` (khoá `japanese-adventure:v1`); phụ huynh có thể xuất hoặc xoá dữ liệu.
+- **Đăng nhập (tuỳ chọn):** tài khoản phụ huynh qua Supabase, nhiều hồ sơ bé, đồng bộ nhiều thiết bị — xem [docs/AUTH.md](docs/AUTH.md). Chưa cấu hình thì chạy ở chế độ khách, tiến trình lưu trong `localStorage`; phụ huynh có thể xuất hoặc xoá dữ liệu.
 - Nghe dùng Web Speech `ja-JP`. Nếu thiết bị không có giọng Nhật, game hiện chữ thay thế và tính bài đó là từ vựng.
 
 ## Cấu trúc
@@ -45,3 +45,4 @@ Xem [docs/ASSETS.md](docs/ASSETS.md) (kích thước, toạ độ, cách khai b�
 ## Deploy Vercel
 
 Import repository trên Vercel, chọn **Next.js**, giữ lệnh build mặc định `npm run build`.
+Muốn bật đăng nhập: thêm các biến trong `.env.example` vào *Settings → Environment Variables* rồi Redeploy (chi tiết ở docs/AUTH.md).
