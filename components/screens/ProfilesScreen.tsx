@@ -6,6 +6,7 @@ import { CharacterSprite } from '../CharacterSprite';
 import { SceneArt } from '../art/SceneArt';
 import { useGame } from '../GameProvider';
 import { TopBar } from '../ui/TopBar';
+import { useIsAdmin } from '../useIsAdmin';
 
 const MAX_CHILDREN = 6;
 
@@ -14,6 +15,7 @@ export function ProfilesScreen() {
   const auth = useAuth();
   const { go, childList, childError, loadingChild, selectChild, startNewChild, refreshChildren, guestHasProgress, importGuestProgress, logout } = useGame();
   const [importing, setImporting] = useState(false);
+  const isAdmin = useIsAdmin();
 
   useEffect(() => {
     if (childList === null) void refreshChildren();
@@ -108,6 +110,11 @@ export function ProfilesScreen() {
         )}
 
         <div className="pf-foot">
+          {isAdmin && (
+            <button type="button" className="btn btn-pill btn-sm" onClick={() => go({ name: 'admin' }, { kind: 'fade' })}>
+              🛡️ Quản trị tài khoản
+            </button>
+          )}{' '}
           <button type="button" className="btn btn-pill btn-sm" onClick={() => void logout()}>
             ⎋ Đăng xuất
           </button>

@@ -1,3 +1,4 @@
+import { duckMusic } from './music';
 import { toSpeakable } from './text';
 
 /**
@@ -40,6 +41,15 @@ export function onVoicesChanged(cb: Listener): () => void {
   if (s && !voicesReady) {
     voicesReady = true;
     s.addEventListener?.('voiceschanged', () => listeners.forEach((l) => l()));
+    // Safari/một số máy không bắn sự kiện voiceschanged: hỏi lại vài lần trong 4 giây đầu
+    let tries = 0;
+    const poll = window.setInterval(() => {
+      tries++;
+      if (s.getVoices().length > 0 || tries > 16) {
+        window.clearInterval(poll);
+        listeners.forEach((l) => l());
+      }
+    }, 250);
   }
   return () => {
     listeners.delete(cb);
@@ -47,22 +57,51 @@ export function onVoicesChanged(cb: Listener): () => void {
 }
 
 export function stopSpeaking(): void {
+  pendingTimer && clearTimeout(pendingTimer);
+  pendingTimer = null;
   synth()?.cancel();
+  duckMusic(false);
 }
 
+let pendingTimer: ReturnType<typeof setTimeout> | null = null;
+
+/**
+ * Đọc to một câu tiếng Nhật. Chú ý: gọi cancel() rồi speak() ngay lập tức khiến một số trình duyệt
+ * (đặc biệt Chrome) bỏ luôn câu mới, nên nếu đang đọc dở thì cancel rồi đợi một nhịp ngắn mới phát.
+ */
 export function speak(text: string, opts: { rate?: number; onEnd?: () => void; onStart?: () => void } = {}): boolean {
   const s = synth();
   if (!s) return false;
-  s.cancel();
-  const utter = new SpeechSynthesisUtterance(toSpeakable(text));
-  utter.lang = 'ja-JP';
-  const voice = japaneseVoice();
-  if (voice) utter.voice = voice;
-  utter.rate = opts.rate ?? 0.85;
-  utter.pitch = 1.05;
-  utter.onstart = () => opts.onStart?.();
-  utter.onend = () => opts.onEnd?.();
-  utter.onerror = () => opts.onEnd?.();
-  s.speak(utter);
+  if (pendingTimer) clearTimeout(pendingTimer);
+  const busy = s.speaking || s.pending;
+  if (busy) s.cancel();
+  const run = () => {
+    pendingTimer = null;
+    const utter = new SpeechSynthesisUtterance(toSpeakable(text));
+    utter.lang = 'ja-JP';
+    const voice = japaneseVoice();
+    if (voice) utter.voice = voice;
+    utter.rate = opts.rate ?? 0.85;
+    utter.pitch = 1.05;
+    utter.volume = 1;
+    let ended = false;
+    const finish = () => {
+      if (ended) return;
+      ended = true;
+      duckMusic(false);
+      opts.onEnd?.();
+    };
+    utter.onstart = () => {
+      duckMusic(true);
+      opts.onStart?.();
+    };
+    utter.onend = finish;
+    utter.onerror = finish;
+    s.speak(utter);
+    // Chrome đôi khi ở trạng thái "paused" sau khi hủy; đánh thức lại
+    if (s.paused) s.resume();
+  };
+  if (busy) pendingTimer = setTimeout(run, 90);
+  else run();
   return true;
 }

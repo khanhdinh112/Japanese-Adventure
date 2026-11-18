@@ -23,6 +23,7 @@ import { useGame, type SyncStatus } from '../GameProvider';
 import { LevelBadge } from '../LearningCard';
 import { Modal } from '../ui/Modal';
 import { TopBar } from '../ui/TopBar';
+import { useIsAdmin } from '../useIsAdmin';
 
 const SKILLS: { id: SkillKind; label: string }[] = [
   { id: 'vocab', label: 'Từ vựng' },
@@ -152,6 +153,7 @@ function WeekChart({ minutes, labels }: { minutes: number[]; labels: string[] })
 export function ParentScreen() {
   const { state, go, setSettings, resetProgress, mode, childList, childError, activeChildId, syncStatus, refreshChildren, removeChild, leaveChild, logout } = useGame();
   const auth = useAuth();
+  const isAdmin = useIsAdmin();
   const [removeId, setRemoveId] = useState<string | null>(null);
   const [removing, setRemoving] = useState(false);
   const [open, setOpen] = useState(false);
@@ -299,6 +301,11 @@ export function ParentScreen() {
                   >
                     👧 Đổi bé
                   </button>
+                  {isAdmin && (
+                    <button type="button" className="btn btn-ghost btn-sm" onClick={() => go({ name: 'admin' }, { kind: 'fade' })}>
+                      🛡️ Quản trị
+                    </button>
+                  )}
                   <button type="button" className="btn btn-ghost btn-sm" onClick={() => void logout()}>
                     ⎋ Đăng xuất
                   </button>

@@ -8,6 +8,8 @@ import { GameProvider, useGame } from '../components/GameProvider';
 import { AuthScreen } from '../components/screens/AuthScreen';
 import { ProfilesScreen } from '../components/screens/ProfilesScreen';
 import { CharacterCreation } from '../components/screens/CharacterCreation';
+import { AdminScreen } from '../components/screens/AdminScreen';
+import { LettersScreen } from '../components/screens/LettersScreen';
 import { JournalScreen } from '../components/screens/JournalScreen';
 import { ParentScreen } from '../components/screens/ParentScreen';
 import { RegionScreen } from '../components/screens/RegionScreen';
@@ -16,6 +18,8 @@ import { StageScreen } from '../components/screens/StageScreen';
 import { WelcomeScreen } from '../components/screens/WelcomeScreen';
 import { WorldMapScreen } from '../components/screens/WorldMapScreen';
 import { GameStage } from '../components/ui/GameStage';
+import { QuickTour } from '../components/ui/QuickTour';
+import { setMusicEnabled, setMusicMood, unlockMusic, type MusicMood } from '../lib/music';
 import type { Route } from '../lib/routes';
 import { routeKey } from '../lib/routes';
 import { regionStatus } from '../lib/selectors';
@@ -37,12 +41,12 @@ function useGuardedRoute(): Route {
   if (mode === 'account') {
     if (auth.recovering) return { name: 'auth' };
     if (route.name === 'auth') return { name: 'profiles' };
-    if (!activeChildId) return route.name === 'welcome' || route.name === 'profiles' ? route : { name: 'profiles' };
-  } else if (route.name === 'profiles') {
+    if (!activeChildId) return route.name === 'welcome' || route.name === 'profiles' || route.name === 'admin' ? route : { name: 'profiles' };
+  } else if (route.name === 'profiles' || route.name === 'admin') {
     return { name: 'welcome' };
   }
 
-  const open = route.name === 'welcome' || route.name === 'create' || route.name === 'parent' || route.name === 'profiles' || route.name === 'auth';
+  const open = route.name === 'welcome' || route.name === 'create' || route.name === 'parent' || route.name === 'profiles' || route.name === 'auth' || route.name === 'admin';
   if (!state.profile && !open) return { name: 'create' };
   if (route.name === 'region') {
     const r = REGION_BY_ID[route.regionId];
@@ -74,12 +78,56 @@ function Screen({ route }: { route: Route }): ReactNode {
       return <JournalScreen />;
     case 'parent':
       return <ParentScreen />;
+    case 'letters':
+      return <LettersScreen />;
+    case 'admin':
+      return <AdminScreen />;
   }
 }
 
+function moodFor(route: Route): MusicMood {
+  switch (route.name) {
+    case 'stage':
+    case 'journal':
+    case 'parent':
+    case 'results':
+    case 'letters':
+    case 'admin':
+      return 'calm';
+    case 'world':
+    case 'region':
+      return 'adventure';
+    default:
+      return 'home';
+  }
+}
+
+/** Nhạc nền: theo cài đặt và theo màn hình; chỉ thực sự phát sau lần chạm đầu tiên (luật của trình duyệt). */
+function useBackgroundMusic(route: Route, enabled: boolean) {
+  const mood = moodFor(route);
+  useEffect(() => {
+    setMusicMood(mood);
+  }, [mood]);
+  useEffect(() => {
+    setMusicEnabled(enabled);
+    if (!enabled) return;
+    const unlock = () => unlockMusic();
+    const vis = () => setMusicEnabled(enabled && document.visibilityState === 'visible');
+    window.addEventListener('pointerdown', unlock);
+    window.addEventListener('keydown', unlock);
+    document.addEventListener('visibilitychange', vis);
+    return () => {
+      window.removeEventListener('pointerdown', unlock);
+      window.removeEventListener('keydown', unlock);
+      document.removeEventListener('visibilitychange', vis);
+    };
+  }, [enabled]);
+}
+
 function Game() {
-  const { hydrated, phase, loadingChild } = useGame();
+  const { hydrated, phase, loadingChild, state } = useGame();
   const route = useGuardedRoute();
+  useBackgroundMusic(route, hydrated && state.settings.music);
 
   useEffect(() => {
     document.documentElement.dataset.ready = hydrated ? 'true' : 'false';
@@ -101,6 +149,7 @@ function Game() {
       <div className="screen" key={routeKey(route)}>
         <Screen route={route} />
       </div>
+      {route.name === 'world' && state.profile && !state.tourSeen && !phase && <QuickTour />}
       {phase && <div className={`tr-veil tr-veil-${phase.kind} tr-veil-${phase.stage}`} aria-hidden />}
     </div>
   );

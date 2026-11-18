@@ -77,3 +77,40 @@ export async function deleteChild(id: string): Promise<void> {
   const { error } = await getSupabase().from('children').delete().eq('id', id);
   if (error) throw error;
 }
+
+/* ===== Quản trị: chỉ chạy được khi tài khoản có trong bảng `admins` (kiểm tra ở phía Supabase) ===== */
+
+export interface AdminAccount {
+  id: string;
+  email: string;
+  createdAt: string;
+  lastSignInAt: string | null;
+  children: number;
+  isAdmin: boolean;
+}
+
+export async function checkIsAdmin(): Promise<boolean> {
+  const { data, error } = await getSupabase().rpc('is_admin');
+  if (error) return false;
+  return data === true;
+}
+
+export async function adminListAccounts(): Promise<AdminAccount[]> {
+  const { data, error } = await getSupabase().rpc('admin_list_accounts');
+  if (error) throw error;
+  return (
+    data as { id: string; email: string | null; created_at: string; last_sign_in_at: string | null; children_count: number | string; is_admin: boolean }[]
+  ).map((r) => ({
+    id: r.id,
+    email: r.email ?? '(không có email)',
+    createdAt: r.created_at,
+    lastSignInAt: r.last_sign_in_at,
+    children: Number(r.children_count),
+    isAdmin: r.is_admin,
+  }));
+}
+
+export async function adminDeleteAccount(id: string): Promise<void> {
+  const { error } = await getSupabase().rpc('admin_delete_account', { target: id });
+  if (error) throw error;
+}

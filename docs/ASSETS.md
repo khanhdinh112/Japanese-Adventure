@@ -38,7 +38,7 @@ Tất cả tranh nền: **1920×1080**, WebP hoặc PNG, nền đặc (không tr
 | `scene:living` | `scene-living.webp` | **Trò tìm đồ** — vật phẩm phải nằm trong các hộp `LIVING_SPOTS`. |
 | `scene:engawa` | `scene-engawa.webp` | Hiên nhìn ra vườn. |
 | `scene:garden` | `scene-garden.webp` | **Trò tìm đồ** — vật phẩm phải nằm trong các hộp `GARDEN_SPOTS`. |
-| `map:world` | `map-world.webp` | Bản đồ thế giới 8 vùng (xem toạ độ bên dưới). |
+| `map:world` | `map-world.webp` | Bản đồ thế giới 8 vùng, **dạng dọc 1920 × `WORLD_H`** (xem bên dưới). Saga ở đáy, Núi Phú Sĩ ở đỉnh. |
 | `region:<theme>` | `region-<theme>.webp` | 8 theme: `countryside`, `lightForest`, `catTown`, `school`, `railway`, `market`, `festival`, `fuji`. Đường uốn qua 10 điểm `STAGE_POSITIONS`. |
 | `character:<id>:<emotion>` | `character-<id>-<emotion>.png` | **800×1520**, PNG/WebP có alpha. Chân chạm đáy ảnh, đầu cách mép trên ~8%. |
 | (icon từ) | `words/<id>.png` | 512×512, PNG trong suốt. Hiện dùng emoji ở `data/words.ts` (trường `icon`). |
@@ -52,18 +52,10 @@ Tất cả tranh nền: **1920×1080**, WebP hoặc PNG, nền đặc (không tr
 **Vật phẩm trò tìm đồ** — `data/spots.ts` (`x`,`y` là góc trái-trên, `w`,`h` là kích thước hộp bấm).
 Đặt đồ vật trong tranh đúng vào các hộp này, hoặc chỉnh số trong file để khớp tranh mới.
 
-**Marker 8 vùng trên bản đồ thế giới** — `data/regions.ts`, tâm vùng ~380×260 px:
-
-| Vùng | x | y |
-|---|---|---|
-| saga | 290 | 800 |
-| hikari | 740 | 830 |
-| neko | 1190 | 790 |
-| gakkou | 1630 | 820 |
-| tetsudou | 1600 | 440 |
-| ichiba | 1170 | 400 |
-| matsuri | 700 | 430 |
-| fuji | 290 | 410 |
+**Bản đồ thế giới (dọc, kiểu Candy Crush)** — `components/art/worldPath.tsx`: rộng 1920, cao `WORLD_H` (= đệm trên + `BAND` × 7 + đệm dưới, hiện khoảng 5 000 px).
+Vùng thứ i (0 = Saga) có tâm ở `regionPos(i)`: x lần lượt trái/phải/giữa theo `ZIG`, y cách nhau `BAND` = 560 px, Saga ở dưới cùng.
+Nếu thay bằng tranh thật cho `map:world`, hãy xuất ảnh đúng 1920 × `WORLD_H` và vẽ đường đi qua các tâm đó
+(hoặc sửa `ZIG`/`BAND` cho khớp tranh). Màn hình cuộn dọc, tự cuộn tới vùng bé đang đứng.
 
 **10 điểm dừng trên bản đồ vùng** — `STAGE_POSITIONS` trong `components/art/maps.tsx`:
 (200,880) (470,820) (760,880) (1040,810) (1250,690) (1010,590) (730,560) (440,500) (700,385) (1010,330).
@@ -73,3 +65,10 @@ Vẽ con đường đi qua các điểm này, hoặc sửa mảng để khớp t
 
 Màu nước, nét bút mềm, ánh sáng tự nhiên, làng quê Nhật ấm cúng, phép màu nhẹ nhàng. Chỉ dùng tranh gốc của bạn;
 không dùng nhân vật hay phong cách của phim/trò chơi có bản quyền.
+
+## Nhạc nền (tuỳ chọn)
+
+Mặc định nhạc không lời được tạo bằng Web Audio, không cần file. Muốn dùng bản thu của riêng bạn, đặt các file
+(mp3, vòng lặp mượt, ~60–120 giây) vào `public/audio/`: `bgm-home.mp3` (chào mừng, tạo nhân vật, hồ sơ),
+`bgm-adventure.mp3` (bản đồ, vùng), `bgm-calm.mp3` (chặng học, nhật ký, phụ huynh, góc luyện chữ). File nào có thì dùng, thiếu thì rơi về nhạc tạo sẵn.
+Chỉ dùng nhạc bạn có bản quyền.

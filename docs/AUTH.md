@@ -43,14 +43,35 @@ Khoá `anon` được phép công khai trong mã trình duyệt; an toàn nhờ 
 - Mở lại bé: nếu bản tạm trên máy có thay đổi chưa đẩy và bản cloud chưa đổi kể từ đó, dùng bản tạm; còn lại dùng bản cloud.
 - Hai thiết bị chơi cùng một bé cùng lúc: bản lưu sau cùng thắng (chưa có trộn xung đột).
 
+## Quyền admin (xoá tài khoản)
+
+Admin xem được danh sách tài khoản phụ huynh và xoá tài khoản (kéo theo toàn bộ hồ sơ bé). Thiết kế không dùng khoá `service_role`:
+
+- Bảng `public.admins` (không có policy nào, trình duyệt không đọc/ghi trực tiếp) chứa các `user_id` được làm admin.
+- Ba hàm SQL `is_admin()`, `admin_list_accounts()`, `admin_delete_account(uuid)` chạy `security definer`, **tự kiểm tra `is_admin()`** trước khi làm; chỉ role `authenticated` được gọi. Người không phải admin gọi sẽ nhận lỗi 42501.
+- Không thể tự xoá chính mình, và không xoá được tài khoản đang là admin (phải gỡ quyền admin trước).
+
+Cấp quyền: chạy lại `supabase/schema.sql` (để có bảng và hàm), rồi trong SQL Editor:
+
+```sql
+insert into public.admins (user_id)
+select id from auth.users where email = 'email-cua-ban@example.com';
+```
+
+Gỡ quyền: `delete from public.admins where user_id = (select id from auth.users where email = '...');`
+
+Sau khi đăng nhập bằng tài khoản admin sẽ thấy nút **🛡️ Quản trị tài khoản** ở màn "Ai đang chơi?" (và nút **🛡️ Quản trị** trong màn phụ huynh). Xoá cần gõ lại đúng email để xác nhận.
+Lưu ý: phiên đăng nhập đang mở của tài khoản bị xoá có thể còn dùng được đến khi token hết hạn (tối đa khoảng 1 giờ); dữ liệu của nó thì đã mất.
+
 ## Mã nguồn
 
 | File | Vai trò |
 |---|---|
 | `lib/supabase.ts` | Tạo client, cờ `authEnabled`, Việt hoá lỗi |
-| `lib/cloud.ts` | Truy vấn bảng `children` |
+| `lib/cloud.ts` | Truy vấn bảng `children`, các hàm rpc của admin |
 | `lib/storage.ts` | localStorage: chế độ khách, bản lưu tạm từng bé |
 | `components/AuthProvider.tsx` | Phiên đăng nhập, đăng ký/đăng nhập/quên mật khẩu |
 | `components/GameProvider.tsx` | Chế độ chơi (`guest`/`account`/`none`), chọn bé, đồng bộ |
-| `components/screens/AuthScreen.tsx`, `ProfilesScreen.tsx` | Giao diện |
+| `components/screens/AuthScreen.tsx`, `ProfilesScreen.tsx`, `AdminScreen.tsx` | Giao diện (AdminScreen: quản trị tài khoản) |
+| `components/useIsAdmin.ts` | Hỏi Supabase xem người đang đăng nhập có phải admin không |
 | `app/page.tsx` | Bảo vệ điều hướng theo trạng thái đăng nhập |

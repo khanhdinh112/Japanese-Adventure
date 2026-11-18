@@ -1,9 +1,12 @@
 'use client';
 
 import { useState, type ReactNode } from 'react';
-import { streak, totalStars } from '../../lib/selectors';
+import { levelInfo } from '../../lib/levels';
+import { starBalance, streak } from '../../lib/selectors';
 import { useGame } from '../GameProvider';
+import { RewardsModal, type RewardsTab } from './RewardsModal';
 import { SettingsMenu } from './SettingsMenu';
+import { WardrobeModal } from './WardrobeModal';
 
 interface Props {
   title?: string;
@@ -20,7 +23,10 @@ interface Props {
 export function TopBar({ title, titleJp, onBack, backLabel = 'Quay lại', center, compact = false, tone = 'light' }: Props) {
   const { state, go, route } = useGame();
   const [open, setOpen] = useState(false);
-  const stars = totalStars(state);
+  const [rewards, setRewards] = useState<RewardsTab | null>(null);
+  const [wardrobe, setWardrobe] = useState(false);
+  const stars = starBalance(state);
+  const level = levelInfo(state.xp).level;
   const days = streak(state);
   return (
     <header className={`topbar topbar-${tone}`}>
@@ -39,19 +45,24 @@ export function TopBar({ title, titleJp, onBack, backLabel = 'Quay lại', cente
       </div>
       <div className="topbar-center">{center}</div>
       <div className="topbar-right">
-        <span className="chip" title="Tổng số sao">
+        <button type="button" className="chip chip-btn" title="Sao có thể tiêu. Bấm để xem cách kiếm và dùng sao" onClick={() => setRewards('stars')}>
           ⭐ {stars}
-        </span>
-        <span className="chip" title="Điểm kinh nghiệm">
-          ✨ {state.xp}
-        </span>
+        </button>
+        <button type="button" className="chip chip-btn" title="Điểm kinh nghiệm và cấp độ. Bấm để xem chi tiết" onClick={() => setRewards('xp')}>
+          ✨ {state.xp} · Cấp {level}
+        </button>
         {days > 0 && (
-          <span className="chip" title="Số ngày học liên tiếp">
+          <button type="button" className="chip chip-btn" title="Số ngày học liên tiếp" onClick={() => setRewards('streak')}>
             🔥 {days}
-          </span>
+          </button>
         )}
         {!compact && (
           <>
+            {state.profile && (
+              <button type="button" className="icon-btn" aria-label="Tủ đồ" title="Tủ đồ" onClick={() => setWardrobe(true)}>
+                👕
+              </button>
+            )}
             <button
               type="button"
               className="icon-btn"
@@ -78,6 +89,21 @@ export function TopBar({ title, titleJp, onBack, backLabel = 'Quay lại', cente
           ⚙️
         </button>
         {open && <SettingsMenu onClose={() => setOpen(false)} />}
+        {rewards && (
+          <RewardsModal
+            focus={rewards}
+            onClose={() => setRewards(null)}
+            onOpenWardrobe={
+              state.profile
+                ? () => {
+                    setRewards(null);
+                    setWardrobe(true);
+                  }
+                : undefined
+            }
+          />
+        )}
+        {wardrobe && <WardrobeModal onClose={() => setWardrobe(false)} />}
       </div>
     </header>
   );

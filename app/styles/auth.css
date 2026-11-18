@@ -58,3 +58,23 @@
 .pa-child-name em { font-style: normal; font-size: 14px; font-weight: 900; background: var(--gold); border-radius: 999px; padding: 2px 10px; white-space: nowrap; }
 .pa-children small { font-size: 17px; font-weight: 800; color: var(--ink-2); }
 .pa-children li .btn { grid-column: 2; grid-row: 1 / span 2; }
+
+/* ===== Quản trị tài khoản ===== */
+.admin { position: absolute; inset: 0; }
+.admin .journal-bg, .admin .journal-wash { position: absolute; inset: 0; }
+.admin .topbar { position: relative; z-index: 3; }
+.admin-body { position: absolute; left: 120px; right: 120px; top: 140px; bottom: 50px; z-index: 2; display: flex; }
+.ad-card { flex: 1; padding: 26px 32px; display: flex; flex-direction: column; gap: 14px; overflow: hidden; }
+.ad-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; }
+.ad-head h3 { font-size: 34px; }
+.ad-search, .ad-confirm { font: inherit; font-size: 22px; font-weight: 700; border: 3px solid var(--ink); border-radius: 14px; padding: 10px 16px; background: #fffdf6; min-width: 380px; }
+.ad-confirm { width: 100%; margin: 8px 0 18px; }
+.ad-list { list-style: none; margin: 0; padding: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+.ad-list li { display: grid; grid-template-columns: 1fr auto; column-gap: 20px; align-items: center; border: 3px solid var(--ink); border-radius: 16px; padding: 10px 18px; background: #fffaf0; }
+.ad-who { display: flex; align-items: center; gap: 10px; font-size: 24px; }
+.ad-who em { font-style: normal; font-size: 16px; font-weight: 900; background: #ffe39a; border: 2px solid var(--ink); border-radius: 999px; padding: 1px 12px; }
+.ad-who em.adm { background: #f7b9a8; }
+.ad-list small { grid-column: 1; font-size: 17px; font-weight: 700; color: var(--ink-2); }
+.ad-list li .btn { grid-column: 2; grid-row: 1 / span 2; }
+.ad-empty { display: block !important; text-align: center; font-size: 20px; }
+.ad-notice { color: #2e7d4f; font-size: 20px; font-weight: 800; }

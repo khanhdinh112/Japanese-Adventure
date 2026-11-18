@@ -3,6 +3,9 @@ import { REGIONS, previousRegion } from '../data/regions';
 import { STAGES, getStage } from '../data/stages';
 import type { Region, StageStub } from '../data/types';
 import { STEP_ORDER, type StepKind } from '../data/types';
+import { SCRIPTS, type ScriptId } from '../data/scripts';
+import { ALL_ITEM_COST } from '../data/wardrobe';
+import { levelInfo } from './levels';
 import { addDays, dateKey, parseKey } from './dates';
 import { emptyProgress, type GameState, type StageProgress, type WordLevel } from './gameState';
 
@@ -83,6 +86,35 @@ export function totalStagesDone(state: GameState): number {
 
 export function totalStars(state: GameState): number {
   return REGIONS.reduce((sum, r) => sum + starsIn(state, r), 0);
+}
+
+/** Số chữ đã thuộc (mức 2 trở lên) của một bảng chữ. */
+export function scriptMastered(state: GameState, id: ScriptId): number {
+  return SCRIPTS[id].glyphs.filter((g) => (state.scripts[g.id]?.level ?? 0) >= 2).length;
+}
+
+/** Sao thưởng từ luyện chữ: mỗi 10 chữ đã thuộc trong một bảng chữ được 1 sao. */
+export function scriptStars(state: GameState): number {
+  return (Object.keys(SCRIPTS) as ScriptId[]).reduce((sum, id) => sum + Math.floor(scriptMastered(state, id) / 10), 0);
+}
+
+/** Tổng sao kiếm được = sao ở các chặng + sao thưởng luyện chữ. */
+export function earnedStars(state: GameState): number {
+  return totalStars(state) + scriptStars(state);
+}
+
+/** Số sao đã tiêu để mở khoá đồ trong tủ đồ. */
+export function starsSpent(state: GameState): number {
+  return state.owned.reduce((sum, id) => sum + (ALL_ITEM_COST[id] ?? 0), 0);
+}
+
+/** Sao còn lại có thể tiêu = sao kiếm được − sao đã tiêu. */
+export function starBalance(state: GameState): number {
+  return Math.max(0, earnedStars(state) - starsSpent(state));
+}
+
+export function levelOfState(state: GameState): number {
+  return levelInfo(state.xp).level;
 }
 
 /* ------------------------------------------------------------------ */

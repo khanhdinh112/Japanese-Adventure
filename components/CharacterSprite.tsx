@@ -3,6 +3,8 @@ import { finalArt } from '../data/art';
 import { HAIR_COLORS, OUTFIT_COLORS, SKIN_TONES } from '../data/characters';
 import type { CharacterId, Emotion } from '../data/types';
 import { DEFAULT_LOOK, type PlayerLook } from '../lib/gameState';
+import { FACE_ITEMS, type FaceItem } from '../data/wardrobe';
+import { EXTRAS, OUTFITS, hairBack, hairFront, hatPart, type PartCtx } from './art/playerParts';
 
 /**
  * Nhân vật vẽ bằng SVG (placeholder gốc). Thay bằng tranh thật theo docs/ASSETS.md:
@@ -159,13 +161,13 @@ function Mouth({ kind, y = 362 }: { kind: MouthKind; y?: number }) {
   }
 }
 
-function Brow({ cx, rot, dy, color }: { cx: number; rot: number; dy: number; color: string }) {
+function Brow({ cx, rot, dy, color, w = 8 }: { cx: number; rot: number; dy: number; color: string; w?: number }) {
   return (
     <path
       d="M -28 4 Q 0 -8 28 4"
       transform={`translate(${cx} ${240 + dy}) rotate(${rot})`}
       stroke={color}
-      strokeWidth="8"
+      strokeWidth={w}
       strokeLinecap="round"
       fill="none"
     />
@@ -181,6 +183,7 @@ function Face({
   speaking,
   eyeScale = 1,
   half = false,
+  browW = 8,
   uid,
   noseTint,
 }: {
@@ -191,6 +194,7 @@ function Face({
   speaking?: boolean;
   eyeScale?: number;
   half?: boolean;
+  browW?: number;
   uid: string;
   noseTint: string;
 }) {
@@ -204,8 +208,8 @@ function Face({
         <Eye cx={146} cy={292} kind={eye} iris={iris} outer={-1} scale={eyeScale} clipId={`${uid}-el`} />
         <Eye cx={254} cy={292} kind={eye} iris={iris} outer={1} scale={eyeScale} clipId={`${uid}-er`} />
       </g>
-      <Brow cx={146} rot={f.browL[0]} dy={f.browL[1]} color={browColor} />
-      <Brow cx={254} rot={f.browR[0]} dy={f.browR[1]} color={browColor} />
+      <Brow cx={146} rot={f.browL[0]} dy={f.browL[1]} color={browColor} w={browW} />
+      <Brow cx={254} rot={f.browR[0]} dy={f.browR[1]} color={browColor} w={browW} />
       <path d="M 196 334 q 4 5 8 0" stroke={noseTint} strokeWidth="4" strokeLinecap="round" fill="none" />
       <g className={speaking ? 'sprite-talk' : undefined}>
         <Mouth kind={f.mouth} />
@@ -242,6 +246,16 @@ const HEAD_PATH =
 /* Bé (người chơi)                                                      */
 /* ------------------------------------------------------------------ */
 
+const HEAD_OVAL =
+  'M 200 138 C 280 138 330 204 326 284 C 322 356 276 408 200 410 C 124 408 78 356 74 284 C 70 204 120 138 200 138 Z';
+
+/** Đường tay áo ngắn (chỉ phần gần vai) theo từng tư thế. */
+const SHORT_SLEEVE = {
+  down: ['M 124 448 Q 98 468 92 490', 'M 276 448 Q 302 468 308 490'],
+  up: ['M 124 448 Q 90 446 72 430', 'M 276 448 Q 310 446 328 430'],
+  think: ['M 124 448 Q 98 468 92 490', 'M 276 448 Q 306 446 304 424'],
+};
+
 function Player({
   emotion,
   look,
@@ -257,108 +271,105 @@ function Player({
   const skinShade = shade(skin, 0.14);
   const hair = HAIR_COLORS[look.hairColor] ?? HAIR_COLORS[0];
   const hairHi = shade(hair, -0.35);
-  const outfit = OUTFIT_COLORS[look.outfit] ?? OUTFIT_COLORS[1];
-  const outfitDark = shade(outfit, 0.22);
-  const iris = look.hairColor === 4 ? '#6b4f9a' : '#5a3a2a';
-  const f = FACES[emotion];
+  const outfitC = OUTFIT_COLORS[look.outfitColor] ?? OUTFIT_COLORS[1];
+  const ctx: PartCtx = { skin, skinShade, hair, hairHi, c: outfitC, d: shade(outfitC, 0.22), l: shade(outfitC, -0.4) };
+  const iris = look.hairColor === 4 ? '#6b4a9a' : '#5a3a2a';
   const armUp = emotion === 'surprised' || emotion === 'happy' || emotion === 'laugh';
   const think = emotion === 'thinking';
+  const pose: 'down' | 'up' | 'think' = think ? 'think' : armUp ? 'up' : 'down';
 
-  const backHair: ReactNode = (() => {
-    switch (look.hairStyle) {
-      case 'bob':
-        return <path d="M 46 302 C 36 160 108 94 200 94 C 292 94 364 160 354 302 C 356 366 342 418 316 430 L 84 430 C 58 418 44 366 46 302 Z" fill={hair} stroke={OUT} strokeWidth="4" strokeLinejoin="round" />;
-      case 'twin':
-        return (
-          <g>
-            <circle cx="92" cy="130" r="50" fill={hair} stroke={OUT} strokeWidth="4" />
-            <circle cx="308" cy="130" r="50" fill={hair} stroke={OUT} strokeWidth="4" />
-            <circle cx="92" cy="130" r="14" fill={outfit} />
-            <circle cx="308" cy="130" r="14" fill={outfit} />
-          </g>
-        );
-      case 'ponytail':
-        return (
-          <g>
-            <path d="M 318 170 C 410 150 436 270 392 350 C 372 392 350 410 336 424 C 358 360 352 300 316 236 Z" fill={hair} stroke={OUT} strokeWidth="4" strokeLinejoin="round" />
-            <circle cx="320" cy="176" r="16" fill={outfit} stroke={OUT} strokeWidth="3" />
-          </g>
-        );
-      default:
-        return null;
-    }
-  })();
+  const face: FaceItem = FACE_ITEMS[look.gender].find((x) => x.id === look.face) ?? FACE_ITEMS[look.gender][0];
+  const outfit = OUTFITS[look.outfit] ?? OUTFITS[look.gender === 'boy' ? 'b-tee' : 'g-dress'];
+  const extra = EXTRAS[look.extra];
+  const sleeveFill = outfit.sleeveColor ? outfit.sleeveColor(ctx) : ctx.c;
+  const oval = face.shape === 'oval';
+  const earL = oval ? 74 : 62;
+  const earR = oval ? 326 : 338;
 
-  const frontHair: ReactNode = (() => {
-    const fringeBob =
-      'M 58 300 C 40 190 100 94 200 94 C 300 94 360 190 342 300 C 334 262 320 232 298 214 C 262 240 138 240 102 214 C 80 232 66 262 58 300 Z';
-    const fringeShort =
-      'M 54 300 C 36 190 96 92 200 92 C 304 92 364 190 346 300 C 336 262 322 232 304 212 L 288 252 L 262 204 L 236 264 L 208 206 L 180 266 L 154 204 L 128 254 L 104 212 C 82 236 66 266 54 300 Z';
-    const fringeSide =
-      'M 54 300 C 36 190 96 92 200 92 C 304 92 364 190 346 300 C 338 262 326 236 308 218 C 270 250 190 236 150 200 C 126 240 96 250 74 262 C 64 276 58 288 54 300 Z';
-    const path = look.hairStyle === 'short' ? fringeShort : look.hairStyle === 'ponytail' ? fringeSide : fringeBob;
-    return (
-      <g>
-        <path d={path} fill={hair} stroke={OUT} strokeWidth="4" strokeLinejoin="round" />
-        <path d="M 112 140 C 160 112 244 112 290 142" stroke={hairHi} strokeWidth="14" strokeLinecap="round" fill="none" opacity="0.35" />
-        {look.hairStyle === 'bob' && (
-          <g>
-            <path d="M 60 300 C 54 340 60 384 80 414 L 106 404 C 92 366 94 322 106 262 Z" fill={hair} stroke={OUT} strokeWidth="4" strokeLinejoin="round" />
-            <path d="M 340 300 C 346 340 340 384 320 414 L 294 404 C 308 366 306 322 294 262 Z" fill={hair} stroke={OUT} strokeWidth="4" strokeLinejoin="round" />
-          </g>
-        )}
-        {look.hairStyle === 'twin' && (
-          <g>
-            <path d="M 60 300 C 56 336 62 372 76 396 L 100 388 C 90 356 92 322 104 262 Z" fill={hair} stroke={OUT} strokeWidth="4" strokeLinejoin="round" />
-            <path d="M 340 300 C 344 336 338 372 324 396 L 300 388 C 310 356 308 322 296 262 Z" fill={hair} stroke={OUT} strokeWidth="4" strokeLinejoin="round" />
-          </g>
-        )}
-      </g>
-    );
-  })();
+  const armL = pose === 'up' ? 'M 124 448 Q 62 440 54 380' : 'M 124 448 Q 72 496 80 568';
+  const armR = pose === 'think' ? 'M 276 448 Q 330 440 270 396' : pose === 'up' ? 'M 276 448 Q 338 440 346 380' : 'M 276 448 Q 328 496 320 568';
+  const sleeve = outfit.sleeve === 'short' ? SHORT_SLEEVE[pose] : [armL, armR];
+
+  const shoeFill = outfit.feet === 'boots' ? '#f2c94c' : '#f8f3e6';
+  const shoeSole = outfit.feet === 'boots' ? '#d9a52b' : '#b8553f';
 
   return (
     <g>
-      {backHair}
+      {extra?.back?.(ctx)}
+      {hairBack(look.hairStyle, ctx)}
       {/* chân */}
       <g>
         <rect x="150" y="610" width="40" height="92" rx="16" fill={skin} stroke={OUT} strokeWidth="4" />
         <rect x="210" y="610" width="40" height="92" rx="16" fill={skin} stroke={OUT} strokeWidth="4" />
-        <path d="M 142 700 Q 170 686 198 700 L 202 722 Q 168 736 138 722 Z" fill="#f8f3e6" stroke={OUT} strokeWidth="4" strokeLinejoin="round" />
-        <path d="M 202 700 Q 230 686 258 700 L 262 722 Q 232 736 198 722 Z" fill="#f8f3e6" stroke={OUT} strokeWidth="4" strokeLinejoin="round" />
-        <path d="M 136 722 Q 166 746 204 722 L 208 738 Q 168 756 134 738 Z" fill="#b8553f" stroke={OUT} strokeWidth="4" strokeLinejoin="round" />
-        <path d="M 196 722 Q 232 746 262 722 L 266 738 Q 230 756 192 738 Z" fill="#b8553f" stroke={OUT} strokeWidth="4" strokeLinejoin="round" />
+        {outfit.feet === 'geta' ? (
+          <g>
+            <path d="M 140 712 H 202 L 204 734 H 138 Z" fill="#e8c88a" stroke={OUT} strokeWidth="4" strokeLinejoin="round" />
+            <path d="M 198 712 H 260 L 262 734 H 196 Z" fill="#e8c88a" stroke={OUT} strokeWidth="4" strokeLinejoin="round" />
+            <path d="M 160 712 L 170 696 L 180 712 M 220 712 L 230 696 L 240 712" stroke="#d9453a" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+          </g>
+        ) : (
+          <g>
+            <path d="M 142 700 Q 170 686 198 700 L 202 722 Q 168 736 138 722 Z" fill={shoeFill} stroke={OUT} strokeWidth="4" strokeLinejoin="round" />
+            <path d="M 202 700 Q 230 686 258 700 L 262 722 Q 232 736 198 722 Z" fill={shoeFill} stroke={OUT} strokeWidth="4" strokeLinejoin="round" />
+            <path d="M 136 722 Q 166 746 204 722 L 208 738 Q 168 756 134 738 Z" fill={shoeSole} stroke={OUT} strokeWidth="4" strokeLinejoin="round" />
+            <path d="M 196 722 Q 232 746 262 722 L 266 738 Q 230 756 192 738 Z" fill={shoeSole} stroke={OUT} strokeWidth="4" strokeLinejoin="round" />
+          </g>
+        )}
       </g>
-      {/* quần short */}
-      <path d="M 124 580 L 276 580 L 284 646 Q 240 660 206 646 L 200 628 L 194 646 Q 160 660 116 646 Z" fill="#4a5a7c" stroke={OUT} strokeWidth="4" strokeLinejoin="round" />
-      {/* tay sau */}
+      {/* quần / váy */}
+      {outfit.bottom(ctx)}
+      {/* tay: da, rồi tay áo */}
       <g strokeLinecap="round" fill="none">
-        <path d={armUp ? 'M 124 448 Q 62 440 54 380' : 'M 124 448 Q 72 496 80 568'} stroke={OUT} strokeWidth="50" />
-        <path d={armUp ? 'M 124 448 Q 62 440 54 380' : 'M 124 448 Q 72 496 80 568'} stroke={outfit} strokeWidth="42" />
-        <path d={think ? 'M 276 448 Q 330 440 270 396' : armUp ? 'M 276 448 Q 338 440 346 380' : 'M 276 448 Q 328 496 320 568'} stroke={OUT} strokeWidth="50" />
-        <path d={think ? 'M 276 448 Q 330 440 270 396' : armUp ? 'M 276 448 Q 338 440 346 380' : 'M 276 448 Q 328 496 320 568'} stroke={outfit} strokeWidth="42" />
+        <path d={armL} stroke={OUT} strokeWidth="50" />
+        <path d={armL} stroke={skin} strokeWidth="42" />
+        <path d={armR} stroke={OUT} strokeWidth="50" />
+        <path d={armR} stroke={skin} strokeWidth="42" />
+        <path d={sleeve[0]} stroke={OUT} strokeWidth="50" />
+        <path d={sleeve[0]} stroke={sleeveFill} strokeWidth="42" />
+        <path d={sleeve[1]} stroke={OUT} strokeWidth="50" />
+        <path d={sleeve[1]} stroke={sleeveFill} strokeWidth="42" />
       </g>
       {/* thân áo */}
-      <path d="M 118 432 Q 200 408 282 432 L 298 596 Q 200 620 102 596 Z" fill={outfit} stroke={OUT} strokeWidth="4" strokeLinejoin="round" />
-      <path d="M 220 432 Q 282 432 282 432 L 298 596 Q 260 606 226 610 Z" fill={outfitDark} opacity="0.25" />
-      <path d="M 164 424 L 200 470 L 236 424 Q 200 414 164 424 Z" fill="#fff8e6" stroke={OUT} strokeWidth="3" strokeLinejoin="round" />
-      <rect x="108" y="552" width="184" height="24" fill="#fff3d0" stroke={OUT} strokeWidth="3" />
-      <path d="M 200 552 l -24 -22 l 0 44 Z M 200 552 l 24 -22 l 0 44 Z" fill="#fff3d0" stroke={OUT} strokeWidth="3" strokeLinejoin="round" />
-      <circle cx="144" cy="498" r="9" fill="#fff8e6" opacity="0.8" />
-      <circle cx="252" cy="512" r="7" fill="#fff8e6" opacity="0.8" />
-      <circle cx="190" cy="522" r="6" fill="#fff8e6" opacity="0.8" />
-      {/* tay: bàn tay */}
-      <circle cx={armUp ? 54 : 80} cy={armUp ? 372 : 574} r="24" fill={skin} stroke={OUT} strokeWidth="4" />
-      <circle cx={think ? 266 : armUp ? 346 : 320} cy={think ? 392 : armUp ? 372 : 574} r="24" fill={skin} stroke={OUT} strokeWidth="4" />
+      {outfit.torso(ctx)}
+      {/* bàn tay */}
+      <circle cx={pose === 'up' ? 54 : 80} cy={pose === 'up' ? 372 : 574} r="24" fill={skin} stroke={OUT} strokeWidth="4" />
+      <circle cx={pose === 'think' ? 266 : pose === 'up' ? 346 : 320} cy={pose === 'think' ? 392 : pose === 'up' ? 372 : 574} r="24" fill={skin} stroke={OUT} strokeWidth="4" />
       {/* cổ & đầu */}
       <rect x="178" y="392" width="44" height="46" rx="14" fill={skinShade} stroke={OUT} strokeWidth="4" />
-      <ellipse cx="62" cy="294" rx="16" ry="24" fill={skin} stroke={OUT} strokeWidth="4" />
-      <ellipse cx="338" cy="294" rx="16" ry="24" fill={skin} stroke={OUT} strokeWidth="4" />
-      <path d={HEAD_PATH} fill={skin} stroke={OUT} strokeWidth="5" strokeLinejoin="round" />
+      {extra?.front?.(ctx)}
+      <ellipse cx={earL} cy="294" rx="16" ry="24" fill={skin} stroke={OUT} strokeWidth="4" />
+      <ellipse cx={earR} cy="294" rx="16" ry="24" fill={skin} stroke={OUT} strokeWidth="4" />
+      <path d={oval ? HEAD_OVAL : HEAD_PATH} fill={skin} stroke={OUT} strokeWidth="5" strokeLinejoin="round" />
       <path d="M 120 388 Q 200 420 280 388 Q 200 408 120 388 Z" fill={skinShade} opacity="0.5" />
-      <Face emotion={emotion} skin={skin} iris={iris} browColor={shade(hair, 0.1)} speaking={speaking} uid={uid} noseTint={shade(skin, 0.3)} />
-      {frontHair}
-      {f.thought && null}
+      <Face emotion={emotion} skin={skin} iris={iris} browColor={shade(hair, 0.1)} browW={face.brow} speaking={speaking} eyeScale={face.eye} uid={uid} noseTint={shade(skin, 0.3)} />
+      {face.lashes && (
+        <g stroke={OUT} strokeWidth="5" strokeLinecap="round" fill="none">
+          <path d="M 108 270 l -14 -10 M 110 284 l -16 -2" />
+          <path d="M 292 270 l 14 -10 M 290 284 l 16 -2" />
+        </g>
+      )}
+      {face.freckles && (
+        <g fill={shade(skin, 0.28)} opacity="0.75">
+          {[[100, 330], [116, 340], [130, 328], [270, 328], [284, 340], [300, 330]].map(([x, y], i) => (
+            <circle key={i} cx={x} cy={y} r="3.4" />
+          ))}
+        </g>
+      )}
+      {face.bandaid && (
+        <g transform="translate(284 330) rotate(-24)">
+          <rect x="-24" y="-9" width="48" height="18" rx="9" fill="#f2c9a0" stroke={OUT} strokeWidth="3" />
+          <rect x="-8" y="-9" width="16" height="18" fill="#e5a979" />
+        </g>
+      )}
+      {face.starEyes && emotion !== 'laugh' && (
+        <g fill="#fff6bf" stroke="#e8b04a" strokeWidth="1.5">
+          <path d="M 164 296 l 3 7 l 7 3 l -7 3 l -3 7 l -3 -7 l -7 -3 l 7 -3 z" />
+          <path d="M 272 296 l 3 7 l 7 3 l -7 3 l -3 7 l -3 -7 l -7 -3 l 7 -3 z" />
+        </g>
+      )}
+      {extra?.face?.(ctx)}
+      {hairFront(look.hairStyle, ctx)}
+      {hatPart(look.hat, ctx)}
     </g>
   );
 }
@@ -576,18 +587,20 @@ function Momo({ emotion, speaking, uid }: { emotion: Emotion; speaking?: boolean
 /* Thành phần xuất ra                                                   */
 /* ------------------------------------------------------------------ */
 
-export type SpriteVariant = 'full' | 'bust' | 'head';
+export type SpriteVariant = 'full' | 'bust' | 'head' | 'outfit';
 
 const VIEWBOX: Record<SpriteVariant, string> = {
   full: '0 0 400 760',
   bust: '20 70 360 420',
   head: '30 80 340 340',
+  outfit: '10 360 380 400',
 };
 
 const MOMO_VIEWBOX: Record<SpriteVariant, string> = {
   full: '0 0 400 760',
   bust: '10 215 420 460',
   head: '30 300 340 290',
+  outfit: '10 215 420 460',
 };
 
 export interface CharacterSpriteProps {

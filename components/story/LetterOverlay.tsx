@@ -5,16 +5,31 @@ import type { LetterBeat } from '../../data/types';
 import { playSfx } from '../../lib/sfx';
 import { useGame } from '../GameProvider';
 import { SpeakButton } from '../ui/SpeakButton';
+import { useSpeech } from '../ui/useSpeech';
 
 /** Lá thư của bà Hana: từng dòng hiện ra, chạm vào chữ để nghe, đọc hết mới sang cảnh sau. */
 export function LetterOverlay({ beat, onDone }: { beat: LetterBeat; onDone: () => void }) {
   const { state, t } = useGame();
+  const { canSpeak, play, stop } = useSpeech();
   const [count, setCount] = useState(1);
   const last = count >= beat.lines.length;
 
   useEffect(() => {
     playSfx('page');
   }, []);
+
+  // Tự đọc từng dòng thư mới hiện ra (nếu bật giọng đọc và máy có giọng Nhật)
+  useEffect(() => {
+    if (!state.settings.voice || !canSpeak) return;
+    const line = beat.lines[count - 1];
+    if (!line) return;
+    const id = window.setTimeout(() => play(t(line.jp)), 350);
+    return () => {
+      window.clearTimeout(id);
+      stop();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [count, canSpeak, state.settings.voice]);
 
   return (
     <div className="overlay overlay-letter">

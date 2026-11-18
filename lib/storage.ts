@@ -1,4 +1,4 @@
-import { initialState, type GameState } from './gameState';
+import { initialState, normalizeLook, type GameState } from './gameState';
 
 const KEY = 'japanese-adventure:v1';
 
@@ -18,6 +18,10 @@ export function normalizeState(raw: unknown): GameState {
     journal: parsed.journal ?? [],
     cultures: parsed.cultures ?? [],
     activity: parsed.activity ?? {},
+    owned: Array.isArray(parsed.owned) ? parsed.owned.filter((x): x is string => typeof x === 'string') : [],
+    scripts: parsed.scripts && typeof parsed.scripts === 'object' ? parsed.scripts : {},
+    tourSeen: typeof parsed.tourSeen === 'boolean' ? parsed.tourSeen : parsed.profile != null,
+    profile: parsed.profile ? { ...parsed.profile, look: normalizeLook(parsed.profile.look) } : null,
   };
 }
 

@@ -10,6 +10,7 @@ import {
   reducer,
   type GameState,
   type JournalEntry,
+  type PlayerLook,
   type Profile,
   type Settings,
 } from '../lib/gameState';
@@ -81,6 +82,10 @@ export interface GameApi {
 
   createProfile: (profile: Profile) => void;
   setSettings: (patch: Partial<Settings>) => void;
+  setLook: (look: PlayerLook) => void;
+  unlockItem: (itemId: string) => void;
+  setTourSeen: (seen: boolean) => void;
+  recordScripts: (results: { id: string; correct: boolean }[], roundDone: boolean) => void;
   startStage: (stageId: string, restart?: boolean) => void;
   seeWords: (wordIds: string[]) => void;
   answer: (stageId: string, skill: SkillKind, correct: boolean, wordIds: string[], independent?: boolean) => void;
@@ -480,6 +485,10 @@ export function GameProvider({ children }: { children: ReactNode }) {
 
       createProfile: (profile) => dispatch({ type: 'CREATE_PROFILE', profile }),
       setSettings: (patch) => dispatch({ type: 'SET_SETTINGS', patch }),
+      setLook: (look) => dispatch({ type: 'SET_LOOK', look }),
+      unlockItem: (itemId) => dispatch({ type: 'UNLOCK_ITEM', itemId }),
+      setTourSeen: (seen) => dispatch({ type: 'SET_TOUR_SEEN', seen }),
+      recordScripts: (results, roundDone) => dispatch({ type: 'SCRIPT_RESULT', results, roundDone, dateKey: dateKey() }),
       startStage: (stageId, restart) =>
         dispatch({ type: 'START_STAGE', stageId, wordIds: getStage(stageId).wordIds, restart }),
       seeWords: (wordIds) => dispatch({ type: 'SEE_WORDS', wordIds }),

@@ -10,7 +10,9 @@ export type Route =
   | { name: 'stage'; stageId: string; step: StepKind }
   | { name: 'results'; stageId: string }
   | { name: 'journal' }
-  | { name: 'parent' };
+  | { name: 'parent' }
+  | { name: 'letters' }
+  | { name: 'admin' };
 
 export type TransitionKind = 'fade' | 'zoom' | 'wash';
 

@@ -1,4 +1,4 @@
-import type { HairStyle } from '../data/characters';
+import { ALL_ITEM_IDS, DEFAULT_ITEMS, findItem, type Gender } from '../data/wardrobe';
 import type { SkillKind, StepKind } from '../data/types';
 import { STEP_ORDER } from '../data/types';
 
@@ -8,11 +8,17 @@ import { STEP_ORDER } from '../data/types';
 
 export type Honorific = 'chan' | 'kun';
 
+/** Diện mạo bé. Các id món nằm trong data/wardrobe.ts và luôn thuộc đúng giới tính đã chọn. */
 export interface PlayerLook {
+  gender: Gender;
   skin: number;
-  hairStyle: HairStyle;
+  face: string;
+  hairStyle: string;
   hairColor: number;
-  outfit: number;
+  outfit: string;
+  outfitColor: number;
+  hat: string;
+  extra: string;
 }
 
 export interface Profile {
@@ -24,8 +30,12 @@ export interface Profile {
 
 export interface Settings {
   romaji: boolean;
+  /** Âm thanh hiệu ứng (chạm, sao, lật trang) */
   sound: boolean;
+  /** Tự đọc lời thoại bằng giọng tiếng Nhật */
   voice: boolean;
+  /** Nhạc nền */
+  music: boolean;
 }
 
 export interface SkillStat {
@@ -99,6 +109,18 @@ export interface GameState {
   cultures: string[];
   activity: Record<string, DayActivity>;
   xp: number;
+  /** Id các món tủ đồ đã mở khoá (trả bằng sao) */
+  owned: string[];
+  /** Đã xem hướng dẫn nhanh chưa */
+  tourSeen: boolean;
+  /** Tiến độ luyện chữ theo mã chữ (vd "h:あ"): mức thuộc 0 đến 3 */
+  scripts: Record<string, ScriptProgress>;
+}
+
+export interface ScriptProgress {
+  level: 0 | 1 | 2 | 3;
+  right: number;
+  wrong: number;
 }
 
 /* ------------------------------------------------------------------ */
@@ -114,13 +136,43 @@ export function emptySkills(): SkillStats {
   };
 }
 
-export const DEFAULT_LOOK: PlayerLook = { skin: 1, hairStyle: 'bob', hairColor: 0, outfit: 1 };
+export function defaultLook(gender: Gender = 'girl'): PlayerLook {
+  const d = DEFAULT_ITEMS[gender];
+  return { gender, skin: 1, face: d.face, hairStyle: d.hair, hairColor: 0, outfit: d.outfit, outfitColor: 1, hat: d.hat, extra: d.extra };
+}
+
+export const DEFAULT_LOOK: PlayerLook = defaultLook('girl');
+
+/**
+ * Chuẩn hoá diện mạo: nhận cả dữ liệu cũ (bản đầu chỉ có skin/hairStyle/hairColor/outfit là số)
+ * và id không hợp lệ, luôn trả về một diện mạo dùng được.
+ */
+export function normalizeLook(raw: unknown): PlayerLook {
+  const r = (raw && typeof raw === 'object' ? raw : {}) as Record<string, unknown>;
+  const gender: Gender = r.gender === 'boy' ? 'boy' : 'girl';
+  const d = defaultLook(gender);
+  const num = (v: unknown, max: number, fallback: number) => (typeof v === 'number' && v >= 0 && v < max ? Math.floor(v) : fallback);
+  const pick = (slot: 'face' | 'hair' | 'outfit' | 'hat' | 'extra', v: unknown, fallback: string) =>
+    typeof v === 'string' && ALL_ITEM_IDS.has(v) && findItem(slot, gender, v) ? v : fallback;
+  const legacyOutfitColor = typeof r.outfit === 'number' ? r.outfit : undefined;
+  return {
+    gender,
+    skin: num(r.skin, 4, d.skin),
+    face: pick('face', r.face, d.face),
+    hairStyle: pick('hair', r.hairStyle, d.hairStyle),
+    hairColor: num(r.hairColor, 5, d.hairColor),
+    outfit: pick('outfit', r.outfit, d.outfit),
+    outfitColor: num(r.outfitColor ?? legacyOutfitColor, 5, d.outfitColor),
+    hat: pick('hat', r.hat, d.hat),
+    extra: pick('extra', r.extra, d.extra),
+  };
+}
 
 export function initialState(): GameState {
   return {
     version: 1,
     profile: null,
-    settings: { romaji: true, sound: true, voice: true },
+    settings: { romaji: true, sound: true, voice: true, music: true },
     stages: {},
     words: {},
     skills: emptySkills(),
@@ -128,6 +180,9 @@ export function initialState(): GameState {
     cultures: [],
     activity: {},
     xp: 0,
+    owned: [],
+    tourSeen: false,
+    scripts: {},
   };
 }
 
@@ -143,6 +198,10 @@ export type Action =
   | { type: 'HYDRATE'; state: GameState }
   | { type: 'CREATE_PROFILE'; profile: Profile }
   | { type: 'SET_SETTINGS'; patch: Partial<Settings> }
+  | { type: 'SET_LOOK'; look: PlayerLook }
+  | { type: 'UNLOCK_ITEM'; itemId: string }
+  | { type: 'SET_TOUR_SEEN'; seen: boolean }
+  | { type: 'SCRIPT_RESULT'; results: { id: string; correct: boolean }[]; dateKey: string; roundDone: boolean }
   | { type: 'START_STAGE'; stageId: string; wordIds: string[]; restart?: boolean }
   | { type: 'SEE_WORDS'; wordIds: string[] }
   | {
@@ -168,6 +227,8 @@ export type Action =
 /* Tiện ích                                                             */
 /* ------------------------------------------------------------------ */
 
+const XP_GLYPH = 4;
+const XP_GLYPH_ROUND = 15;
 const XP_STEP = 15;
 const XP_QUEST = 30;
 const XP_STAGE = 50;
@@ -221,10 +282,37 @@ export function reducer(state: GameState, action: Action): GameState {
       return action.state;
 
     case 'CREATE_PROFILE':
-      return { ...state, profile: action.profile };
+      return { ...state, profile: { ...action.profile, look: normalizeLook(action.profile.look) } };
 
     case 'SET_SETTINGS':
       return { ...state, settings: { ...state.settings, ...action.patch } };
+
+    case 'SET_LOOK':
+      return state.profile ? { ...state, profile: { ...state.profile, look: action.look } } : state;
+
+    case 'UNLOCK_ITEM':
+      return state.owned.includes(action.itemId) ? state : { ...state, owned: [...state.owned, action.itemId] };
+
+    case 'SCRIPT_RESULT': {
+      const scripts = { ...state.scripts };
+      let gained = 0;
+      for (const r of action.results) {
+        const cur = scripts[r.id] ?? { level: 0 as const, right: 0, wrong: 0 };
+        if (r.correct) {
+          const level = Math.min(3, cur.level + 1) as 0 | 1 | 2 | 3;
+          if (level > cur.level) gained += 1;
+          scripts[r.id] = { level, right: cur.right + 1, wrong: cur.wrong };
+        } else {
+          scripts[r.id] = { level: cur.level, right: cur.right, wrong: cur.wrong + 1 };
+        }
+      }
+      const xpGained = gained * XP_GLYPH + (action.roundDone ? XP_GLYPH_ROUND : 0);
+      if (xpGained === 0) return { ...state, scripts };
+      return { ...state, scripts, xp: state.xp + xpGained, activity: addActivityXp(state, action.dateKey, xpGained) };
+    }
+
+    case 'SET_TOUR_SEEN':
+      return { ...state, tourSeen: action.seen };
 
     case 'START_STAGE': {
       const prog = state.stages[action.stageId] ?? emptyProgress();

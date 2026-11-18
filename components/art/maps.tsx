@@ -19,6 +19,7 @@ import {
   Wash,
   rng,
 } from './paint';
+import { SagaVillageScene } from './sagaVillage';
 
 /* ================================================================== */
 /* Đường cong mượt qua các điểm                                        */
@@ -459,6 +460,7 @@ export function RegionLandscape({ theme }: { theme: RegionTheme }) {
   const p = PALETTES[theme];
   const pathD = smoothPath(STAGE_POSITIONS);
   const isDusk = theme === 'festival';
+  if (theme === 'countryside') return <SagaVillageScene pathD={pathD} />;
   return (
     <SceneSvg label="Phong cảnh vùng với con đường đi qua mười chặng">
       <Sky id={`sky-reg-${theme}`} stops={p.sky} height={720} />
@@ -480,13 +482,6 @@ export function RegionLandscape({ theme }: { theme: RegionTheme }) {
         <Ridge id={`rr-near-${theme}`} y={560} amp={26} seed={23} top={p.near[0]} bottom={p.near[1]} />
         <Ridge id={`rr-gnd-${theme}`} y={650} amp={22} seed={29} top={p.ground[0]} bottom={p.ground[1]} />
       </Wash>
-      {theme === 'countryside' && (
-        <Wash soft>
-          <RiceField x={1180} y={520} w={380} h={140} rows={5} seed={4} />
-          <FarmHouse x={1260} y={560} s={0.28} />
-          <Pine x={1480} y={560} s={0.4} />
-        </Wash>
-      )}
       <Wash>
         {/* dòng sông */}
         <path d="M 1500 600 C 1400 700 1500 800 1380 900 C 1300 980 1380 1040 1320 1100" stroke="#8cc5cf" strokeWidth="70" fill="none" strokeLinecap="round" />
@@ -507,28 +502,9 @@ export function RegionLandscape({ theme }: { theme: RegionTheme }) {
         <Flowers x={1300} y={1020} w={260} seed={8} />
       </Wash>
       {/* tranh chủ đề của vùng đặt nổi bật phía trên bên phải */}
-      {theme !== 'countryside' && (
-        <Wash soft>
-          <RegionVignette theme={theme} x={1580} y={500} s={1.1} />
-        </Wash>
-      )}
-      {theme === 'countryside' && (
-        <Wash soft>
-          <Torii x={1700} y={640} s={0.7} />
-          <SakuraTree x={290} y={690} s={0.8} />
-          <StoneBridge />
-        </Wash>
-      )}
+      <Wash soft>
+        <RegionVignette theme={theme} x={1580} y={500} s={1.1} />
+      </Wash>
     </SceneSvg>
-  );
-}
-
-function StoneBridge() {
-  return (
-    <g transform="translate(1388 798)">
-      <path d="M -100 0 Q 0 -70 100 0 L 100 18 Q 0 -46 -100 18 Z" fill="#c9c1ac" />
-      <path d="M -100 0 Q 0 -70 100 0" stroke="#8c8678" strokeWidth="6" fill="none" />
-      <path d="M -70 -30 V -6 M 0 -42 V -16 M 70 -30 V -6" stroke="#8c8678" strokeWidth="6" />
-    </g>
   );
 }

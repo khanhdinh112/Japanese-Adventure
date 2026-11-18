@@ -23,16 +23,19 @@ export function WorldMapScreen() {
           </b>
         </div>
         <div className="wcard-row">
-          <span>⭐ Sao đã nhận</span>
+          <span>⭐ Tổng sao đã kiếm</span>
           <b>{totalStars(state)}</b>
         </div>
+        <button type="button" className="btn btn-block" onClick={() => go({ name: 'letters' }, { kind: 'wash' })}>
+          ✍️ Góc luyện chữ
+        </button>
         {next && upcoming ? (
           <button
             type="button"
             className="btn btn-primary btn-lg btn-block"
             onClick={() => {
               startStage(next.id);
-              go({ name: 'region', regionId: upcoming.regionId }, { kind: 'zoom', origin: { x: 290, y: 800 } });
+              go({ name: 'region', regionId: upcoming.regionId }, { kind: 'zoom', origin: { x: 960, y: 540 } });
             }}
           >
             ▶ Tiếp tục: {next.title}
