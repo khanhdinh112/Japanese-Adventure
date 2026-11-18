@@ -48,6 +48,7 @@ export function RegionMap({ region, onPlay }: Props) {
           <small lang="ja">{region.nameJp}</small>
         </div>
         <p>{region.tagline}</p>
+        {region.inspiredBy && <p className="rm-credit">{region.inspiredBy}</p>}
       </div>
 
       {region.stages.map((stub, i) => {

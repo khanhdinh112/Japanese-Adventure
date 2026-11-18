@@ -4,9 +4,14 @@ import { stage2 } from './stage2';
 import { stage3 } from './stage3';
 import { stage4 } from './stage4';
 import { stage5 } from './stage5';
+import { stage6 } from './stage6';
+import { stage7 } from './stage7';
+import { stage8 } from './stage8';
+import { stage9 } from './stage9';
+import { stage10 } from './stage10';
 
-/** Mọi stage đã có nội dung đầy đủ. Thêm Chương 2 chỉ cần import thêm vào đây. */
-export const STAGES: StageContent[] = [stage1, stage2, stage3, stage4, stage5];
+/** Mười chặng của làng Saga (Chương 1). Thêm chương mới chỉ cần import thêm vào đây. */
+export const STAGES: StageContent[] = [stage1, stage2, stage3, stage4, stage5, stage6, stage7, stage8, stage9, stage10];
 
 export const STAGE_BY_ID: Record<string, StageContent> = Object.fromEntries(STAGES.map((s) => [s.id, s]));
 

@@ -39,7 +39,7 @@ export default function ArtPreview() {
       )}
       {tab === 'culture' && (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16 }}>
-          {['genkan', 'itadakimasu', 'otoshimono', 'origami', 'komorebi'].map((id) => (
+          {['genkan', 'itadakimasu', 'otoshimono', 'origami', 'komorebi', 'mottainai', 'kome', 'teruterubouzu', 'tanabata', 'yubikiri'].map((id) => (
             <figure key={id} style={{ margin: 0 }}>
               <div style={{ height: 300, borderRadius: 12, overflow: 'hidden', border: '3px solid #3a2a2c' }}>
                 <CultureArt id={id} />

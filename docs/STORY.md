@@ -37,7 +37,21 @@ Mỗi chương: vùng, đèn cần tìm, trọng tâm học (tiếng Nhật), v�
 - **Mảnh bí ẩn:** đèn ở cổng nhà đã yếu từ lâu. Bà giấu một tờ giấy gấp, chỉ nói "Chưa đến lúc".
 - **Móc nối:** đêm đầu tiên, Momo nói với bé: "Muốn cứu làng, hãy đi theo ánh sáng lên phía rừng."
 - **Mở khoá:** Áo yếm hoặc Đồng phục thuỷ thủ, Hoa cài tóc.
-- **Chặng 6 đến 10 (Chương 2 của vùng Saga):** con đường ven ruộng, bữa cơm tối, mưa mùa hè, gấp ngôi sao giấy, lời hẹn ngày mai.
+- **Chặng 6 đến 10 (đã viết):** con đường ven ruộng, bữa cơm tối, mưa mùa hè, ngôi sao giấy, lời hẹn ngày mai. Xem mục 3a bên dưới.
+
+### 3a. Chặng 6 đến 10 của làng Saga và nguồn cảm hứng
+
+**Nguồn cảm hứng.** Giọng điệu của năm chặng này lấy cảm hứng từ tinh thần của cuốn tiểu thuyết «Saga no Gabai Baachan» (佐賀のがばいばあちゃん) của Shimada Yoshichi (島田洋七): một bà ngoại ở vùng Saga sống tằn tiện nhưng lạc quan, biết biến mọi thứ thành niềm vui và dạy cháu tự lập. Chúng ta chỉ mượn tinh thần đó. Mọi tình tiết (chiếc nón cho bù nhìn, bữa "đại tiệc" cơm với cá, ô vá chằng chịt, ngôi sao làm từ giấy gói kẹo, lời hẹn ngoéo tay) và nhân vật (bà Hana, bé, Momo) đều là sáng tác gốc, không lấy lại tình tiết, câu thoại hay tên nhân vật của tác phẩm đó. Game cũng không đặt tên tác giả thật làm tác giả của nội dung; trong game chỉ có một dòng ghi nguồn cảm hứng ở bảng vùng Saga (trường `inspiredBy` trong `data/regions.ts`).
+
+**Chủ đề chạy xuyên năm chặng:** もったいない (không bỏ phí), tận dụng đồ cũ, "nhà chẳng giàu nhưng thứ gì qua tay bà cũng thành niềm vui", và những lời hẹn nhỏ cho ngày mai. Cuối chặng 10, đèn Cổng nhà chớp tắt và Momo nói: hãy đi theo ánh sáng lên phía rừng, nối sang Chương 2.
+
+| Chặng | Câu chuyện | Ngữ pháp | Văn hoá | Huy hiệu |
+|---|---|---|---|---|
+| 6. Con đường ven ruộng (たんぼの みち) | Đi bộ ra ruộng, nhặt nón cũ đội cho bù nhìn | ～へ いきます, ～と いっしょに あるきます | もったいない | Người đi ruộng |
+| 7. Bữa cơm tối (ばんごはん) | Bữa "đại tiệc" chỉ có cơm, súp miso và một con cá | ～を たべます / のみます, ～は おいしいです | こめ (88 công sức) | Không bỏ phí |
+| 8. Mưa mùa hè (なつの あめ) | Chen nhau dưới một chiếc ô cũ, làm てるてるぼうず, đón cầu vồng | あめが ふります, きょうは ～です | てるてるぼうず và つゆ | Bạn của cơn mưa |
+| 9. Ngôi sao giấy (おりがみの ほし) | Lễ Tanabata với giấy gói kẹo và tờ lịch cũ; bà giấu một ngôi sao nhỏ | ～が ひとつ / ふたつ / みっつ あります | たなばた | Người làm sao |
+| 10. Lời hẹn ngày mai (あしたの やくそく) | Ngoéo tay hẹn ngày mai, thư của bà, đèn cổng tắt | ～ましょう, あした, また あした | ゆびきり | Cháu cưng của bà |
 
 ### Chương 2. Rừng Ánh Sáng
 - **Đèn:** Đèn Lá thì thầm.
@@ -120,6 +134,6 @@ Mỗi chặng giữ nguyên khuôn 6 bước đã làm ở Chương 1: Câu chuy
 
 ## 6. Việc tiếp theo
 
-- Viết nội dung chi tiết cho chặng 6 đến 10 của làng Saga (hoàn tất Chương 1) theo đúng cấu trúc `data/stages/*`.
+- Chặng 6 đến 10 của làng Saga đã viết xong (`data/stages/stage6.ts` đến `stage10.ts`).
 - Với từng chương mới: viết kịch bản các beat, danh sách từ vựng, 2 đến 3 mảnh văn hoá và một nhiệm vụ thực tế.
 - Khi có tranh thật cho Pokkuri, Kitsune và các cảnh mới, đặt vào `public/art` theo `docs/ASSETS.md`.

@@ -78,6 +78,7 @@
 .region-banner h2 { font-size: 40px; font-weight: 900; line-height: 1; }
 .region-banner small { color: var(--vermilion-d); font-size: 20px; font-family: var(--font-jp); }
 .region-banner p { grid-column: 1 / -1; margin-top: 6px; color: var(--ink-2); font-weight: 700; font-size: 20px; }
+.region-banner .rm-credit { margin-top: 2px; font-size: 14px; font-weight: 600; font-style: italic; opacity: 0.78; white-space: nowrap; }
 .stage-node { position: absolute; transform: translate(-50%, -50%); width: 120px; height: 120px; border: 0; background: transparent; padding: 0; z-index: 8; display: flex; align-items: center; justify-content: center; }
 .sn-disc { position: relative; z-index: 2; width: 92px; height: 92px; border-radius: 50%; border: 5px solid var(--ink); background: radial-gradient(circle at 35% 30%, #fffdf3, #f1dba2); display: flex; align-items: center; justify-content: center; font-size: 44px; font-weight: 900; box-shadow: 0 8px 0 rgba(58, 42, 44, 0.8); transition: transform 0.15s; }
 .stage-node:hover .sn-disc { transform: translateY(-5px) scale(1.05); }

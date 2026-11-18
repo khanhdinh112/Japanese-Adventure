@@ -49,7 +49,7 @@ export type CharacterId = 'player' | 'hana' | 'momo';
 export type Emotion = 'neutral' | 'happy' | 'surprised' | 'worried' | 'thinking' | 'laugh';
 export type Slot = 'left' | 'center' | 'right';
 export type SceneId = 'road' | 'gate' | 'genkan' | 'bedroom' | 'dining' | 'living' | 'engawa' | 'garden';
-export type AmbientKind = 'none' | 'leaves' | 'petals' | 'motes' | 'fireflies';
+export type AmbientKind = 'none' | 'leaves' | 'petals' | 'motes' | 'fireflies' | 'rain';
 
 export interface CastMember {
   id: CharacterId;
@@ -339,6 +339,8 @@ export interface Region {
   name: string;
   nameJp: string;
   tagline: string;
+  /** Dòng ghi nguồn cảm hứng (nếu có), hiện dưới tagline */
+  inspiredBy?: string;
   icon: string;
   theme: RegionTheme;
   /** Tâm marker trên canvas bản đồ thế giới (1920×1080) */

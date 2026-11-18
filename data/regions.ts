@@ -1,20 +1,13 @@
 import type { Region, StageStub } from './types';
 import { STAGE_BY_ID } from './stages';
 
-const SOON = 'Chương 2 · sắp ra mắt';
+const SAGA_IDS = ['saga-1', 'saga-2', 'saga-3', 'saga-4', 'saga-5', 'saga-6', 'saga-7', 'saga-8', 'saga-9', 'saga-10'] as const;
 
-/** Làng Saga: 5 stage đầu có nội dung, 5 stage sau là chỗ giữ chỗ cho Chương 2. */
-const sagaStubs: StageStub[] = [
-  ...(['saga-1', 'saga-2', 'saga-3', 'saga-4', 'saga-5'] as const).map((id, i) => {
-    const s = STAGE_BY_ID[id];
-    return { id, index: i + 1, title: s.title, titleJp: s.titleJp, icon: s.icon, soon: null };
-  }),
-  { id: 'saga-6', index: 6, title: 'Con đường ven ruộng', titleJp: 'たんぼの みち', icon: '🌾', soon: SOON },
-  { id: 'saga-7', index: 7, title: 'Bữa cơm tối', titleJp: 'ばんごはん', icon: '🍱', soon: SOON },
-  { id: 'saga-8', index: 8, title: 'Mưa mùa hè', titleJp: 'なつの あめ', icon: '☔', soon: SOON },
-  { id: 'saga-9', index: 9, title: 'Ngôi sao giấy', titleJp: 'おりがみの ほし', icon: '⭐', soon: SOON },
-  { id: 'saga-10', index: 10, title: 'Lời hẹn ngày mai', titleJp: 'あしたの やくそく', icon: '🌅', soon: SOON },
-];
+/** Làng Saga: cả 10 chặng đều có nội dung đầy đủ. */
+const sagaStubs: StageStub[] = SAGA_IDS.map((id, i) => {
+  const s = STAGE_BY_ID[id];
+  return { id, index: i + 1, title: s.title, titleJp: s.titleJp, icon: s.icon, soon: null };
+});
 
 function placeholderStages(regionId: string): StageStub[] {
   return Array.from({ length: 10 }, (_, i) => ({
@@ -34,6 +27,7 @@ export const REGIONS: Region[] = [
     name: 'Làng Saga',
     nameJp: 'さがの さと',
     tagline: 'Chương 1 · Đèn Cổng nhà. Quê nhà của bà Hana, nơi mọi câu chuyện bắt đầu',
+    inspiredBy: 'Lấy cảm hứng từ «Saga no Gabai Baachan» (島田洋七). Tình tiết trong game là sáng tác gốc.',
     icon: '🏡',
     theme: 'countryside',
     marker: { x: 290, y: 800 },

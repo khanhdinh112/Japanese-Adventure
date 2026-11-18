@@ -18,8 +18,10 @@ Kiểm tra kiểu: `npx tsc --noEmit`.
 
 - **12 màn hình**: Chào mừng, Tạo nhân vật, Bản đồ thế giới (8 vùng), Bản đồ vùng (10 chặng), Cảnh truyện, Từ vựng,
   Ngữ pháp, Nghe, Nhiệm vụ ngoài đời, Nhật ký tuần, Kết quả, Bảng phụ huynh (có cổng phép nhân).
-- **Chương 1 · Ngôi nhà của bà Hana** (vùng Saga, 5 chặng): Lá thư của bà Hana, Buổi sáng đầu tiên, Tìm đồ vật thất lạc,
-  Làm chú mèo giấy, Bí mật khu vườn cũ. Chặng 6–10 và các vùng 2–8 đang khoá ("sắp ra mắt").
+- **Chương 1 · Ngôi nhà của bà Hana** (vùng Saga, 10 chặng): Lá thư của bà Hana, Buổi sáng đầu tiên, Tìm đồ vật thất lạc,
+  Làm chú mèo giấy, Bí mật khu vườn cũ, Con đường ven ruộng, Bữa cơm tối, Mưa mùa hè, Ngôi sao giấy, Lời hẹn ngày mai.
+  Các vùng 2–8 đang khoá ("sắp ra mắt"). Chặng 6–10 lấy cảm hứng từ tinh thần "bà ngoại ở Saga nghèo mà vui" (xem
+  [docs/STORY.md](docs/STORY.md)); toàn bộ tình tiết và nhân vật là sáng tác gốc.
 - Mỗi chặng: truyện + hội thoại, từ vựng, ngữ pháp, nghe, nhiệm vụ ngoài đời, bài tự làm, khám phá văn hoá.
 - Sao: 1 = hoàn thành; 2 = tự làm đúng ≥ 2/3 và dùng ≤ 1 gợi ý; 3 = đúng ≥ 80% và đã lưu nhiệm vụ.
 - **Bản đồ dọc kiểu Candy Crush**: bắt đầu ở làng Saga phía dưới, cuộn lên để gặp vùng mới, đỉnh là Núi Phú Sĩ.

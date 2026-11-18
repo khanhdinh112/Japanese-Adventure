@@ -113,7 +113,7 @@ export const stage5: StageContent = {
       cast('hana', 'center', 'happy', { glasses: true }),
       cast('momo', 'right', 'happy'),
     ]),
-    narr('Ánh hoàng hôn rót vàng xuống khu vườn, những đốm sáng nhỏ bắt đầu bay lên. Chương 1 khép lại, nhưng cuộc phiêu lưu của {name} ở làng Saga chỉ mới bắt đầu.'),
+    narr('Ánh hoàng hôn rót vàng xuống khu vườn, những đốm sáng nhỏ bắt đầu bay lên. Ngày mai, bà hứa sẽ dẫn {name} ra con đường ven ruộng.'),
   ],
 
   grammar: {

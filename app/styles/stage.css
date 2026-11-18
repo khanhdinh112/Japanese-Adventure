@@ -49,6 +49,9 @@
 .ambient-leaves .amb { background: linear-gradient(135deg, #cfe58a, #7fae5a); border-radius: 100% 0 100% 0; animation-name: petal-fall; opacity: 0.85; }
 .ambient-motes .amb { width: calc(9px * var(--size)); height: calc(9px * var(--size)); background: radial-gradient(circle, #fff9d0 0%, rgba(255, 246, 190, 0) 70%); border-radius: 50%; animation-name: mote-float; animation-timing-function: ease-in-out; }
 .ambient-fireflies .amb { width: calc(12px * var(--size)); height: calc(12px * var(--size)); background: radial-gradient(circle, #fffbb5 0%, rgba(255, 240, 120, 0.5) 40%, rgba(255, 240, 120, 0) 70%); border-radius: 50%; animation-name: firefly-float; animation-timing-function: ease-in-out; }
+/* Mưa: vệt mảnh rơi nhanh, hơi xiên */
+.ambient-rain .amb { width: 2px; height: calc(34px * var(--size)); background: linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(214, 236, 248, 0.85)); border-radius: 2px; animation-name: rain-fall; animation-duration: calc(var(--dur) * 0.07); opacity: 0.75; transform: rotate(8deg); }
+@keyframes rain-fall { 0% { transform: translate(0, 0) rotate(8deg); opacity: 0; } 10% { opacity: 0.8; } 100% { transform: translate(120px, 1180px) rotate(8deg); opacity: 0.1; } }
 @keyframes petal-fall { 0% { transform: translate(0, 0) rotate(0deg); opacity: 0; } 8% { opacity: 0.9; } 50% { transform: translate(calc(var(--drift) * 0.5), 560px) rotate(200deg); } 92% { opacity: 0.9; } 100% { transform: translate(var(--drift), 1180px) rotate(420deg); opacity: 0; } }
 @keyframes mote-float { 0%, 100% { transform: translate(0, 0); opacity: 0.2; } 50% { transform: translate(calc(var(--drift) * 0.25), -70px); opacity: 0.95; } }
 @keyframes firefly-float { 0%, 100% { transform: translate(0, 0); opacity: 0.1; } 30% { opacity: 1; } 50% { transform: translate(calc(var(--drift) * 0.3), -50px); opacity: 0.4; } 70% { opacity: 1; } }

@@ -183,7 +183,12 @@ export function computeBadges(state: GameState): Set<string> {
   if (done('saga-2')) got.add('breakfast');
   if (done('saga-3')) got.add('detective');
   if (done('saga-4')) got.add('paper-folder');
-  if (STAGES.every((s) => done(s.id))) got.add('garden-keeper');
+  if (done('saga-5')) got.add('garden-keeper');
+  if (done('saga-6')) got.add('rice-walker');
+  if (done('saga-7')) got.add('no-waste');
+  if (done('saga-8')) got.add('rain-friend');
+  if (done('saga-9')) got.add('star-maker');
+  if (STAGES.every((s) => done(s.id))) got.add('grandma-grandchild');
   if (state.cultures.length >= 5) got.add('culture-explorer');
   if (STAGES.some((s) => progressOf(state, s.id).stars === 3)) got.add('three-stars');
   if (streak(state) >= 3) got.add('streak-3');

@@ -2,9 +2,9 @@ import { useMemo } from 'react';
 import type { AmbientKind } from '../../data/types';
 import { rng } from '../art/paint';
 
-const COUNTS: Record<Exclude<AmbientKind, 'none'>, number> = { leaves: 14, petals: 24, motes: 28, fireflies: 16 };
+const COUNTS: Record<Exclude<AmbientKind, 'none'>, number> = { leaves: 14, petals: 24, motes: 28, fireflies: 16, rain: 70 };
 
-/** Hạt môi trường nhẹ nhàng (cánh hoa, lá, bụi nắng, đom đóm). Tắt khi người dùng chọn giảm chuyển động. */
+/** Hạt môi trường nhẹ nhàng (cánh hoa, lá, bụi nắng, đom đóm, mưa). Tắt khi người dùng chọn giảm chuyển động. */
 export function AmbientLayer({ kind, seed = 1 }: { kind: AmbientKind; seed?: number }) {
   const items = useMemo(() => {
     if (kind === 'none') return [];
@@ -30,7 +30,7 @@ export function AmbientLayer({ kind, seed = 1 }: { kind: AmbientKind; seed?: num
           style={
             {
               left: `${p.x}%`,
-              top: kind === 'petals' || kind === 'leaves' ? '-6%' : `${20 + p.y * 0.7}%`,
+              top: kind === 'petals' || kind === 'leaves' || kind === 'rain' ? '-6%' : `${20 + p.y * 0.7}%`,
               '--size': p.size,
               '--dur': `${p.dur}s`,
               '--delay': `${p.delay}s`,

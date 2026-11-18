@@ -260,7 +260,187 @@ function Komorebi() {
   );
 }
 
-const ART: Record<string, () => ReactNode> = { genkan: Genkan, itadakimasu: Itadakimasu, otoshimono: Otoshimono, origami: Origami, komorebi: Komorebi };
+function Mottainai() {
+  return (
+    <Frame id="mot" label="Chú bù nhìn giữa ruộng lúa đội chiếc nón rơm cũ đã vá, trời buổi sáng" top="#cfe8ee" bottom="#f6e9bf">
+      <circle cx="500" cy="70" r="36" fill="#fff0b0" opacity="0.9" />
+      <path d="M 0 150 Q 150 120 300 146 T 600 138 V 340 H 0 Z" fill="#9fcf86" />
+      {[0, 1, 2, 3, 4].map((r) => (
+        <path key={r} d={`M 0 ${190 + r * 28} Q 150 ${176 + r * 28} 300 ${192 + r * 28} T 600 ${186 + r * 28}`} stroke="#5f9a4f" strokeWidth="9" fill="none" strokeLinecap="round" />
+      ))}
+      {/* cọc + tay bù nhìn */}
+      <path d="M 300 120 V 300" stroke="#8a5b34" strokeWidth="10" strokeLinecap="round" />
+      <path d="M 220 176 H 380" stroke="#8a5b34" strokeWidth="10" strokeLinecap="round" />
+      {/* áo vá */}
+      <path d="M 244 170 L 356 170 L 340 250 L 260 250 Z" fill="#7a9fbf" stroke={INK} strokeWidth="3" strokeLinejoin="round" />
+      <rect x="276" y="196" width="26" height="22" fill="#f08a6a" stroke={INK} strokeWidth="2" />
+      <rect x="312" y="212" width="20" height="18" fill="#f7d96e" stroke={INK} strokeWidth="2" />
+      <path d="M 280 200 l 22 18 M 302 200 l -22 18" stroke={INK} strokeWidth="2" />
+      {/* đầu + nón rơm */}
+      <circle cx="300" cy="140" r="26" fill="#f5deb3" stroke={INK} strokeWidth="3" />
+      <circle cx="290" cy="138" r="3" fill={INK} /><circle cx="310" cy="138" r="3" fill={INK} />
+      <path d="M 288 152 Q 300 160 312 152" stroke={INK} strokeWidth="3" fill="none" strokeLinecap="round" />
+      <path d="M 240 122 Q 300 66 360 122 Z" fill="#e8c46a" stroke={INK} strokeWidth="3" strokeLinejoin="round" />
+      <path d="M 232 122 H 368" stroke={INK} strokeWidth="4" strokeLinecap="round" />
+      <path d="M 262 112 L 270 98 M 292 100 L 292 84 M 322 102 L 330 90" stroke="#b98d38" strokeWidth="3" strokeLinecap="round" />
+      <path d="M 330 108 l 14 6 l -8 12 Z" fill="#f08a6a" stroke={INK} strokeWidth="2" />
+      {/* chim sẻ */}
+      <g transform="translate(400 160)">
+        <ellipse cx="0" cy="0" rx="16" ry="11" fill="#b98d6a" stroke={INK} strokeWidth="2.5" />
+        <circle cx="12" cy="-6" r="7" fill="#b98d6a" stroke={INK} strokeWidth="2.5" />
+        <path d="M 19 -6 l 8 2 l -8 3 Z" fill="#f2b24a" stroke={INK} strokeWidth="2" />
+        <circle cx="14" cy="-8" r="1.6" fill={INK} />
+      </g>
+    </Frame>
+  );
+}
+
+function Kome() {
+  return (
+    <Frame id="kome" label="Bát cơm trắng và đôi đũa trước cánh đồng lúa chín vàng, bên cạnh chữ 米" top="#fbeed2" bottom="#f1dcb6">
+      {/* ruộng lúa phía xa */}
+      <path d="M 0 150 Q 150 124 300 148 T 600 140 V 340 H 0 Z" fill="#e9d27a" />
+      {[...Array(9)].map((_, i) => (
+        <path key={i} d={`M ${30 + i * 66} 170 q 8 -26 18 -4 M ${34 + i * 66} 170 q -4 -30 -14 -8`} stroke="#c9a53c" strokeWidth="4" fill="none" strokeLinecap="round" />
+      ))}
+      {/* bàn gỗ */}
+      <rect x="0" y="236" width="600" height="104" fill="#c98f58" />
+      <rect x="0" y="236" width="600" height="14" fill="#e2b078" stroke={INK} strokeWidth="3" />
+      {/* bát cơm */}
+      <ellipse cx="300" cy="300" rx="104" ry="16" fill="#000" opacity="0.16" />
+      <path d="M 200 220 H 400 C 400 280 360 304 300 304 C 240 304 200 280 200 220 Z" fill="#fffaf0" stroke={INK} strokeWidth="4" strokeLinejoin="round" />
+      <path d="M 210 240 H 390" stroke="#6a9fc4" strokeWidth="6" />
+      <path d="M 212 220 C 218 164 262 140 300 140 C 338 140 382 164 388 220 Z" fill="#ffffff" stroke={INK} strokeWidth="4" strokeLinejoin="round" />
+      {[[260, 180], [300, 160], [340, 182], [282, 200], [326, 206], [250, 208]].map(([x, y], i) => (
+        <ellipse key={i} cx={x} cy={y} rx="9" ry="4.5" fill="#f1eadb" stroke="#d6ccb4" strokeWidth="1.5" transform={`rotate(${i * 27} ${x} ${y})`} />
+      ))}
+      <path d="M 290 120 q -10 -18 0 -32 M 316 124 q 10 -18 0 -32" stroke="#fff" strokeWidth="5" fill="none" strokeLinecap="round" opacity="0.8" />
+      {/* đũa */}
+      <path d="M 430 232 L 520 296" stroke="#8a2f2f" strokeWidth="7" strokeLinecap="round" />
+      <path d="M 444 220 L 548 286" stroke="#8a2f2f" strokeWidth="7" strokeLinecap="round" />
+      {/* chữ 米 */}
+      <text x="96" y="214" fontSize="92" fontWeight="900" fill="#8a5b34" stroke={INK} strokeWidth="2" textAnchor="middle" fontFamily="serif">米</text>
+      <text x="96" y="262" fontSize="26" fontWeight="800" fill="#fffaf0" stroke={INK} strokeWidth="1.2" textAnchor="middle">八十八</text>
+    </Frame>
+  );
+}
+
+function Teruteru() {
+  return (
+    <Frame id="teru" label="Cửa sổ ngày mưa với búp bê てるてるぼうず trắng mặt cười treo trên dây, mưa rơi bên ngoài" top="#b9c9d6" bottom="#dfe7ea">
+      {/* mây */}
+      {[[110, 54, 70], [230, 40, 84], [350, 56, 72], [470, 40, 80]].map(([x, y, r], i) => (
+        <circle key={i} cx={x} cy={y} r={r} fill="#8fa2b2" />
+      ))}
+      {/* khung cửa sổ */}
+      <rect x="120" y="70" width="360" height="250" fill="#e6f1f6" stroke="#8a5b34" strokeWidth="10" />
+      <path d="M 300 70 V 320 M 120 195 H 480" stroke="#8a5b34" strokeWidth="8" />
+      {/* mưa */}
+      {[...Array(22)].map((_, i) => (
+        <path key={i} d={`M ${135 + (i % 11) * 32} ${86 + Math.floor(i / 11) * 110 + (i % 3) * 12} l -7 26`} stroke="#6f9bb8" strokeWidth="3.5" strokeLinecap="round" />
+      ))}
+      {/* dây + búp bê */}
+      <path d="M 100 56 H 500" stroke="#8a5b34" strokeWidth="6" strokeLinecap="round" />
+      <path d="M 300 56 V 118" stroke="#8a5b34" strokeWidth="3" />
+      <g transform="translate(300 118)">
+        <path d="M -42 120 Q -52 52 -26 30 Q 0 6 26 30 Q 52 52 42 120 Q 26 108 14 120 Q 0 106 -14 120 Q -26 108 -42 120 Z" fill="#fffdf7" stroke={INK} strokeWidth="3" strokeLinejoin="round" />
+        <circle cx="0" cy="-2" r="34" fill="#fffdf7" stroke={INK} strokeWidth="3" />
+        <path d="M -20 28 Q 0 38 20 28" stroke="#e6a6a6" strokeWidth="6" fill="none" strokeLinecap="round" />
+        <circle cx="-12" cy="-4" r="3.4" fill={INK} /><circle cx="12" cy="-4" r="3.4" fill={INK} />
+        <path d="M -10 10 Q 0 18 10 10" stroke={INK} strokeWidth="3" fill="none" strokeLinecap="round" />
+        <circle cx="-22" cy="6" r="5" fill="#f4a7b8" opacity="0.7" /><circle cx="22" cy="6" r="5" fill="#f4a7b8" opacity="0.7" />
+      </g>
+      {/* ô nhỏ ngoài sân */}
+      <path d="M 500 330 Q 540 270 580 330 Z" fill="#e87a68" stroke={INK} strokeWidth="3" strokeLinejoin="round" />
+      <path d="M 540 330 V 300" stroke={INK} strokeWidth="3" />
+    </Frame>
+  );
+}
+
+function Tanabata() {
+  const stars: [number, number, number, string][] = [[200, 120, 22, '#f7d96e'], [330, 150, 18, '#f08aa6'], [450, 110, 20, '#9ad0e8']];
+  const star = (r: number) => {
+    const pts = Array.from({ length: 10 }, (_, i) => {
+      const a = (-90 + i * 36) * (Math.PI / 180);
+      const rr = i % 2 === 0 ? r : r * 0.45;
+      return `${(Math.cos(a) * rr).toFixed(1)},${(Math.sin(a) * rr).toFixed(1)}`;
+    });
+    return pts.join(' ');
+  };
+  return (
+    <Frame id="tana" label="Cành tre đêm Tanabata treo dải giấy điều ước và ngôi sao giấy dưới bầu trời đầy sao" top="#27315f" bottom="#4e5b94">
+      {/* ngân hà */}
+      <path d="M -20 250 Q 160 150 320 170 T 640 60" stroke="#e8e6ff" strokeWidth="46" fill="none" opacity="0.22" strokeLinecap="round" />
+      {[...Array(34)].map((_, i) => (
+        <circle key={i} cx={(i * 97) % 600} cy={(i * 53) % 190 + 8} r={i % 4 === 0 ? 2.6 : 1.5} fill="#fffbd6" opacity="0.9" />
+      ))}
+      {/* thân tre */}
+      <path d="M 120 340 C 126 260 112 170 150 60" stroke="#6aa86a" strokeWidth="16" fill="none" strokeLinecap="round" />
+      <path d="M 120 340 C 126 260 112 170 150 60" stroke="#2f6a3a" strokeWidth="3" fill="none" strokeDasharray="1 34" strokeLinecap="round" />
+      {/* cành ngang */}
+      <path d="M 140 100 C 260 70 380 80 520 96" stroke="#6aa86a" strokeWidth="9" fill="none" strokeLinecap="round" />
+      {[[210, 84], [330, 80], [450, 90]].map(([x, y], i) => (
+        <path key={i} d={`M ${x} ${y} q 10 -26 30 -22 q -10 12 -30 22 Z`} fill="#7ec27a" stroke="#2f6a3a" strokeWidth="2" />
+      ))}
+      {/* dải giấy điều ước */}
+      {([[210, '#f7d96e'], [290, '#f08aa6'], [370, '#9ad0e8'], [450, '#a9d98c']] as [number, string][]).map(([x, c], i) => (
+        <g key={i}>
+          <path d={`M ${x} 86 V ${126 + (i % 2) * 14}`} stroke="#f3eee0" strokeWidth="2" />
+          <rect x={x - 15} y={126 + (i % 2) * 14} width="30" height="110" fill={c} stroke={INK} strokeWidth="2.5" />
+          <path d={`M ${x} ${142 + (i % 2) * 14} V ${216 + (i % 2) * 14}`} stroke={INK} strokeWidth="3" strokeDasharray="10 7" opacity="0.55" strokeLinecap="round" />
+        </g>
+      ))}
+      {/* sao giấy */}
+      {stars.map(([x, y, r, c], i) => (
+        <g key={i} transform={`translate(${x + 40} ${y + 120})`}>
+          <polygon points={star(r * 1.5)} fill={c} stroke={INK} strokeWidth="2.5" strokeLinejoin="round" />
+        </g>
+      ))}
+      <ellipse cx="300" cy="334" rx="300" ry="14" fill="#1d2448" opacity="0.8" />
+    </Frame>
+  );
+}
+
+function Yubikiri() {
+  return (
+    <Frame id="yubi" label="Hai bàn tay, một lớn một nhỏ, ngoéo ngón út vào nhau dưới ánh hoàng hôn" top="#fbd9a6" bottom="#f3a97a">
+      <circle cx="300" cy="206" r="120" fill="#fff0c0" opacity="0.55" />
+      <circle cx="300" cy="206" r="78" fill="#fff6d6" opacity="0.7" />
+      <path d="M 0 296 Q 150 270 300 292 T 600 284 V 340 H 0 Z" fill="#7e9f5a" />
+      {/* cẳng tay + nắm tay của bà (trái, lớn) */}
+      <path d="M -10 236 L 150 236 L 150 294 L -10 294 Z" fill="#f2c9a2" stroke={INK} strokeWidth="3.5" strokeLinejoin="round" />
+      <path d="M 40 252 H 120 M 40 268 H 110" stroke="#d9a982" strokeWidth="3" strokeLinecap="round" />
+      <ellipse cx="206" cy="264" rx="72" ry="52" fill="#f2c9a2" stroke={INK} strokeWidth="3.5" />
+      <path d="M 170 232 Q 196 244 190 268 M 200 226 Q 226 242 220 268 M 232 232 Q 252 250 244 270" stroke="#d9a982" strokeWidth="3" fill="none" strokeLinecap="round" />
+      <ellipse cx="176" cy="290" rx="34" ry="18" fill="#f2c9a2" stroke={INK} strokeWidth="3.5" />
+      {/* cẳng tay + nắm tay của bé (phải, nhỏ) */}
+      <path d="M 610 250 L 450 250 L 450 298 L 610 298 Z" fill="#f7d5b4" stroke={INK} strokeWidth="3.5" strokeLinejoin="round" />
+      <ellipse cx="396" cy="274" rx="58" ry="42" fill="#f7d5b4" stroke={INK} strokeWidth="3.5" />
+      <path d="M 362 250 Q 380 260 374 278 M 392 246 Q 410 260 404 280 M 420 252 Q 434 266 428 282" stroke="#dfb08c" strokeWidth="3" fill="none" strokeLinecap="round" />
+      <ellipse cx="420" cy="296" rx="28" ry="15" fill="#f7d5b4" stroke={INK} strokeWidth="3.5" />
+      {/* hai ngón út móc vào nhau */}
+      <path d="M 244 232 Q 270 200 294 176 Q 306 162 322 172" stroke={INK} strokeWidth="28" fill="none" strokeLinecap="round" />
+      <path d="M 244 232 Q 270 200 294 176 Q 306 162 322 172" stroke="#f2c9a2" strokeWidth="21" fill="none" strokeLinecap="round" />
+      <path d="M 358 246 Q 338 208 314 184 Q 300 168 284 180" stroke={INK} strokeWidth="26" fill="none" strokeLinecap="round" />
+      <path d="M 358 246 Q 338 208 314 184 Q 300 168 284 180" stroke="#f7d5b4" strokeWidth="19" fill="none" strokeLinecap="round" />
+      {/* trái tim nhỏ */}
+      <path d="M 300 108 C 270 84 264 118 300 136 C 336 118 330 84 300 108 Z" fill="#ec6f7b" stroke={INK} strokeWidth="3" strokeLinejoin="round" />
+    </Frame>
+  );
+}
+
+const ART: Record<string, () => ReactNode> = {
+  genkan: Genkan,
+  itadakimasu: Itadakimasu,
+  otoshimono: Otoshimono,
+  origami: Origami,
+  komorebi: Komorebi,
+  mottainai: Mottainai,
+  kome: Kome,
+  teruterubouzu: Teruteru,
+  tanabata: Tanabata,
+  yubikiri: Yubikiri,
+};
 
 /** Trả về tranh minh hoạ cho mục văn hoá, hoặc null nếu chưa có. */
 export function CultureArt({ id }: { id: string }) {
