@@ -192,9 +192,22 @@ export interface GrammarExample extends Line {
 }
 
 export interface QuickCheck {
+  /** Lời dẫn bằng tiếng Việt (vd. "Điền trợ từ vào chỗ trống.") */
   question: string;
+  /** Câu tiếng Nhật có chỗ trống ＿＿ (nếu có); được đọc to với chỗ trống là một quãng nghỉ */
+  jp?: string;
+  /** Phiên âm của câu có chỗ trống */
+  romaji?: string;
+  /** Câu hoàn chỉnh sau khi điền đúng: đọc to và hiện sau khi trả lời */
+  full?: string;
+  fullRomaji?: string;
+  fullVi?: string;
   options: string[];
+  /** Phiên âm từng lựa chọn (cùng thứ tự với options) */
+  optionRomaji?: string[];
   answer: number;
+  /** Gợi ý bước 1 (lời nhắc, không nói thẳng đáp án). Bước 2 tự loại bớt một đáp án sai. */
+  hint: string;
   explain: string;
 }
 

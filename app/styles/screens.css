@@ -409,20 +409,32 @@
 .trace-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
 .trace-msg { font-size: 22px; font-weight: 800; margin: 0; text-align: center; }
 .trace-msg.ok { color: #2e7d4f; } .trace-msg.no { color: var(--vermilion-d); }
-.quiz { display: flex; flex-direction: column; gap: 18px; }
-.quiz-head { display: flex; justify-content: space-between; align-items: center; font-size: 22px; font-weight: 800; }
-.quiz-prompt { display: flex; flex-direction: column; align-items: center; gap: 8px; background: #fffaf0; border: 3px solid var(--ink); border-radius: 22px; padding: 18px; min-height: 260px; justify-content: center; }
-.quiz-q { font-size: 28px; font-weight: 800; }
-.quiz-glyph { font-size: 150px; line-height: 1.05; font-weight: 600; }
-.quiz-text { font-size: 80px; }
-.quiz-opts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
-.quiz-opt { border: 4px solid var(--ink); border-radius: 20px; background: #fffaf0; padding: 14px; font-size: 40px; font-weight: 800; min-height: 110px; }
-.quiz-opt .qo-ch { font-size: 72px; }
-.quiz-opt.right { background: #bfe3a0; } .quiz-opt.wrong { background: #f7b9a8; }
-.quiz-fix { font-size: 26px; font-weight: 800; text-align: center; }
-.quiz-done { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 40px 0; text-align: center; }
-.quiz-done h3 { font-size: 56px; font-weight: 900; }
-.quiz-score { font-size: 40px; font-weight: 900; color: var(--vermilion-d); }
+.gq { display: flex; flex-direction: column; gap: 18px; }
+.gq-head { display: flex; justify-content: space-between; align-items: center; font-size: 22px; font-weight: 800; }
+.gq-prompt { display: flex; flex-direction: column; align-items: center; gap: 8px; background: #fffaf0; border: 3px solid var(--ink); border-radius: 22px; padding: 18px; min-height: 260px; justify-content: center; }
+.gq-q { font-size: 28px; font-weight: 800; }
+.gq-glyph { font-size: 150px; line-height: 1.05; font-weight: 600; }
+.gq-text { font-size: 80px; }
+.gq-opts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+.gq-opt { border: 4px solid var(--ink); border-radius: 20px; background: #fffaf0; padding: 14px; font-size: 40px; font-weight: 800; min-height: 110px; }
+.gq-opt .qo-ch { font-size: 72px; }
+.gq-opt.right { background: #bfe3a0; } .gq-opt.wrong { background: #f7b9a8; }
+.gq-fix { font-size: 26px; font-weight: 800; text-align: center; }
+.gq-done { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 40px 0; text-align: center; }
+.gq-done h3 { font-size: 56px; font-weight: 900; }
+.gq-score { font-size: 40px; font-weight: 900; color: var(--vermilion-d); }
 .lt-read { flex-wrap: wrap; }
 .lt-read .speak-wrap, .lt-word .speak-wrap { flex: none; }
 .lt-word { row-gap: 4px; }
+
+/* ===== Kiểm tra nhanh ngữ pháp: câu có chỗ trống, phiên âm, gợi ý ===== */
+.qs { background: #fff; border: 3px dashed var(--ink-3); border-radius: 20px; padding: 14px 24px; margin: 6px 0 10px; }
+.qs-jp { font-size: 52px; font-weight: 800; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; line-height: 1.25; }
+.qs-ro { font-size: 24px; font-weight: 700; color: var(--ink-2); letter-spacing: 0.03em; }
+.qs-blank { display: inline-block; width: 90px; height: 6px; border-radius: 3px; background: var(--vermilion); margin: 0 8px; vertical-align: baseline; }
+.quiz-opts-text { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+.qopt { display: flex; align-items: center; gap: 10px; }
+.qopt .quiz-opt { flex: 1; flex-direction: column; gap: 2px; }
+.qopt-ro { font-size: 20px; font-weight: 700; color: var(--ink-2); }
+.qhint { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+.qhint-box { margin: 0; font-size: 22px; font-weight: 700; background: #fff3c4; border-radius: 14px; padding: 10px 18px; }

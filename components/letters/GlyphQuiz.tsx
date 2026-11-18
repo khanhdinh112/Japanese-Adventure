@@ -81,9 +81,9 @@ export function GlyphQuiz({
   if (done) {
     const right = results.filter((r) => r.correct).length;
     return (
-      <div className="quiz-done">
+      <div className="gq-done">
         <h3>{right >= 4 ? 'Giỏi quá!' : right >= 2 ? 'Khá lắm!' : 'Cố lên nhé!'}</h3>
-        <p className="quiz-score">
+        <p className="gq-score">
           {right}/{results.length} câu đúng
         </p>
         <p className="muted">Những chữ trả lời đúng sẽ được nhớ thêm. Chơi lại để thuộc hơn nữa.</p>
@@ -98,25 +98,25 @@ export function GlyphQuiz({
   const prompt =
     q.kind === 'read' ? (
       <>
-        <span className="quiz-q">Chữ này đọc là gì?</span>
-        <b className="quiz-glyph" lang="ja">{q.glyph.ch}</b>
+        <span className="gq-q">Chữ này đọc là gì?</span>
+        <b className="gq-glyph" lang="ja">{q.glyph.ch}</b>
       </>
     ) : q.kind === 'pick' ? (
       <>
-        <span className="quiz-q">{script === 'kanji' ? 'Chữ nào có nghĩa là' : 'Chữ nào đọc là'}</span>
-        <b className="quiz-glyph quiz-text">{label(q.glyph)}</b>
+        <span className="gq-q">{script === 'kanji' ? 'Chữ nào có nghĩa là' : 'Chữ nào đọc là'}</span>
+        <b className="gq-glyph gq-text">{label(q.glyph)}</b>
       </>
     ) : (
       <>
-        <span className="quiz-q">Nghe và chọn chữ đúng</span>
+        <span className="gq-q">Nghe và chọn chữ đúng</span>
         <SpeakButton text={script === 'kanji' ? q.glyph.wordKana : q.glyph.ch} size="lg" />
       </>
     );
   const showChars = q.kind !== 'read';
 
   return (
-    <div className="quiz">
-      <div className="quiz-head">
+    <div className="gq">
+      <div className="gq-head">
         <small>
           Câu {i + 1}/{questions.length}
         </small>
@@ -124,19 +124,19 @@ export function GlyphQuiz({
           Thoát
         </button>
       </div>
-      <div className="quiz-prompt">{prompt}</div>
-      <div className="quiz-opts">
+      <div className="gq-prompt">{prompt}</div>
+      <div className="gq-opts">
         {q.options.map((o) => {
           const state = picked ? (o.id === q.glyph.id ? 'right' : o.id === picked ? 'wrong' : '') : '';
           return (
-            <button key={o.id} type="button" className={`quiz-opt ${state}`} onClick={() => choose(o)} disabled={!!picked}>
+            <button key={o.id} type="button" className={`gq-opt ${state}`} onClick={() => choose(o)} disabled={!!picked}>
               {showChars ? <span lang="ja" className="qo-ch">{o.ch}</span> : <span className="qo-tx">{label(o)}</span>}
             </button>
           );
         })}
       </div>
       {picked && picked !== q.glyph.id && (
-        <p className="quiz-fix">
+        <p className="gq-fix">
           Đáp án đúng: <b lang="ja">{q.glyph.ch}</b> đọc là <b>{label(q.glyph)}</b>
         </p>
       )}

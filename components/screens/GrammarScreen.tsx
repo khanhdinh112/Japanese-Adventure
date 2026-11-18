@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { PatternTile, StageContent } from '../../data/types';
 import { playSfx } from '../../lib/sfx';
 import { CharacterSprite } from '../CharacterSprite';
@@ -9,7 +9,27 @@ import { LearningCard } from '../LearningCard';
 import { MasteryFeedback } from '../MasteryFeedback';
 import { SentenceBuilder, type BuilderStatus } from '../ui/SentenceBuilder';
 import { SpeakButton } from '../ui/SpeakButton';
+import { useSpeech } from '../ui/useSpeech';
 import { StageShell } from './StageShell';
+
+const HAS_JP = /[\u3040-\u30ff\u4e00-\u9faf]/;
+const BLANK = '＿＿';
+
+/** Câu có chỗ trống: gạch chân trống thay cho ＿＿. */
+function Sentence({ text }: { text: string }) {
+  const { t } = useGame();
+  const parts = t(text).split(BLANK);
+  return (
+    <>
+      {parts.map((part, i) => (
+        <span key={i}>
+          {part}
+          {i < parts.length - 1 && <span className="qs-blank" aria-label="chỗ trống" />}
+        </span>
+      ))}
+    </>
+  );
+}
 
 function Tiles({ tiles }: { tiles: PatternTile[] }) {
   const { t } = useGame();
@@ -35,6 +55,8 @@ export function GrammarScreen({ stage }: { stage: StageContent }) {
   const [qi, setQi] = useState(0);
   const [picked, setPicked] = useState<number | null>(null);
   const [firstTry, setFirstTry] = useState(0);
+  const [hintLevel, setHintLevel] = useState(0);
+  const { canSpeak, play, stop } = useSpeech();
 
   /* xếp câu */
   const [pi, setPi] = useState(0);
@@ -45,6 +67,21 @@ export function GrammarScreen({ stage }: { stage: StageContent }) {
 
   const quick = g.quick[qi];
   const practice = g.practice[pi];
+
+  // Đọc to câu của mỗi câu hỏi (chỗ trống là một quãng nghỉ); đọc lại câu đầy đủ sau khi bé trả lời
+  const speakText = quick ? t(picked !== null ? (quick.full ?? quick.jp ?? '') : (quick.jp ?? '').split(BLANK).join('、')) : '';
+  useEffect(() => {
+    if (page !== 'check' || !speakText || !state.settings.voice || !canSpeak) return;
+    const id = window.setTimeout(() => play(speakText), 450);
+    return () => {
+      window.clearTimeout(id);
+      stop();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, qi, picked !== null, canSpeak, state.settings.voice]);
+
+  // Gợi ý bước 2: tự loại một đáp án sai
+  const removed = hintLevel >= 2 && quick ? quick.options.findIndex((_, i) => i !== quick.answer) : -1;
 
   const chooseQuick = (i: number) => {
     if (picked !== null) return;
@@ -60,6 +97,7 @@ export function GrammarScreen({ stage }: { stage: StageContent }) {
     else {
       setQi(qi + 1);
       setPicked(null);
+      setHintLevel(0);
     }
   };
 
@@ -151,20 +189,48 @@ export function GrammarScreen({ stage }: { stage: StageContent }) {
             </span>
           </div>
           <p className="quiz-q">{t(quick.question)}</p>
+          {quick.jp && (
+            <div className="qs">
+              <div className="qs-jp" lang="ja">
+                {picked !== null && quick.full ? t(quick.full) : <Sentence text={quick.jp} />}
+                <SpeakButton text={speakText} size="md" />
+              </div>
+              {state.settings.romaji && (quick.romaji || quick.fullRomaji) && <div className="qs-ro">{t(picked !== null && quick.fullRomaji ? quick.fullRomaji : (quick.romaji ?? ''))}</div>}
+            </div>
+          )}
           <div className="quiz-opts quiz-opts-text">
             {quick.options.map((o, i) => {
-              const cls = picked !== null ? (i === quick.answer ? ' right' : i === picked ? ' wrong' : ' faded') : '';
+              const gone = i === removed && picked === null;
+              const cls = picked !== null ? (i === quick.answer ? ' right' : i === picked ? ' wrong' : ' faded') : gone ? ' faded' : '';
+              const ro = quick.optionRomaji?.[i];
               return (
-                <button key={i} type="button" className={`quiz-opt${cls}`} lang="ja" disabled={picked !== null} onClick={() => chooseQuick(i)}>
-                  {t(o)}
-                </button>
+                <div key={i} className="qopt">
+                  <button type="button" className={`quiz-opt${cls}`} lang="ja" disabled={picked !== null || gone} onClick={() => chooseQuick(i)}>
+                    <span>{t(o)}</span>
+                    {state.settings.romaji && ro && <small className="qopt-ro">{ro}</small>}
+                  </button>
+                  {HAS_JP.test(o) && <SpeakButton text={t(o)} size="sm" />}
+                </div>
               );
             })}
           </div>
+          {picked === null && (
+            <div className="qhint">
+              {hintLevel >= 1 && <p className="qhint-box">💡 {t(quick.hint)}</p>}
+              {hintLevel < 2 && (
+                <button type="button" className="btn btn-ghost btn-sm" onClick={() => setHintLevel((l) => l + 1)}>
+                  {hintLevel === 0 ? '💡 Gợi ý' : '💡 Gợi ý thêm (bớt một đáp án sai)'}
+                </button>
+              )}
+            </div>
+          )}
           {picked !== null && (
             <MasteryFeedback
               tone={picked === quick.answer ? 'correct' : 'wrong'}
               title={picked === quick.answer ? 'Chính xác!' : 'Chưa đúng, nhưng mình hiểu vì sao rồi'}
+              jp={quick.full}
+              romaji={quick.fullRomaji}
+              vi={quick.fullVi}
               nextLabel={qi + 1 >= g.quick.length ? 'Sang phần xếp câu' : 'Câu tiếp'}
               onNext={nextQuick}
             >

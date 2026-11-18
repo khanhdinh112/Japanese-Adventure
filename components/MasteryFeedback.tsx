@@ -2,6 +2,7 @@
 
 import { SpeakButton } from './ui/SpeakButton';
 import { useGame } from './GameProvider';
+import { Meaning } from './ui/Meaning';
 import type { ReactNode } from 'react';
 
 export type FeedbackTone = 'correct' | 'wrong' | 'retry';
@@ -41,7 +42,7 @@ export function MasteryFeedback({ tone, title, children, jp, romaji, vi, nextLab
             </span>
             <SpeakButton text={t(jp)} size="sm" />
             {state.settings.romaji && romaji && <span className="fa-ro">{t(romaji)}</span>}
-            {vi && <span className="fa-vi">{t(vi)}</span>}
+            {vi && <Meaning text={t(vi)} className="fa-vi" resetKey={jp} />}
           </div>
         )}
       </div>
