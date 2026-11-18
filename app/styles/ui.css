@@ -280,3 +280,9 @@
 .err-msg { max-width: 100%; white-space: pre-wrap; word-break: break-word; font-size: 15px; background: #f3e8cf; border-radius: 12px; padding: 10px 14px; text-align: left; color: var(--ink-2); max-height: 120px; overflow: auto; }
 .err-actions { display: flex; gap: 14px; margin-top: 8px; }
 .choice-peek { align-self: flex-start; margin-bottom: 6px; }
+.tile { display: inline-flex; flex-direction: column; align-items: center; gap: 0; line-height: 1.15; }
+.tile-ro { font-size: 15px; font-weight: 800; color: var(--ink-2); font-family: var(--font-body, inherit); letter-spacing: 0.03em; }
+.tile-next { animation: tile-glow 1s ease-in-out infinite; }
+@keyframes tile-glow { 0%, 100% { box-shadow: 0 5px 0 rgba(58, 42, 44, 0.85), 0 0 0 0 rgba(244, 185, 66, 0.9); } 50% { box-shadow: 0 5px 0 rgba(58, 42, 44, 0.85), 0 0 0 10px rgba(244, 185, 66, 0.35); } }
+.builder-say { display: flex; align-items: center; gap: 12px; }
+.builder-ro { font-size: 22px; font-weight: 700; color: var(--ink-2); letter-spacing: 0.03em; }

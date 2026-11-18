@@ -1,8 +1,11 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import { isKana, kanaToRomaji, sentenceToRomaji } from '../../lib/kana';
 import { rng } from '../art/paint';
 import { useGame } from '../GameProvider';
+import { SpeakButton } from './SpeakButton';
+import { useSpeech } from './useSpeech';
 
 export type BuilderStatus = 'idle' | 'correct' | 'wrong';
 
@@ -50,7 +53,8 @@ export function SentenceBuilder({
   locked = false,
   seed = '',
 }: Props) {
-  const { t } = useGame();
+  const { t, state } = useGame();
+  const { canSpeak, play } = useSpeech();
   const tiles = useMemo<Tile[]>(() => {
     const all = [...answer, ...distractors].map((text, id) => ({ id, text: t(text) }));
     const r = rng(hash(seed + all.map((x) => x.text).join('|')));
@@ -66,7 +70,7 @@ export function SentenceBuilder({
   }, [answer, distractors, seed, t]);
 
   const [placed, setPlaced] = useState<number[]>([]);
-  const [hintOpen, setHintOpen] = useState(false);
+  const [hintLevel, setHintLevel] = useState(0);
   const [hintUsed, setHintUsed] = useState(false);
 
   useEffect(() => {
@@ -74,7 +78,7 @@ export function SentenceBuilder({
   }, [resetSignal, seed]);
 
   useEffect(() => {
-    setHintOpen(false);
+    setHintLevel(0);
     setHintUsed(false);
   }, [seed]);
 
@@ -82,6 +86,17 @@ export function SentenceBuilder({
   const placedText = placed.map((id) => byId(id).text);
   const accepted = [answer, ...alts].map((a) => a.map((x) => t(x)).join(''));
   const interactive = !locked && status !== 'correct';
+
+  const showRo = state.settings.romaji;
+  const roOf = (text: string) => (isKana(text) ? kanaToRomaji(text, { particleAlone: true }) : '');
+  const speakTile = (text: string) => {
+    if (state.settings.voice && canSpeak && isKana(text)) play(text);
+  };
+  // Gợi ý bước 2: sáng lên khối đúng kế tiếp (nếu các khối đã xếp đang đúng thứ tự)
+  const answerTexts = answer.map((a) => t(a));
+  const prefixOk = placedText.every((x, i) => x === answerTexts[i]);
+  const nextText = hintLevel >= 2 && prefixOk ? answerTexts[placed.length] : undefined;
+  const nextId = nextText !== undefined ? tiles.find((x) => x.text === nextText && !placed.includes(x.id))?.id : undefined;
 
   const check = () => {
     const correct = accepted.includes(placedText.join(''));
@@ -105,6 +120,12 @@ export function SentenceBuilder({
           </button>
         ))}
       </div>
+      {placed.length > 0 && (
+        <div className="builder-say">
+          <SpeakButton text={placedText.join('')} size="sm" />
+          {showRo && <span className="builder-ro">{sentenceToRomaji(placedText)}</span>}
+        </div>
+      )}
       <div className="builder-pool">
         {tiles.map((tile) => {
           const used = placed.includes(tile.id);
@@ -112,18 +133,22 @@ export function SentenceBuilder({
             <button
               key={tile.id}
               type="button"
-              className={`tile${used ? ' tile-used' : ''}`}
+              className={`tile${used ? ' tile-used' : ''}${tile.id === nextId ? ' tile-next' : ''}`}
               lang="ja"
               disabled={!interactive || used}
-              onClick={() => setPlaced((p) => [...p, tile.id])}
+              onClick={() => {
+                speakTile(tile.text);
+                setPlaced((p) => [...p, tile.id]);
+              }}
             >
-              {tile.text}
+              <span>{tile.text}</span>
+              {showRo && roOf(tile.text) && <small className="tile-ro">{roOf(tile.text)}</small>}
             </button>
           );
         })}
       </div>
       <div className="builder-actions">
-        {hint && (
+        {hint && hintLevel < 2 && (
           <button
             type="button"
             className="btn btn-ghost"
@@ -133,10 +158,10 @@ export function SentenceBuilder({
                 setHintUsed(true);
                 onHint?.();
               }
-              setHintOpen((v) => !v);
+              setHintLevel((l) => l + 1);
             }}
           >
-            💡 Gợi ý
+            {hintLevel === 0 ? '💡 Gợi ý' : '💡 Gợi ý thêm (chỉ khối kế tiếp)'}
           </button>
         )}
         <button type="button" className="btn btn-ghost" disabled={!interactive || placed.length === 0} onClick={() => setPlaced([])}>
@@ -146,7 +171,8 @@ export function SentenceBuilder({
           Kiểm tra ✓
         </button>
       </div>
-      {hintOpen && hint && <p className="builder-hint">💡 {t(hint)}</p>}
+      {hintLevel >= 1 && hint && <p className="builder-hint">💡 {t(hint)}</p>}
+      {hintLevel >= 2 && !prefixOk && <p className="builder-hint">Có khối đặt sai chỗ rồi. Chạm khối trong dòng để gỡ xuống, hoặc bấm Xếp lại nhé.</p>}
     </div>
   );
 }

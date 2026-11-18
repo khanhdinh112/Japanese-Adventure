@@ -19,6 +19,7 @@ export function ListeningScreen({ stage }: { stage: StageContent }) {
   const [plays, setPlays] = useState(0);
   const [done, setDone] = useState(false);
   const [score, setScore] = useState(0);
+  const [hintLevel, setHintLevel] = useState(0);
   const item = items[i];
 
   useEffect(() => {
@@ -30,6 +31,13 @@ export function ListeningScreen({ stage }: { stage: StageContent }) {
     return () => window.clearTimeout(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [i, canSpeak, done]);
+
+  // Gợi ý: bước 1 đọc chậm và hiện phiên âm; bước 2 bớt một đáp án sai
+  const removed = hintLevel >= 2 ? item.options.find((o) => o.id !== item.answerId)?.id : undefined;
+  const showHint = () => {
+    if (hintLevel === 0 && canSpeak) play(t(item.audio), 0.6);
+    setHintLevel((l) => l + 1);
+  };
 
   const choose = (id: string) => {
     if (picked) return;
@@ -49,6 +57,7 @@ export function ListeningScreen({ stage }: { stage: StageContent }) {
       setI(i + 1);
       setPicked(null);
       setPlays(0);
+      setHintLevel(0);
     }
   };
 
@@ -78,19 +87,20 @@ export function ListeningScreen({ stage }: { stage: StageContent }) {
               <b>{canSpeak ? 'Nghe câu' : 'Không có âm thanh'}</b>
             </button>
             <SpeakButton text={t(item.audio)} slow size="lg" label="Chậm hơn" />
-            {!canSpeak && (
+            {(!canSpeak || (hintLevel >= 1 && !picked)) && (
               <div className="listen-text">
-                <span lang="ja">{t(item.audio)}</span>
-                {state.settings.romaji && <small>{t(item.romaji)}</small>}
+                {!canSpeak && <span lang="ja">{t(item.audio)}</span>}
+                <small>{t(item.romaji)}</small>
               </div>
             )}
             {canSpeak && plays > 1 && !picked && <span className="muted">Bạn đã nghe {plays} lần</span>}
           </div>
           <div className="listen-opts">
             {item.options.map((o) => {
-              const cls = picked ? (o.id === item.answerId ? ' right' : o.id === picked ? ' wrong' : ' faded') : '';
+              const gone = o.id === removed && !picked;
+              const cls = picked ? (o.id === item.answerId ? ' right' : o.id === picked ? ' wrong' : ' faded') : gone ? ' faded' : '';
               return (
-                <button key={o.id} type="button" className={`listen-opt${cls}`} disabled={!!picked} onClick={() => choose(o.id)}>
+                <button key={o.id} type="button" className={`listen-opt${cls}`} disabled={!!picked || gone} onClick={() => choose(o.id)}>
                   <span className="lo-ic" aria-hidden>
                     {o.icon}
                   </span>
@@ -99,6 +109,16 @@ export function ListeningScreen({ stage }: { stage: StageContent }) {
               );
             })}
           </div>
+          {!picked && hintLevel >= 0 && (
+            <div className="qhint">
+              {hintLevel >= 1 && <p className="qhint-box">💡 Mình đã đọc chậm và hiện phiên âm. Hãy nối âm với nghĩa của từ khoá nhé.</p>}
+              {hintLevel < 2 && (
+                <button type="button" className="btn btn-ghost btn-sm" onClick={showHint}>
+                  {hintLevel === 0 ? '💡 Gợi ý (nghe chậm + phiên âm)' : '💡 Gợi ý thêm (bớt một đáp án sai)'}
+                </button>
+              )}
+            </div>
+          )}
           {picked && (
             <MasteryFeedback
               tone={picked === item.answerId ? 'correct' : 'wrong'}
