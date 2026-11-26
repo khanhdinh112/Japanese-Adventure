@@ -51,6 +51,13 @@ Thêm chặng mới: thêm file trong `data/stages/` và đăng ký ở `data/st
 
 Xem [docs/ASSETS.md](docs/ASSETS.md) (kích thước, toạ độ, cách khai báo trong `data/art.ts`) và trang `/art-preview`.
 
+## Hiệu ứng 3D (three.js)
+
+- `components/fx/ThreeAmbient.tsx`: nền 3D (cánh hoa, lá, bụi sáng, đom đóm, mưa), nghiêng nhẹ theo con trỏ. `AmbientLayer` tải động và tự rơi về hiệu ứng CSS khi máy không có WebGL.
+- `components/fx/ThreeStars.tsx` và `ThreeCoin.tsx`: sao 3D có pháo giấy và đồng xu huy hiệu ở màn kết quả (qua `RewardFx.tsx`, cũng có dự phòng).
+- Tôn trọng `prefers-reduced-motion` (chỉ vẽ một khung tĩnh). Gói three nằm trong chunk riêng, không làm nặng lần tải đầu.
+- Xem thử các nền ở trang `/fx-preview`.
+
 ## Deploy Vercel
 
 Import repository trên Vercel, chọn **Next.js**, giữ lệnh build mặc định `npm run build`.

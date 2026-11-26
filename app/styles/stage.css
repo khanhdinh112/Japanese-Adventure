@@ -69,3 +69,7 @@
 .momo-tail { animation: tail 3s ease-in-out infinite; transform-box: fill-box; transform-origin: 20% 90%; }
 @keyframes tail { 0%, 100% { transform: rotate(-5deg); } 50% { transform: rotate(7deg); } }
 @keyframes balloon-float { 0%, 100% { transform: translate(0, 0) rotate(-1.5deg); } 50% { transform: translate(14px, -26px) rotate(1.5deg); } }
+
+/* three.js */
+.fx3d-host { position: absolute; inset: 0; }
+.fx3d-host canvas.fx3d, .fx3d-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }

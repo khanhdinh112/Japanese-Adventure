@@ -12,7 +12,7 @@ import { useGame } from '../GameProvider';
 import { useSpeech } from '../ui/useSpeech';
 import { CharacterSprite } from '../CharacterSprite';
 import { SceneArt } from '../art/SceneArt';
-import { StarRating } from '../ui/StarRating';
+import { ResultStars, BadgeCoin } from '../fx/RewardFx';
 import { TopBar } from '../ui/TopBar';
 import { sceneOf } from './StageShell';
 
@@ -59,7 +59,7 @@ export function ResultsScreen({ stageId }: { stageId: string }) {
           <p className="rh-stage">
             {stage.icon} {stage.title}
           </p>
-          <StarRating value={r.stars} size="xl" animate />
+          <ResultStars value={r.stars} />
           <h1>{HEADLINE[r.stars]}</h1>
           <div className="rh-nums">
             <div>
@@ -120,9 +120,7 @@ export function ResultsScreen({ stageId }: { stageId: string }) {
           </div>
           {badge && (
             <div className="paper rs-card rs-badge">
-              <span className="badge-ic" aria-hidden>
-                {badge.icon}
-              </span>
+              <BadgeCoin icon={badge.icon} />
               <div>
                 <small>Huy hiệu mới</small>
                 <b>{badge.name}</b>
