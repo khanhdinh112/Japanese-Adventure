@@ -457,3 +457,7 @@
 .results-side .rs-badge .badge-ic { font-size: 44px; }
 .results-side .rs-badge b { font-size: 24px; }
 .rs-saying-jp { font-size: 20px; }
+
+/* Sao và huy hiệu 3D */
+.stars3d { position: relative; display: block; width: 520px; height: 130px; margin: 0 auto; flex: none; }
+.rs-badge .badge-coin { position: relative; display: block; width: 84px; height: 84px; flex: none; }
