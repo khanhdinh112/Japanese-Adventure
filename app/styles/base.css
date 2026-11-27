@@ -27,7 +27,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html, body { margin: 0; height: 100%; overflow: hidden; background: #1d1612; color: var(--ink); font-family: var(--font-body); }
+html, body { margin: 0; height: 100%; overflow: hidden; background: #1d1612; color: var(--ink); font-family: var(--font-body); overscroll-behavior: none; touch-action: manipulation; -webkit-text-size-adjust: 100%; -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none; }
 button { font: inherit; color: inherit; cursor: pointer; }
 button:disabled { cursor: default; }
 input, textarea { font: inherit; color: inherit; }
