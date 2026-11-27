@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { musicStatus, onMusicChange } from '../../lib/music';
+import { canFullscreen, enterImmersive, exitImmersive, isFullscreen } from '../../lib/device';
 import { useGame } from '../GameProvider';
 import { useSpeech } from './useSpeech';
 
@@ -22,6 +23,15 @@ export function SettingsMenu({ onClose }: { onClose: () => void }) {
   const s = state.settings;
   const { canSpeak, speaking, play } = useSpeech();
   const [playing, setPlaying] = useState(musicStatus().playing);
+  const [full, setFull] = useState(false);
+  const [fsOk, setFsOk] = useState(false);
+  useEffect(() => {
+    setFsOk(canFullscreen());
+    const upd = () => setFull(isFullscreen());
+    upd();
+    document.addEventListener('fullscreenchange', upd);
+    return () => document.removeEventListener('fullscreenchange', upd);
+  }, []);
   useEffect(() => {
     const upd = () => setPlaying(musicStatus().playing);
     upd();
@@ -59,6 +69,11 @@ export function SettingsMenu({ onClose }: { onClose: () => void }) {
           </span>
         )}
       </div>
+      {fsOk && (
+        <button type="button" className="btn btn-ghost btn-block" onClick={() => void (full ? exitImmersive() : enterImmersive())}>
+          {full ? '🗗 Thoát toàn màn hình' : '⛶ Toàn màn hình (ngang)'}
+        </button>
+      )}
       {state.profile && (
         <button
           type="button"

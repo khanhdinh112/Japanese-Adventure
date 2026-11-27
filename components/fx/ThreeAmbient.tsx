@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import type { AmbientKind } from '../../data/types';
+import { isPhone } from '../../lib/device';
 import { prefersReducedMotion } from './webgl';
 
 type Kind = Exclude<AmbientKind, 'none'>;
@@ -118,8 +119,11 @@ export default function ThreeAmbient({ kind, seed = 1, onFail }: Props) {
       failRef.current?.();
       return;
     }
-    const W = host.clientWidth || 1920;
-    const H = host.clientHeight || 1080;
+    // Điện thoại: vẽ ở nửa độ phân giải và ít hạt hơn cho đỡ nóng máy; canvas CSS tự phóng ra.
+    const lite = isPhone();
+    const W = Math.round((host.clientWidth || 1920) * (lite ? 0.5 : 1));
+    const H = Math.round((host.clientHeight || 1080) * (lite ? 0.5 : 1));
+    const density = lite ? 0.6 : 1;
     renderer.setPixelRatio(1);
     renderer.setSize(W, H, false);
     renderer.setClearColor(0x000000, 0);
@@ -137,7 +141,7 @@ export default function ThreeAmbient({ kind, seed = 1, onFail }: Props) {
     let update: (t: number, dt: number) => void = () => {};
 
     if (kind === 'petals' || kind === 'leaves') {
-      const n = COUNTS[kind];
+      const n = Math.round(COUNTS[kind] * density);
       const geo = track(kind === 'petals' ? petalGeometry() : leafGeometry());
       const mat = track(new THREE.MeshLambertMaterial({ side: THREE.DoubleSide, transparent: true, opacity: kind === 'petals' ? 0.93 : 0.9 }));
       const mesh = new THREE.InstancedMesh(geo, mat, n);
@@ -187,7 +191,7 @@ export default function ThreeAmbient({ kind, seed = 1, onFail }: Props) {
         mesh.instanceMatrix.needsUpdate = true;
       };
     } else if (kind === 'motes' || kind === 'fireflies') {
-      const n = COUNTS[kind];
+      const n = Math.round(COUNTS[kind] * density);
       const pos = new Float32Array(n * 3);
       const ph = new Float32Array(n);
       const sz = new Float32Array(n);
@@ -227,7 +231,7 @@ export default function ThreeAmbient({ kind, seed = 1, onFail }: Props) {
       };
     } else {
       // rain
-      const n = COUNTS.rain;
+      const n = Math.round(COUNTS.rain * density);
       const pos = new Float32Array(n * 6);
       const d = Array.from({ length: n }, () => ({
         x: (rand() * 2 - 1) * (BOX.x + 4),
