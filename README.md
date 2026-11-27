@@ -60,7 +60,8 @@ Xem [docs/ASSETS.md](docs/ASSETS.md) (kích thước, toạ độ, cách khai b�
 
 ## Chạy trên điện thoại
 
-- Game thiết kế cho màn hình ngang (khung 16:9 co giãn). Cầm dọc sẽ hiện lời nhắc xoay ngang; có nút vào toàn màn hình và khoá xoay ngang (Android Chrome), cũng có trong Cài đặt.
+- Điện thoại có **giao diện riêng**, không còn dùng khung 1920×1080 thu nhỏ: cầm ngang dùng khung logic ~1180px (`.is-land`), cầm dọc ~600px (`.is-port`); khung phủ kín màn hình (không viền đen), chữ và nút to hơn. Toàn bộ bố cục riêng nằm ở `app/styles/phone.css`, bản đồ thế giới / vùng dạng danh sách ở `components/screens/PhoneMaps.tsx`. Xem thử trên máy tính: thêm `?phone=1` vào địa chỉ rồi thu nhỏ cửa sổ.
+- Có nút vào toàn màn hình và khoá xoay ngang (Android Chrome), cũng có trong Cài đặt.
 - Có manifest PWA (`app/manifest.ts`, icon trong `public/icons`): Android Chrome chọn "Cài đặt ứng dụng"; iPhone Safari chọn Chia sẻ → "Thêm vào MH chính". Mở từ biểu tượng sẽ chạy toàn màn hình, xoay ngang.
 - Tránh tai thỏ (`safe-area`), tắt zoom/kéo-làm-mới, vùng chạm của nút được mở rộng vô hình trên điện thoại, hiệu ứng nền 3D vẽ nhẹ hơn (nửa độ phân giải, ít hạt).
 - Chưa có service worker nên chưa chơi offline.

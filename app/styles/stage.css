@@ -74,15 +74,5 @@
 .fx3d-host { position: absolute; inset: 0; }
 .fx3d-host canvas.fx3d, .fx3d-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 
-/* Điện thoại: nhắc xoay ngang */
-.rotate-prompt { position: absolute; inset: 0; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 24px; text-align: center; background: radial-gradient(circle at 50% 35%, #3b2c25, #1d1612 70%); color: #fff5dd; }
-.rotate-prompt h2 { font-size: 24px; font-weight: 800; }
-.rotate-prompt p { font-size: 16px; opacity: 0.8; max-width: 280px; }
-.rotate-phone { width: 64px; height: 108px; border: 5px solid #fff5dd; border-radius: 14px; display: grid; place-items: center; animation: rotate-hint 2.6s ease-in-out infinite; }
-.rotate-screen { font-size: 30px; }
-.rotate-btn { margin-top: 6px; padding: 12px 26px; border-radius: 999px; border: 0; background: #d9533a; color: #fff; font-weight: 800; font-size: 17px; min-height: 48px; }
-@keyframes rotate-hint { 0%, 15% { transform: rotate(0deg); } 50%, 80% { transform: rotate(-90deg); } 100% { transform: rotate(0deg); } }
-@media (prefers-reduced-motion: reduce) { .rotate-phone { animation: none; transform: rotate(-90deg); } }
-
-/* Điện thoại ngang: khung game chỉ ~0.36 lần nên mở rộng vùng chạm vô hình quanh mỗi nút (không đổi bố cục) */
-.is-phone .stage-canvas button[data-hit]::after { content: ''; position: absolute; inset: -22px; }
+/* Điện thoại: mở rộng vùng chạm vô hình quanh mỗi nút (xem phone.css) */
+.is-phone .stage-canvas button[data-hit]::after { content: ''; position: absolute; inset: -8px; }

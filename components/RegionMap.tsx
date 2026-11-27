@@ -123,7 +123,7 @@ export function RegionMap({ region, onPlay }: Props) {
   );
 }
 
-function ctaFor(status: StageStatus, hasRun: boolean): { label: string; restart: boolean } | null {
+export function ctaFor(status: StageStatus, hasRun: boolean): { label: string; restart: boolean } | null {
   switch (status) {
     case 'available':
       return { label: 'Bắt đầu chặng ▶', restart: false };
@@ -136,7 +136,7 @@ function ctaFor(status: StageStatus, hasRun: boolean): { label: string; restart:
   }
 }
 
-function StatusPill({ status }: { status: StageStatus }) {
+export function StatusPill({ status }: { status: StageStatus }) {
   const map: Record<StageStatus, [string, string]> = {
     soon: ['Sắp ra mắt', 'soon'],
     locked: ['Đang khoá', 'locked'],

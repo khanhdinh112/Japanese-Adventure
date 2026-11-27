@@ -4,6 +4,7 @@ import { useState, type ReactNode } from 'react';
 import { levelInfo } from '../../lib/levels';
 import { starBalance, streak } from '../../lib/selectors';
 import { useGame } from '../GameProvider';
+import { usePhone } from './PhoneContext';
 import { RewardsModal, type RewardsTab } from './RewardsModal';
 import { SettingsMenu } from './SettingsMenu';
 import { WardrobeModal } from './WardrobeModal';
@@ -22,6 +23,7 @@ interface Props {
 /** Thanh HUD phía trên: quay lại, tên màn hình, sao/XP, nhật ký, phụ huynh, cài đặt. */
 export function TopBar({ title, titleJp, onBack, backLabel = 'Quay lại', center, compact = false, tone = 'light' }: Props) {
   const { state, go, route } = useGame();
+  const { phone } = usePhone();
   const [open, setOpen] = useState(false);
   const [rewards, setRewards] = useState<RewardsTab | null>(null);
   const [wardrobe, setWardrobe] = useState(false);
@@ -33,7 +35,7 @@ export function TopBar({ title, titleJp, onBack, backLabel = 'Quay lại', cente
       <div className="topbar-left">
         {onBack && (
           <button type="button" className="btn btn-pill" onClick={onBack}>
-            ← {backLabel}
+            ← <span className="tb-back-tx">{backLabel}</span>
           </button>
         )}
         {title && (
@@ -49,7 +51,7 @@ export function TopBar({ title, titleJp, onBack, backLabel = 'Quay lại', cente
           ⭐ {stars}
         </button>
         <button type="button" className="chip chip-btn" title="Điểm kinh nghiệm và cấp độ. Bấm để xem chi tiết" onClick={() => setRewards('xp')}>
-          ✨ {state.xp} · Cấp {level}
+          ✨ {phone ? `Cấp ${level}` : `${state.xp} · Cấp ${level}`}
         </button>
         {days > 0 && (
           <button type="button" className="chip chip-btn" title="Số ngày học liên tiếp" onClick={() => setRewards('streak')}>
@@ -85,7 +87,7 @@ export function TopBar({ title, titleJp, onBack, backLabel = 'Quay lại', cente
             </button>
           </>
         )}
-        <button type="button" className="icon-btn" aria-label="Cài đặt" title="Cài đặt" onClick={() => setOpen((v) => !v)}>
+        <button type="button" className="icon-btn tb-gear" aria-label="Cài đặt" title="Cài đặt" onClick={() => setOpen((v) => !v)}>
           ⚙️
         </button>
         {open && <SettingsMenu onClose={() => setOpen(false)} />}
