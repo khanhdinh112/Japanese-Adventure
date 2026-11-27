@@ -5,12 +5,16 @@ import { nextStage, totalStagesDone, totalStars } from '../../lib/selectors';
 import { STAGES } from '../../data/stages';
 import { useGame } from '../GameProvider';
 import { WorldMap } from '../WorldMap';
+import { usePhone } from '../ui/PhoneContext';
 import { TopBar } from '../ui/TopBar';
+import { PhoneWorld } from './PhoneMaps';
 
 export function WorldMapScreen() {
   const { state, go, startStage } = useGame();
+  const { phone } = usePhone();
   const upcoming = nextStage(state);
   const next = upcoming ? getStage(upcoming.stageId) : null;
+  if (phone) return <PhoneWorld />;
   return (
     <div className="screen-world">
       <WorldMap onOpenRegion={(region, origin) => go({ name: 'region', regionId: region.id }, { kind: 'zoom', origin })} />

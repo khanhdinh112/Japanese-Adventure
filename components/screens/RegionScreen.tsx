@@ -4,11 +4,15 @@ import { getRegion } from '../../data/regions';
 import { firstUndoneStep } from '../../lib/selectors';
 import { useGame } from '../GameProvider';
 import { RegionMap } from '../RegionMap';
+import { usePhone } from '../ui/PhoneContext';
 import { TopBar } from '../ui/TopBar';
+import { PhoneRegion } from './PhoneMaps';
 
 export function RegionScreen({ regionId }: { regionId: string }) {
   const { state, go, startStage } = useGame();
   const region = getRegion(regionId);
+  const { phone } = usePhone();
+  if (phone) return <PhoneRegion region={region} />;
   return (
     <div className="screen-region">
       <RegionMap

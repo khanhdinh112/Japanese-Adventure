@@ -7,6 +7,7 @@ export function isCoarsePointer(): boolean {
 /** Máy cảm ứng có cạnh ngắn dưới 600px: điện thoại (kể cả khi xoay ngang). */
 export function isPhone(): boolean {
   if (typeof window === 'undefined') return false;
+  if (new URLSearchParams(window.location.search).get('phone') === '1') return true; // xem thử trên máy tính
   return isCoarsePointer() && Math.min(window.screen.width, window.screen.height) < 600;
 }
 
