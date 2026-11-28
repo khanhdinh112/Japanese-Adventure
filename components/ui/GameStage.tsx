@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { isCoarsePointer, isPhone } from '../../lib/device';
 import { playSfx } from '../../lib/sfx';
 import type { CSSProperties } from 'react';
+import { installSpeechUnlock } from '../../lib/speech';
 import { PhoneContext, type PhoneOrient } from './PhoneContext';
 
 export const CANVAS_W = 1920;
@@ -63,6 +64,7 @@ export function GameStage({ children }: { children: ReactNode }) {
         setFit({ scale: Math.min(availW / CANVAS_W, availH / CANVAS_H), dx: (pl - pr) / 2, dy: (pt - pb) / 2, w: CANVAS_W, h: CANVAS_H });
       }
     };
+    installSpeechUnlock();
     measure();
     setReady(true);
     window.addEventListener('resize', measure);

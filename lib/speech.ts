@@ -16,18 +16,80 @@ function synth(): SpeechSynthesis | null {
   return 'speechSynthesis' in window ? window.speechSynthesis : null;
 }
 
+const norm = (lang: string) => lang.toLowerCase().replace('_', '-');
+
+/** Android Chrome đôi khi trả "ja_JP" (gạch dưới). Ưu tiên ja-JP, rồi giọng cài sẵn trên máy (không cần mạng). */
 export function japaneseVoice(): SpeechSynthesisVoice | undefined {
   const s = synth();
   if (!s) return undefined;
-  const voices = s.getVoices();
-  return (
-    voices.find((v) => v.lang.toLowerCase() === 'ja-jp') ??
-    voices.find((v) => v.lang.toLowerCase().startsWith('ja'))
-  );
+  const ja = s.getVoices().filter((v) => norm(v.lang).startsWith('ja'));
+  const score = (v: SpeechSynthesisVoice) => (norm(v.lang) === 'ja-jp' ? 2 : 0) + (v.localService ? 1 : 0);
+  return ja.sort((x, y) => score(y) - score(x))[0];
 }
 
+/**
+ * Trình duyệt di động nhiều khi trả danh sách giọng rỗng nhưng vẫn đọc được, và iPhone chỉ cho phát âm
+ * sau lần chạm đầu tiên. Nên lần chạm đầu tiên ta "thăm dò" bằng một câu im lặng: nếu phát được thì coi như có giọng.
+ */
+type Probe = 'unknown' | 'ok' | 'fail';
+let probe: Probe = 'unknown';
+let probing = false;
+// giữ tham chiếu để Chrome không thu dọn câu đang đọc (lỗi khiến onend không bao giờ bắn)
+const alive = new Set<SpeechSynthesisUtterance>();
+
 export function hasJapaneseVoice(): boolean {
-  return !!japaneseVoice();
+  return !!japaneseVoice() || probe === 'ok';
+}
+
+export function probeResult(): Probe {
+  return probe;
+}
+
+function notify(): void {
+  listeners.forEach((l) => l());
+}
+
+const UNAVAILABLE = new Set(['language-unavailable', 'voice-unavailable', 'synthesis-unavailable']);
+
+/** Thăm dò giọng đọc tiếng Nhật bằng câu im lặng (cần gọi từ thao tác chạm). */
+export function runProbe(): void {
+  const s = synth();
+  if (!s || probing) return;
+  probing = true;
+  const u = new SpeechSynthesisUtterance('あ');
+  u.lang = 'ja-JP';
+  const v = japaneseVoice();
+  if (v) u.voice = v;
+  u.volume = 0;
+  const done = (r: Probe | null) => {
+    alive.delete(u);
+    probing = false;
+    if (r && probe !== r) {
+      probe = r;
+      notify();
+    }
+  };
+  u.onstart = () => done('ok');
+  u.onend = () => done('ok');
+  u.onerror = (e) => done(UNAVAILABLE.has((e as SpeechSynthesisErrorEvent).error) ? 'fail' : null);
+  alive.add(u);
+  s.speak(u);
+  window.setTimeout(() => probing && done(null), 4000);
+}
+
+let unlockInstalled = false;
+/** Gắn một lần: lần chạm đầu tiên mở khoá âm thanh (iPhone/Android) rồi thăm dò giọng. */
+export function installSpeechUnlock(): void {
+  const s = synth();
+  if (!s || unlockInstalled || typeof window === 'undefined') return;
+  unlockInstalled = true;
+  const events = ['pointerdown', 'touchend', 'click', 'keydown'] as const;
+  const handler = () => {
+    events.forEach((e) => window.removeEventListener(e, handler, true));
+    s.getVoices();
+    runProbe();
+  };
+  events.forEach((e) => window.addEventListener(e, handler, true));
 }
 
 export function speechSupported(): boolean {
@@ -40,14 +102,14 @@ export function onVoicesChanged(cb: Listener): () => void {
   listeners.add(cb);
   if (s && !voicesReady) {
     voicesReady = true;
-    s.addEventListener?.('voiceschanged', () => listeners.forEach((l) => l()));
+    s.addEventListener?.('voiceschanged', notify);
     // Safari/một số máy không bắn sự kiện voiceschanged: hỏi lại vài lần trong 4 giây đầu
     let tries = 0;
     const poll = window.setInterval(() => {
       tries++;
       if (s.getVoices().length > 0 || tries > 16) {
         window.clearInterval(poll);
-        listeners.forEach((l) => l());
+        notify();
       }
     }, 250);
   }
@@ -88,6 +150,7 @@ export function speak(text: string, opts: { rate?: number; onEnd?: () => void; o
     const finish = () => {
       if (ended) return;
       ended = true;
+      alive.delete(utter);
       duckMusic(false);
       opts.onEnd?.();
     };
@@ -96,7 +159,14 @@ export function speak(text: string, opts: { rate?: number; onEnd?: () => void; o
       opts.onStart?.();
     };
     utter.onend = finish;
-    utter.onerror = finish;
+    utter.onerror = (e) => {
+      if (UNAVAILABLE.has(e.error) && !japaneseVoice() && probe !== 'fail') {
+        probe = 'fail';
+        notify();
+      }
+      finish();
+    };
+    alive.add(utter);
     s.speak(utter);
     // Chrome đôi khi ở trạng thái "paused" sau khi hủy; đánh thức lại
     if (s.paused) s.resume();

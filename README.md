@@ -64,6 +64,7 @@ Xem [docs/ASSETS.md](docs/ASSETS.md) (kích thước, toạ độ, cách khai b�
 - Có nút vào toàn màn hình và khoá xoay ngang (Android Chrome), cũng có trong Cài đặt.
 - Có manifest PWA (`app/manifest.ts`, icon trong `public/icons`): Android Chrome chọn "Cài đặt ứng dụng"; iPhone Safari chọn Chia sẻ → "Thêm vào MH chính". Mở từ biểu tượng sẽ chạy toàn màn hình, xoay ngang.
 - Tránh tai thỏ (`safe-area`), tắt zoom/kéo-làm-mới, vùng chạm của nút được mở rộng vô hình trên điện thoại, hiệu ứng nền 3D vẽ nhẹ hơn (nửa độ phân giải, ít hạt).
+- Giọng đọc dùng Web Speech API: lần chạm đầu tiên game mở khoá âm thanh và dò giọng tiếng Nhật bằng một câu im lặng (cần cho iPhone và nhiều máy Android báo danh sách giọng rỗng). Nếu máy chưa có giọng Nhật, Cài đặt hiện hướng dẫn cài và nút “Kiểm tra lại”.
 - Chưa có service worker nên chưa chơi offline.
 
 ## Deploy Vercel
