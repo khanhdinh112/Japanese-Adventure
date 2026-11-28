@@ -639,3 +639,8 @@
 .is-port .find-hud { top: 150px; }
 .is-port .fold-intro { top: 150px; }
 .is-port .place-banner { top: 160px; }
+
+/* Giọng đọc: gợi ý dài nên xếp dọc */
+.voice-tip { font-weight: 600; opacity: 0.8; font-size: 15px; }
+.voice-status.none { flex-direction: column; align-items: stretch; }
+.is-phone .voice-tip { font-size: 16px; }

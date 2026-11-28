@@ -6,6 +6,14 @@ import { canFullscreen, enterImmersive, exitImmersive, isFullscreen } from '../.
 import { useGame } from '../GameProvider';
 import { useSpeech } from './useSpeech';
 
+function detectPlatform(): 'android' | 'ios' | 'desktop' {
+  if (typeof navigator === 'undefined') return 'desktop';
+  const ua = navigator.userAgent;
+  if (/android/i.test(ua)) return 'android';
+  if (/iphone|ipad|ipod/i.test(ua) || (/Macintosh/i.test(ua) && navigator.maxTouchPoints > 1)) return 'ios';
+  return 'desktop';
+}
+
 function Toggle({ label, desc, on, onChange }: { label: string; desc: string; on: boolean; onChange: (v: boolean) => void }) {
   return (
     <button type="button" className={`toggle${on ? ' on' : ''}`} role="switch" aria-checked={on} onClick={() => onChange(!on)}>
@@ -21,7 +29,8 @@ function Toggle({ label, desc, on, onChange }: { label: string; desc: string; on
 export function SettingsMenu({ onClose }: { onClose: () => void }) {
   const { state, setSettings, setTourSeen, go, route } = useGame();
   const s = state.settings;
-  const { canSpeak, speaking, play } = useSpeech();
+  const { canSpeak, speaking, play, recheck } = useSpeech();
+  const platform = detectPlatform();
   const [playing, setPlaying] = useState(musicStatus().playing);
   const [full, setFull] = useState(false);
   const [fsOk, setFsOk] = useState(false);
@@ -58,15 +67,29 @@ export function SettingsMenu({ onClose }: { onClose: () => void }) {
       <div className={`voice-status ${canSpeak ? 'ok' : 'none'}`}>
         {canSpeak ? (
           <>
-            <span>✅ Máy có giọng đọc tiếng Nhật</span>
+            <span>
+              ✅ Máy có giọng đọc tiếng Nhật
+              {platform !== 'desktop' && <small className="voice-tip"> · Không nghe thấy? Tăng âm lượng nhạc/media{platform === 'ios' ? ' và gạt công tắc im lặng sang chế độ có tiếng' : ''}.</small>}
+            </span>
             <button type="button" className="btn btn-pill" onClick={() => play('こんにちは。いっしょに にほんごを べんきょうしましょう。')} disabled={speaking}>
               🔊 Nghe thử
             </button>
           </>
         ) : (
-          <span>
-            ⚠️ Máy này chưa có giọng đọc tiếng Nhật nên lời thoại chỉ hiện chữ. Hãy cài giọng “Japanese (日本語)” trong cài đặt Giọng nói / Ngôn ngữ của thiết bị, rồi mở lại game.
-          </span>
+          <>
+            <span>
+              ⚠️ Máy này chưa có giọng đọc tiếng Nhật nên lời thoại chỉ hiện chữ.{' '}
+              {platform === 'android'
+                ? 'Android: Cài đặt → Quản lý chung → Chuyển văn bản thành giọng nói → ⚙ bên cạnh “Dịch vụ giọng nói của Google” → Cài đặt dữ liệu giọng nói → Tiếng Nhật (Nhật Bản), rồi tải về.'
+                : platform === 'ios'
+                  ? 'iPhone/iPad: Cài đặt → Trợ năng → Nội dung đọc to → Giọng nói → Tiếng Nhật, chọn một giọng (ví dụ Kyoko) và tải về.'
+                  : 'Hãy cài giọng “Japanese (日本語)” trong cài đặt Giọng nói / Ngôn ngữ của thiết bị.'}{' '}
+              Sau đó bấm “Kiểm tra lại”.
+            </span>
+            <button type="button" className="btn btn-pill" onClick={() => recheck()}>
+              🔄 Kiểm tra lại
+            </button>
+          </>
         )}
       </div>
       {fsOk && (

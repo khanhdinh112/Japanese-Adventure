@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import { hasJapaneseVoice, onVoicesChanged, speak, speechSupported, stopSpeaking } from '../../lib/speech';
+import { hasJapaneseVoice, onVoicesChanged, runProbe, speak, speechSupported, stopSpeaking } from '../../lib/speech';
 
 /** Hook đọc tiếng Nhật bằng giọng trình duyệt. `canSpeak=false` → giao diện hiển thị chữ thay thế. */
 export function useSpeech() {
@@ -33,5 +33,12 @@ export function useSpeech() {
     setSpeaking(false);
   }, []);
 
-  return { speaking, canSpeak, play, stop };
+  /** Hỏi lại danh sách giọng và thăm dò lại (sau khi bé cài giọng mới). Gọi từ nút bấm. */
+  const recheck = useCallback(() => {
+    typeof window !== 'undefined' && window.speechSynthesis?.getVoices();
+    runProbe();
+    setCanSpeak(speechSupported() && hasJapaneseVoice());
+  }, []);
+
+  return { speaking, canSpeak, play, stop, recheck };
 }
